@@ -920,16 +920,19 @@ end
 
 function SkillSwitch:OpenConfigurationWindow()
 	self.configurationWindow = Apollo.LoadForm(self.xmlDoc, "ConfigurationWindow", nil, self)
-	self.configurationWindow:FindChild("ActivationButtonWidth"):FindChild("Slider"):SetValue(self.settings.buttonWidth)
-	self.configurationWindow:FindChild("ActivationButtonHeight"):FindChild("Slider"):SetValue(self.settings.buttonHeight)
-	self.configurationWindow:FindChild("ActivationButtonVerticalOffset"):FindChild("Slider"):SetValue(self.settings.buttonYOffset)
-	self.configurationWindow:FindChild("MenuButtonSize"):FindChild("Slider"):SetValue(self.settings.menuButtonSize)
-	self.configurationWindow:FindChild("NumberOfShortCuts"):FindChild("Slider"):SetValue(self.settings.maxShortcuts)
-	self.configurationWindow:FindChild("EnableTooltips"):FindChild("Button"):SetCheck(self.settings.showTooltips)
-	self.configurationWindow:FindChild("EnableFlyOutMenues"):FindChild("Button"):SetCheck(self.settings.enableMenuButtons)
-	self.configurationWindow:FindChild("EnablePathFlyOut"):FindChild("Button"):SetCheck(self.settings.enablePathFlyOut)
-	self.configurationWindow:FindChild("InvisibleActivationButtons"):FindChild("Button"):SetCheck(self.settings.invisibleActivationButtons)
-	self.configurationWindow:Show(true, true)
+	-- scsc configurationWindow crashed on nil
+	if configurationWindow then
+		self.configurationWindow:FindChild("ActivationButtonWidth"):FindChild("Slider"):SetValue(self.settings.buttonWidth)
+		self.configurationWindow:FindChild("ActivationButtonHeight"):FindChild("Slider"):SetValue(self.settings.buttonHeight)
+		self.configurationWindow:FindChild("ActivationButtonVerticalOffset"):FindChild("Slider"):SetValue(self.settings.buttonYOffset)
+		self.configurationWindow:FindChild("MenuButtonSize"):FindChild("Slider"):SetValue(self.settings.menuButtonSize)
+		self.configurationWindow:FindChild("NumberOfShortCuts"):FindChild("Slider"):SetValue(self.settings.maxShortcuts)
+		self.configurationWindow:FindChild("EnableTooltips"):FindChild("Button"):SetCheck(self.settings.showTooltips)
+		self.configurationWindow:FindChild("EnableFlyOutMenues"):FindChild("Button"):SetCheck(self.settings.enableMenuButtons)
+		self.configurationWindow:FindChild("EnablePathFlyOut"):FindChild("Button"):SetCheck(self.settings.enablePathFlyOut)
+		self.configurationWindow:FindChild("InvisibleActivationButtons"):FindChild("Button"):SetCheck(self.settings.invisibleActivationButtons)
+		self.configurationWindow:Show(true, true)
+	end
 end
 
 function SkillSwitch:OnActivationButtonWidthSliderChanged( wndHandler, wndControl, fNewValue, fOldValue )
