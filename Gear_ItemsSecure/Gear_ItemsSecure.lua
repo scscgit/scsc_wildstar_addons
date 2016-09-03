@@ -659,7 +659,11 @@ function Gear_ItemsSecure:_NoDropDelete_KuronaBags(luaCaller, iData)
 	luaCaller.wndDeleteConfirm:FindChild("DeleteBtn"):SetActionData(GameLib.CodeEnumConfirmButtonType.DeleteItem, iData)
 	luaCaller.BagForm:FindChild("DragDropMouseBlocker"):Show(true)
 	for i = 1, #luaCaller.ExtraBags do
-		luaCaller.ExtraBags[i].Bag:FindChild("DragDropMouseBlocker"):Show(true)
+		-- scsc: was crashing on nil in combination with KuronaBags, probably not compatible; maybe this functionality will break
+		local mouseBlocker = luaCaller.ExtraBags[i].Bag:FindChild("DragDropMouseBlocker")
+		if mouseBlocker then
+			mouseBlocker:Show(true)
+		end
 	end
 		
 	luaCaller.BagForm:FindChild("SalvageAllButton"):Enable(false)

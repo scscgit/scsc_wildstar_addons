@@ -443,9 +443,16 @@ end
 function WrapOnAchievementNotice(ftpSelf, strAch)
 	-- Since we only have the notice string and not the achievement data, 
 	-- find the correct achievement by it's name.
+
 	local found = false
-	local i1, i2 = string.find(strAch, "\".*\"")
-	local strName = string.sub(strAch, i1+1, i2-1)
+
+	-- scsc: Changing the finding regex to "Anything: Text" matching "Text"
+	SendVarToRover("strAch in AchievementTooltips:WrapOnAchievementNotice()", strAch , 0)
+	--local i1, i2 = string.find(strAch, "\".*\"")
+	local i1, i2 = string.find(strAch, ": .*")
+	--local strName = string.sub(strAch, i1+1, i2-1)
+	local strName = string.sub(strAch, i1+2, i2)
+
 	-- iterate all achievements
 	for k, a in pairs(lstAchievementsAll) do
 		if found ~= true and a:GetName() == strName and a:IsComplete() then
