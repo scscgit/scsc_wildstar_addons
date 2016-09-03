@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Addon Author="Telison" APIVersion="12" Name="SkillSwitch" Description="">
-    <Script Name="SkillSwitch.lua"/>
-    <Form Name="SkillSwitch.xml"/>
-</Addon>

@@ -2,7 +2,7 @@
 -- Client Lua Script for WildStarInstantMessenger
 -- Copyright (c) NCsoft. All rights reserved
 -----------------------------------------------------------------------------------------------
- 
+
 require "Window"
 require "Tooltip"
 require "ChatSystemLib"
@@ -19,14 +19,14 @@ blah blah blah blah blah blah blah
 -----------------------------------------------------------------------------------------------
 -- WildStarInstantMessenger Module Definition
 -----------------------------------------------------------------------------------------------
-local WildStarInstantMessenger = {} 
- 
+local WildStarInstantMessenger = {}
+
 local VERSION = 1.23
 -----------------------------------------------------------------------------------------------
 -- Constants
 -----------------------------------------------------------------------------------------------
 -- e.g. local kiExampleVariableMax = 999
- 
+
 local ktEmoticons = {
 	[":D"] = "WildStarInstantMessenger:VeryHappy",
 	["-_-"] = "WildStarInstantMessenger:Bored",
@@ -83,7 +83,7 @@ ChatWindow.template = {}
 
 function ChatWindow:new()
 	o = Apollo.LoadForm(self.xmlDoc, "ChatDialogueTabbed", nil, self)
-		
+
 	return o
 end
 ]]
@@ -95,7 +95,7 @@ end
 function WildStarInstantMessenger:new(o)
     o = o or {}
     setmetatable(o, self)
-    self.__index = self 
+    self.__index = self
 
     -- initialize variables here
 
@@ -111,7 +111,7 @@ function WildStarInstantMessenger:Init()
 	}
     Apollo.RegisterAddon(self, bHasConfigureFunction, strConfigureButtonText, tDependencies)
 end
- 
+
 
 -----------------------------------------------------------------------------------------------
 -- WildStarInstantMessenger OnLoad
@@ -121,7 +121,7 @@ function WildStarInstantMessenger:OnLoad()
 	self.xmlDoc = XmlDoc.CreateFromFile("WildStarInstantMessenger.xml")
 	self.xmlDoc:RegisterCallback("OnDocLoaded", self)
 	self.db = Apollo.GetPackage("Gemini:DB-1.0").tPackage:New(self, ktADefaults )
-	
+
 	--Apollo.RemoveEventHandler("ItemLink", Apollo.GetAddon("ChatLog"))
 end
 
@@ -170,7 +170,7 @@ function WildStarInstantMessenger:OnDocLoaded()
 			--removed scsc [ChatSystemLib.ChatChannel_Advice] 			= ApolloColor.new("ChatAdvice"),
 			[ChatSystemLib.ChatChannel_AccountWhisper]	= ApolloColor.new("ChatAccountWisper"),
 		}
-		
+
 		self.arSupportedChannels = {
 			[ChatSystemLib.ChatChannel_Whisper] 		= "Whisper",
 			[ChatSystemLib.ChatChannel_Party] 			= "Party",
@@ -193,7 +193,7 @@ function WildStarInstantMessenger:OnDocLoaded()
 
 		self.wndMove = Apollo.LoadForm(self.xmlDoc, "Move", nil, self)
 		--self.wndMove:Show(false, true)
-		
+
 		self.wndChatNotifications = Apollo.LoadForm(self.xmlDoc, "ChatNotifications", self.wndMove:FindChild("MoveContainer"), self)
 		--self.wndChatNotifications:Show(false, true)
 		self.wndMessagePreview = self.wndChatNotifications:FindChild("MsgPreview")
@@ -202,7 +202,7 @@ function WildStarInstantMessenger:OnDocLoaded()
 		--self.db.profile.messagePreview.nMsgPrevLength
 		self.timerMsgPrevHide = ApolloTimer.Create(self.db.profile.messagePreview.nMsgPrevLength, false, "OnTimerMsgPrevHide", self)
 		self.timerMsgPrevHide:Stop()
-		
+
 		self.wndConfirmAlert = Apollo.LoadForm(self.xmlDoc, "ConfirmAlert", nil, self)
 		self.wndConfirmAlert:Show(false, true)
 		--self.GeminiDB = Apollo.GetPackage("Gemini:DB-1.0").tPackage
@@ -212,7 +212,7 @@ function WildStarInstantMessenger:OnDocLoaded()
 		--Apollo.GetAddon("ChatLog").OrigChatMessage = Apollo.GetAddon("ChatLog").OnChatMessage
 		--self:RawHook(Apollo.GetAddon("ChatLog"),"OnChatMessage", "OnChatMessageSuppress")
 		--VerifyChannelVisibility
-		
+
 		if Apollo.GetAddonInfo("ChatLog")["bRunning"] == 1 then
 			self.bHasStockChat = true
 		else
@@ -238,7 +238,7 @@ function WildStarInstantMessenger:OnDocLoaded()
 		--self.wndControls:Show(false, true)
 		self.wndChannelColors = Apollo.LoadForm(self.xmlDoc, "ChannelColorsDialogue", nil, self)
 		self.wndChannelColors:Show(false, true)
-		
+
 		for nChannelType, strChannelName in pairs(self.arSupportedChannels) do
 			local wndCurr = Apollo.LoadForm(self.xmlDoc, "ChannelColorsItem", self.wndChannelColors:FindChild("OptionsDialogueControls"), self)
 			wndCurr:FindChild("Label"):SetText(strChannelName)
@@ -248,52 +248,52 @@ function WildStarInstantMessenger:OnDocLoaded()
 				wndCurr:FindChild("OutSwatch"):Show(false)
 			end
 		end
-		
+
 		self.wndChannelColors:FindChild("OptionsDialogueControls"):ArrangeChildrenVert()
-		
+
 		--self.wndControls = Apollo.LoadForm(self.xmlDoc, "OptionsControls", self.wndOptions:FindChild("OptionsDialogueControls"), self)
 		Apollo.LoadSprites("Sprites.xml")
-		
+
 		--Reset Chat Log
 		--WildStarInstantMessenger:ResetChatLog()
-		
+
 		if not self.db.char.currentProfile then
 			self.db.char.currentProfile = self.db:GetCurrentProfile()
 		else
 			self.db:SetProfile(self.db.char.currentProfile)
 		end
-		
+
 		self:SetOptionControls()
-		
+
 		-- if the xmlDoc is no longer needed, you should set it to nil
 		-- self.xmlDoc = nil
-		
+
 		-- Register handlers for events, slash commands and timer, etc.
 		-- e.g. Apollo.RegisterEventHandler("KeyDown", "OnKeyDown", self)
 		Apollo.RegisterSlashCommand("wsim", "OnWildStarInstantMessengerOn", self)
-		
+
 		--Apollo.RegisterEventHandler("ShowActionBarShortcut", "ShowShortcutBar", self)
 		--Apollo.RegisterEventHandler("ChatTellFailed", "OnEvent", self)
 		Apollo.RegisterEventHandler("ChatMessage", "OnChatMessage", self)
-		
+
 		Apollo.RegisterEventHandler("UnitEnteredCombat", "OnUnitEnteredCombat", self)
 		Apollo.RegisterEventHandler("ItemLink", "OnItemLink", self)
 		Apollo.RegisterEventHandler("GenericEvent_QuestLink", "OnQuestLink", self)
 		Apollo.RegisterEventHandler("GenericEvent_ArchiveArticleLink", "OnArchiveArticleLink", self)
-		
+
 		--CharacterCreated
 		--Apollo.RegisterEventHandler("InterfaceOptionsLoaded", "OnCharacterCreated", self)
 
 		--self.wndTestEdit:SetText("ttttt")
 		--WildStarInstantMessenger:PrintToTest(self, "test")
-		
+
 		--SetOptions (delayed)
 		self.timerNoChat = ApolloTimer.Create(3.0, false, "OnTimerNoChat", self)
 		self.timerNoChat:Start()
 
-		
-		
-		
+
+
+
 		-- Do additional Addon initialization here
 		if self.bHasStockChat then
 			Apollo.RemoveEventHandler("ItemLink", Apollo.GetAddon("ChatLog"))
@@ -325,7 +325,8 @@ function WildStarInstantMessenger:OnItemLink(itemLinked)
 	if not self.bHasStockChat then
 		return
 	end
-	Apollo.RemoveEventHandler("ItemLink", Apollo.GetAddon("ChatLog"))
+	-- scsc: there is no longer such event in ChatLog addon
+	--Apollo.RemoveEventHandler("ItemLink", Apollo.GetAddon("ChatLog"))
 	local currInput = self:GetCurrentInput(self)
 	if currInput then
 		tLink = {}
@@ -333,7 +334,8 @@ function WildStarInstantMessenger:OnItemLink(itemLinked)
 		tLink.strText = String_GetWeaselString(Apollo.GetString("CRB_Brackets"), itemLinked:GetName())
 		WildStarInstantMessenger:AppendLink(currInput , tLink)
 	else
-		Apollo.GetAddon("ChatLog"):OnItemLink(itemLinked)
+		-- scsc: there is no longer such event in ChatLog addon
+		--Apollo.GetAddon("ChatLog"):OnItemLink(itemLinked)
 	end
 end
 
@@ -344,7 +346,7 @@ function WildStarInstantMessenger:OnQuestLink(queLinked)
 	Apollo.RemoveEventHandler("GenericEvent_QuestLink", Apollo.GetAddon("ChatLog"))
 	local currInput = self:GetCurrentInput(self)
 	if currInput then
-	
+
 		tLink = {}
 		tLink.uQuest = queLinked
 		tLink.strText = String_GetWeaselString(Apollo.GetString("CRB_Brackets"), queLinked:GetTitle())
@@ -361,7 +363,7 @@ function WildStarInstantMessenger:OnArchiveArticleLink(artLinked)
 	Apollo.RemoveEventHandler("GenericEvent_ArchiveArticleLink", Apollo.GetAddon("ChatLog"))
 	local currInput = self:GetCurrentInput(self)
 	if currInput then
-	
+
 		tLink = {}
 		tLink.uArchiveArticle = artLinked
 		tLink.strText = String_GetWeaselString(Apollo.GetString("CRB_Brackets"), artLinked:GetTitle())
@@ -391,7 +393,7 @@ function WildStarInstantMessenger:GetCurrentInput(self)
 			break
 		end
 	end
-	
+
 	return input
 end
 
@@ -466,7 +468,7 @@ end
 
 function WildStarInstantMessenger:OnChatMessage(...)
 	-- tMessage has bAutoResponse, bGM, bSelf, strSender, strRealmName, nPresenceState, arMessageSegments, unitSource, bShowChatBubble, bCrossFaction, nReportId
-	
+
 	local arg1, arg2, arg3, arg4, arg5 = ...
 	if arg1:GetType() == ChatSystemLib.ChatChannel_Whisper or arg1:GetType() == ChatSystemLib.ChatChannel_AccountWhisper then
 		local strSender = arg2.strSender
@@ -544,14 +546,14 @@ end
 local function EscapeString(strText)
 	local strOut = ""
 	strOut = string.gsub(strText, "(%W)", "%%%1")
-	
+
 	return strOut
 end
 
 local function RemoveEscapes(strText)
 	local strOut = ""
 	strOut = string.gsub(strText, "%%(%W)", "%1")
-	
+
 	return strOut
 end
 
@@ -559,15 +561,15 @@ function WildStarInstantMessenger:ShowMsgPreview(tMessage)
 	if not self.db.profile.messagePreview.bEnableMsgPrev then
 		return
 	end
-	
+
 	self.wndMessagePreview:Show(false)
-	
+
 	if self.db.profile.messagePreview.strMsgPrevPos == "Left" then
 		self.wndMessagePreview:SetAnchorOffsets(-279, -50, -23, 50)
 	else
 		self.wndMessagePreview:SetAnchorOffsets(23, -50, 279, 50)
 	end
-	
+
 	local bAutoResponse, bGM, bSelf, strSender, strRealmName, nPresenceState, arMessageSegments, unitSource, bShowChatBubble, bCrossFaction, nReportId = tMessage.bAutoResponse, tMessage.bGM, tMessage.bSelf, tMessage.strSender, tMessage.strRealmName, tMessage.nPresenceState, tMessage.arMessageSegments, tMessage.unitSource, tMessage.bShowChatBubble, tMessage.bCrossFaction, tMessage.nReportId
 	if bSelf then -- bSelf
 		return
@@ -577,7 +579,7 @@ function WildStarInstantMessenger:ShowMsgPreview(tMessage)
 	end
 	--From
 	self.wndMessagePreview:FindChild("From"):SetText(strSender)
-	
+
 	local strMsgText = ""
 	for i, tSegment in ipairs(arMessageSegments) do
 		strMsgText = strMsgText..tSegment.strText
@@ -586,12 +588,12 @@ function WildStarInstantMessenger:ShowMsgPreview(tMessage)
 	self.wndMessagePreview:FindChild("Text"):SetText(strMsgText)
 	--Text Color
 	--self.wndMessagePreview:FindChild("Text"):SetTextColor()
-	
+
 	self.wndMessagePreview:Show(true)
 	--start timer
 	self.timerMsgPrevHide:Stop()
 	self.timerMsgPrevHide:Start()
-	
+
 end
 
 function WildStarInstantMessenger:OnTimerMsgPrevHide()
@@ -638,8 +640,8 @@ function WildStarInstantMessenger:AddToChatWindow(channelCurrent, tMessage, bIsF
 	else
 		strName = strSender
 	end
-	
-	
+
+
 	xml:AppendText(strName, crName, "CRB_Interface10", {CharacterName=strName, nReportId=nReportId}, "Source")
 	xml:AppendText("]: ", crText, "CRB_Interface10", "Left")
 	saveText = saveText..strName.."]: "
@@ -689,21 +691,21 @@ function WildStarInstantMessenger:AddToChatWindow(channelCurrent, tMessage, bIsF
 					word = EscapeString(word)
 					local strSubSegment = string.match(strText, "^(.-)"..word)
 					xml:AppendText(strSubSegment, crChatText, strChatFont)
-					
+
 					xml:AppendImage(ktEmoticons[RemoveEscapes(word)], 20, 20)
-					
+
 					strText = string.gsub(strText, strSubSegment..word, "", 1)
 				end
 			end
 			--Link Finder
 			for link in string.gmatch(strText, "https?%:%/%/%S+") do
-				
+
 				link = EscapeString(link)
 				local strSubSegment = string.match(strText, "^(.-)"..link)
 				xml:AppendText(strSubSegment, crChatText, strChatFont)
-				
+
 				xml:AppendText("["..RemoveEscapes(link).."]", "fffff799", strChatFont, {strUrl=RemoveEscapes(link)} , "URL")
-				
+
 				strText = string.gsub(strText, strSubSegment..link, "", 1)
 			end
 			if next(tLink) == nil then
@@ -714,15 +716,15 @@ function WildStarInstantMessenger:AddToChatWindow(channelCurrent, tMessage, bIsF
 				xml:AppendText(strText, crChatText, strChatFont, {strIndex=strLinkIndex} , "Link")
 			end
 	end
-		
+
 	chatLine:SetDoc(xml)
 	chatLine:SetHeightToContentHeight()
-	
+
 	if nChannelType == ChatSystemLib.ChatChannel_Whisper or nChannelType == ChatSystemLib.ChatChannel_AccountWhisper then
 	if bIsFirst then
 		--nada
 		WildStarInstantMessenger:UpdateScrollPos(self.wndWhispers[strSender])
-	
+
 		if self.db.profile.general.bShowOnFirst then
 			self.wndWhispers[strSender]:Show(true)
 		else
@@ -749,7 +751,7 @@ function WildStarInstantMessenger:AddToChatWindow(channelCurrent, tMessage, bIsF
 	else
 		--nada
 		WildStarInstantMessenger:UpdateScrollPos(self.wndWhispers[strChannelName])
-	
+
 		if self.db.profile.general.bShowOnFirst and bIsFirst and not self.db.profile.general.bShowOnFirstWhisper then
 			self.wndWhispers[strChannelName]:Show(true)
 		end
@@ -773,7 +775,7 @@ function WildStarInstantMessenger:AddLogToWindow(self, strSender)
 		if type(self.db.char.tChatLog[strSender][date]) == "string" then
 			WildStarInstantMessenger:ResetChatLog(self)
 			ChatSystemLib.PostOnChannel( ChatSystemLib.ChatChannel_System, "The current chat history is not compatible with this version.\nResetting history to new format.", "WildStar Instant Messenger" )
-			return	
+			return
 		end
 		--Print Date
 		xml = XmlDoc.new()
@@ -789,12 +791,12 @@ function WildStarInstantMessenger:AddLogToWindow(self, strSender)
 			chatLine = Apollo.LoadForm(self.xmlDoc, "ChatLine", self.wndWhispers[strSender]:FindChild("EditBox"), self)
 			if v == nil or v == "" then
 				v = " "
-			end		
+			end
 			xml:AddLine("", crText, "CRB_Interface10", "Left")
 			xml:AppendText(tostring(v), crText, "CRB_Interface10", "Left")
 			chatLine:SetDoc(xml)
 			chatLine:SetHeightToContentHeight()
-		end	
+		end
 	end
 	--Footer
 	xml = XmlDoc.new()
@@ -802,11 +804,11 @@ function WildStarInstantMessenger:AddLogToWindow(self, strSender)
 	xml:AddLine("-", crText, "CRB_Interface10", "Center")
 	chatLine:SetDoc(xml)
 	chatLine:SetHeightToContentHeight()
-	
+
 	self:UpdateScrollPos(self.wndWhispers[strSender])
 end
 
-function WildStarInstantMessenger:AddToChatLog(self, strSender, saveText, strDate)	
+function WildStarInstantMessenger:AddToChatLog(self, strSender, saveText, strDate)
 	local nMaxLines = self.db.profile.nMaxLines
 	local nMaxDates = self.db.profile.nMaxDates
 	local nTotalDates = 0
@@ -814,7 +816,7 @@ function WildStarInstantMessenger:AddToChatLog(self, strSender, saveText, strDat
 	local strDate = strDate or os.date("%m/%d/%Y")
 
 	--WildStarInstantMessenger:ResetChatLog(self)
-	
+
 	if self.db.char.tChatLog[strSender] == nil then
 		self.db.char.tChatLog[strSender] = {}
 		self.db.char.tChatLog[strSender][strDate] = {}
@@ -825,7 +827,7 @@ function WildStarInstantMessenger:AddToChatLog(self, strSender, saveText, strDat
 			for k, _ in pairs(self.db.char.tChatLog[strSender][strDate]) do
 				nTotalLines = nTotalLines + 1
 			end
-			
+
 			if nTotalLines >= nMaxLines then
 				table.remove(self.db.char.tChatLog[strSender][strDate], 1)
 			end
@@ -834,7 +836,7 @@ function WildStarInstantMessenger:AddToChatLog(self, strSender, saveText, strDat
 		for date, _ in pairs(self.db.char.tChatLog[strSender]) do
 			nTotalDates = nTotalDates + 1
 		end
-		
+
 		if nTotalDates > nMaxDates then
 			--table.remove(self.db.char.tChatLog[strSender], 1)
 			for date, tTable in pairsByKeys(self.db.char.tChatLog[strSender]) do
@@ -843,14 +845,14 @@ function WildStarInstantMessenger:AddToChatLog(self, strSender, saveText, strDat
 			end
 		end
 	end
-	
+
 	-- scsc: for some reason it can be nil and thus does errors, so we exclude it
 	local a = self.db.char.tChatLog[strSender][strDate];
 	local b = saveText;
 	if a and b then
 		table.insert(a, b)
 	end
-	
+
 	--This comes to a max of 25 per a date with a max of 5 dates per a person (125 total lines) :/
 	--	I wanted to try 25 total but how would you figure out where to remove a line?
 	--	Maybe you could try and figure out the oldest date and get rid of it?
@@ -899,30 +901,30 @@ function WildStarInstantMessenger:PopWhisper(channelCurrent, tMessage)
 		["reportID"] = tMessage.nReportId,
 		["unitSource"] = tMessage.unitSource
 	}
-	
+
 	if self.db.profile.windowAppearance.bUseMinimalStyle then
 		self.wndWhispers[strSender] = Apollo.LoadForm(self.xmlDoc, "ChatDialogueMinimal", nil, self)
 	else
 		self.wndWhispers[strSender] = Apollo.LoadForm(self.xmlDoc, "ChatDialogueTabbed", nil, self)
 	end
-	
+
 	self.wndWhispers[strSender]:SetStyle("Escapable", self.db.profile.general.bCloseOnEscape)
-	
+
 	self.wndWhispers[strSender]:SetData(tChatData)
-	
+
 	self.wndWhispers[strSender]:Show(false)
-	
+
 	self.wndWhispers[strSender]:SetText(strSender)
-	
+
 	self.wndWhispers[strSender]:SetOpacity(self.db.profile.windowAppearance.nOpacity)
-	
+
 	local l, t, r, b = self.wndWhispers[strSender]:GetAnchorOffsets()
 	self.wndWhispers[strSender]:SetAnchorOffsets(l, t, l+self.db.profile.windowAppearance.nWidth, t+self.db.profile.windowAppearance.nHeight)
-	
+
 	if not self.db.profile.windowAppearance.bUseMinimalStyle then
 		self.wndWhispers[strSender]:FindChild("Title"):SetText(strSender)
 	end
-	
+
 	for name, wndChat in pairs(self.wndWhispers) do
 		wndChat:FindChild("EditBox1"):SetData(false)
 	end
@@ -930,20 +932,20 @@ function WildStarInstantMessenger:PopWhisper(channelCurrent, tMessage)
 	--Level: 88 - Medic
 	--local classID = tMessage.unitSource:GetClassId()
 	--self.wndWhispers[tMessage.strSender]:FindChild("Level"):SetText(tMessage.unitSource:GetLevelString().." - "..GameLib.GetClassName(classID))
-	
+
 	--self.wndWhispers[tMessage.strSender]:FindChild("EditBox"):ArrangeChildrenVert()
-	
-	
+
+
 	--[[
 	--CASCADE
 	local nLeft, mTop, nRight, nBottom = self.wndWhispers[tMessage.strSender]:GetAnchorOffsets()
 		WildStarInstantMessenger:GetTotalWindows(self, true)
 	end
 	]]
-	
+
 	--Add History (Chat Log)
 	WildStarInstantMessenger:AddLogToWindow(self, strSender)
-	
+
 end
 
 function WildStarInstantMessenger:PopOther(channelCurrent)
@@ -953,7 +955,7 @@ function WildStarInstantMessenger:PopOther(channelCurrent)
 	else
 		strChannelName = channelCurrent:GetName()
 	end
-	
+
 	local tChatData = {}
 	tChatData = {
 		["strDisplayName"]		= strChannelName,
@@ -965,7 +967,7 @@ function WildStarInstantMessenger:PopOther(channelCurrent)
 		--["reportID"] = tMessage.nReportId,
 		--["unitSource"] = tMessage.unitSource
 	}
-	
+
 	if self.db.profile.windowAppearance.bUseMinimalStyle then
 		self.wndWhispers[strChannelName] = Apollo.LoadForm(self.xmlDoc, "ChatDialogueMinimal", nil, self)
 	else
@@ -973,29 +975,29 @@ function WildStarInstantMessenger:PopOther(channelCurrent)
 		self.wndWhispers[strChannelName]:FindChild("AddFriend"):Show(false)
 		self.wndWhispers[strChannelName]:FindChild("InviteGroup"):Show(false)
 	end
-	
+
 	self.wndWhispers[strChannelName]:SetStyle("Escapable", self.db.profile.general.bCloseOnEscape)
-	
+
 	self.wndWhispers[strChannelName]:SetText(strChannelName)
-	
+
 	self.wndWhispers[strChannelName]:SetData(tChatData)
-	
+
 	self.wndWhispers[strChannelName]:SetOpacity(self.db.profile.windowAppearance.nOpacity)
-	
+
 	self.wndWhispers[strChannelName]:Show(false)
-	
+
 	local l, t, r, b = self.wndWhispers[strChannelName]:GetAnchorOffsets()
 	self.wndWhispers[strChannelName]:SetAnchorOffsets(l, t, l+self.db.profile.windowAppearance.nWidth, t+self.db.profile.windowAppearance.nHeight)
-	
+
 	if not self.db.profile.windowAppearance.bUseMinimalStyle then
 		self.wndWhispers[strChannelName]:FindChild("Title"):SetText(strChannelName)
 	end
-	
+
 	for name, wndChat in pairs(self.wndWhispers) do
 		wndChat:FindChild("EditBox1"):SetData(false)
 	end
 	self.wndWhispers[strChannelName]:FindChild("EditBox1"):SetData(true)
-	
+
 	--Add History (Chat Log)
 	WildStarInstantMessenger:AddLogToWindow(self, strChannelName)
 end
@@ -1022,9 +1024,9 @@ function WildStarInstantMessenger:UpdateNotificationList(self)
 			self.tNotifications[k]["objListItem"]:FindChild("NewMessage"):Show(true)
 		else
 			self.tNotifications[k]["objListItem"]:FindChild("NewMessage"):Show(false)
-		end			
+		end
 	end
-	
+
 	self.wndChatNotifications:FindChild("NotificationList"):FindChild("ScrollList"):ArrangeChildrenVert(0)
 end
 
@@ -1034,9 +1036,9 @@ function WildStarInstantMessenger:UpdateNotificationAlert(self)
 	for k, v in pairs(self.tNotifications) do
 		if v.bNewMsg then
 			bAlertMsg = true
-		end			
+		end
 	end
-	
+
 	if bAlertMsg and self.db.profile.conversationButton.bLightUp then
 		self.wndChatNotifications:FindChild("Alert"):Show(true)
 	else
@@ -1053,16 +1055,16 @@ function WildStarInstantMessenger:OnInputReturn( wndHandler, wndControl, strText
 		local tChatData = wndForm:GetData()
 		local wndInput = wndForm:FindChild("EditBox1")
 		local sendTo = tChatData.strSender
-		
-		
+
+
 		strText = self:ReplaceLinks(strText, wndControl:GetAllLinks())
-		
+
 		local tInput = ChatSystemLib.SplitInput(strText)
-		
+
 		wndControl:SetText("")
-		
-		
-		
+
+
+
 		if strText ~= "" then
 			local channelCurrent = tInput.channelCommand or tChatData.channelCurrent
 			if sendTo and channelCurrent:GetType() == ChatSystemLib.ChatChannel_Whisper then
@@ -1223,14 +1225,14 @@ function WildStarInstantMessenger:OnNameItemClick( wndHandler, wndControl, eMous
 	wndControl:GetParent():FindChild("NewMessage"):Show(false)
 	self.tNotifications[wndControl:GetText()]["bNewMsg"] = false
 	self.wndChatNotifications:FindChild("NotificationList"):Show(false)
-	
+
 	self:UpdateNotificationAlert(self)
 end
 
 function WildStarInstantMessenger:OnRemoveNameItemClick( wndHandler, wndControl, eMouseButton )
 	local name = wndControl:GetParent():FindChild("Name"):GetText()
 	self.tNotifications[name]["bNewMsg"] = false
-	
+
 	if self.wndWhispers[name]:IsAttached() then
 		self.wndWhispers[name]:Detach()
 	end
@@ -1240,7 +1242,7 @@ function WildStarInstantMessenger:OnRemoveNameItemClick( wndHandler, wndControl,
 	self.tNotifications[name] = nil
 	--self.tChatData[name] = nil
 	self.wndWhispers[name] = nil
-	
+
 	WildStarInstantMessenger:UpdateNotificationList(self)
 	WildStarInstantMessenger:UpdateNotificationAlert(self)
 end
@@ -1274,9 +1276,9 @@ function WildStarInstantMessenger:OnNodeClick( wndHandler, wndControl, strNode, 
 		Event_FireGenericEvent("GenericEvent_NewContextMenuPlayer", wndHandler, tAttributes.CharacterName, nil, tAttributes.nReportId)
 		return true
 	end
-	
+
 	--Print("strNode = "..strNode)
-	
+
 	if strNode == "Link" then
 
 		local nIndex = tonumber(tAttributes.strIndex)
@@ -1293,7 +1295,7 @@ function WildStarInstantMessenger:OnNodeClick( wndHandler, wndControl, strNode, 
 				end
 			else
 				if self.tLinks[nIndex].uItem then
-					
+
 					local bWindowExists = false
 					for idx, wndCur in pairs(self.twndItemLinkTooltips or {}) do
 						if wndCur:GetData() == self.tLinks[nIndex].uItem then
@@ -1301,28 +1303,28 @@ function WildStarInstantMessenger:OnNodeClick( wndHandler, wndControl, strNode, 
 							break
 						end
 					end
-				
+
 					if not bWindowExists then
 						local wndChatItemToolTip = Apollo.LoadForm(self.xmlDoc, "TooltipWindow", nil, self)
 						wndChatItemToolTip:SetData(self.tLinks[nIndex].uItem)
-						
+
 						table.insert(self.twndItemLinkTooltips, wndChatItemToolTip)
-						
+
 						local itemEquipped = self.tLinks[nIndex].uItem:GetEquippedItemForItemType()
-						
+
 						local wndLink = Tooltip.GetItemTooltipForm(self, wndControl, self.tLinks[nIndex].uItem, {bPermanent = true, wndParent = wndChatItemToolTip, bSelling = false, bNotEquipped = true})
-						
+
 						local nLeftWnd, nTopWnd, nRightWnd, nBottomWnd = wndChatItemToolTip:GetAnchorOffsets()
 						local nLeft, nTop, nRight, nBottom = wndLink:GetAnchorOffsets()
-						
+
 						wndChatItemToolTip:SetAnchorOffsets(nLeftWnd, nTopWnd, nLeftWnd + nRight + 15, nBottom + 75)
-						
+
 						if itemEquipped then
 							wndChatItemToolTip:SetTooltipDoc(nil)
 							Tooltip.GetItemTooltipForm(self, wndChatItemToolTip, itemEquipped, {bPrimary = true, bSelling = false, bNotEquipped = false})
 						end
 					end
-					
+
 				elseif self.tLinks[nIndex].uQuest then
 					Event_FireGenericEvent("ShowQuestLog", self.tLinks[nIndex].uQuest)
 					Event_FireGenericEvent("GenericEvent_ShowQuestLog", self.tLinks[nIndex].uQuest)
@@ -1333,7 +1335,7 @@ function WildStarInstantMessenger:OnNodeClick( wndHandler, wndControl, strNode, 
 			end
 		end
 	end
-	
+
 	if strNode == "URL" then
 		--tAttributes.strUrl:CopyTextToClipboard()
 		--EditBox:CopyTextToClipboard
@@ -1352,13 +1354,13 @@ end
 function WildStarInstantMessenger:OnCloseItemTooltipWindow( wndHandler, wndControl, eMouseButton )
 	local wndParent = wndControl:GetParent()
 	local itemData = wndParent:GetData()
-	
+
 	for idx, wndCur in pairs(self.twndItemLinkTooltips) do
 		if wndCur:GetData() == itemData then
 			table.remove(self.twndItemLinkTooltips, idx)
 		end
 	end
-	
+
 	wndParent:Destroy()
 end
 

@@ -1,0 +1,6 @@
+<Addon Author="Celess" Version="60817.0" APIVersion="13" Name="PlayerBadger" Description="Marks players in battlegrounds according to role and current score. UI cleanup and performance rewrite version drScoreBadger by drspod. (High performance)">
+    <Script Name="PlayerBadger.lua"/>
+    <Script Name="Common.lua"/>
+    <Script Name="locales\enUS.lua"/>
+    <Form Name="PlayerBadger.xml"/>
+</Addon>
