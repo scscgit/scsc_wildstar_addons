@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Potato" APIVersion="12" Name="PotatoCmbNotice" Description="Adds an icon to PotatoUI which pops up while the player is in combat.">
+    <Script Name="CmbNoticeDefaults.lua"/>
+    <Script Name="PotatoCmbNotice.lua"/>
+    <Form Name="PotatoCmbNotice.xml"/>
+</Addon>

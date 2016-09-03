@@ -1,0 +1,16 @@
+lightweight tag 6ab49dfc89ea5637e6b4a4a4b2d28029194d8fe0 v2.0.2
+Author:	Arne De Herdt <arne.de.herdt@gmail.com>
+Date:	Thu Oct 22 16:59:24 2015 +0200
+
+commit 6ab49dfc89ea5637e6b4a4a4b2d28029194d8fe0
+Author: Arne De Herdt <arne.de.herdt@gmail.com>
+Date:   Thu Oct 22 16:59:24 2015 +0200
+
+    Cleaned code, and increased version to handle issues from new UI
+
+commit f254483ca0abd8e457638e2aa8690cb76911754c
+Author: Arne De Herdt <arne.de.herdt@gmail.com>
+Date:   Sat Oct 3 12:03:28 2015 +0200
+
+    rewriting Generalist - part 1
+

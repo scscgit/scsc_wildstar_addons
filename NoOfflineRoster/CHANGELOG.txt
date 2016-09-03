@@ -1,0 +1,25 @@
+1.1:
+-added Circles
+
+1.0.7:
+-updated to API9
+
+1.0.6:
+-copied some temporary Carbine fixes over to the part I replace
+
+1.0.5:
+-fix for strain patch
+-fix for missing linebreak
+
+1.0.4:
+-fix for error 37
+
+1.0.3:
+-new GeminiAddon
+-small internal change
+
+1.0.2:
+-now it should work...really
+
+1.0.1:
+-fixed GeminiAddon bug

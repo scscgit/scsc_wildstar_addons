@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="CubicleNinja" APIVersion="11" Name="GuardZoneMap" Description="Modifies the default Carbine Zone Map to include additional filter options:  Guards (City Directions), Unique icons for harvest nodes (Relic, Mining, Farming, Survivalist), Path Resources, and Lore &amp; Datacubes" Version="2.0">
+    <Script Name="libs\LibJSON\LibJSON-2.5.lua"/>
+    <Script Name="modules\GuardWaypoints.lua"/>
+    <Script Name="GuardZoneMap.lua"/>
+    <Form Name="modules\GuardWaypoints.xml"/>
+    <Form Name="GuardZoneMapForms.xml"/>
+    <ReplaceAddon Name="ZoneMap"/>
+</Addon>

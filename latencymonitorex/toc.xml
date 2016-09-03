@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Olivar Nax" APIVersion="11" Name="LatencyMonitorEx" Version="1.0.1" Description="Shows your latency graphically and/or with text and allows you to place it anywhere.">
+    <Script Name="GeminiColor/GeminiColor.lua"/>
+    <Form Name="GeminiColor/GeminiColor.xml"/>
+    <Script Name="VILib.lua"/>
+    <Script Name="LatencyMonitorEx.lua"/>
+    <Form Name="LatencyMonitorEx.xml"/>
+    <Form Name="Options.xml"/>
+</Addon>

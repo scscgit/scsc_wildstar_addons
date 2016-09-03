@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="YellowKiwi" APIVersion="13" Name="Builder" Description="Save and switch your custom LAS">
+    <!-- Libraries -->
+    <Script Name="libs\GeminiLocale-1.0\GeminiLocale.lua"/>
+    <!-- Localization -->
+    <Script Name="locale\deDE.lua"/>
+    <Script Name="locale\enUS.lua"/>
+    <Script Name="locale\frFR.lua"/>
+    <!-- Addon -->
+    <Script Name="Builder.lua"/>
+    <Script Name="BuilderShare.lua"/>
+    <Script Name="modules\BuilderEvents.lua"/>
+    <Script Name="modules\BuilderGear.lua"/>
+    <Script Name="modules\BuilderUtil.lua"/>
+    <Script Name="modules\BuilderMacro.lua"/>
+    <Form Name="Builder.xml"/>
+    <Form Name="BuilderShare.xml"/>
+</Addon>

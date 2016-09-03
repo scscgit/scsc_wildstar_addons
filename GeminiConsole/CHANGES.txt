@@ -1,0 +1,140 @@
+commit e66d54f274b6635a7cb8afb4f55adbf9eb75abd9
+Author: Sinaloit <Sinaloit@gmail.com>
+Date:   Sat Aug 23 09:31:52 2014 -0700
+
+    Convert from Apollo.CreateTimer to ApolloTimer.Create
+    Make timers run only when needed.
+    Add pkgmeta for Curse
+    Add description to TOC
+
+commit f6d355192b3d427bfdfe4fa051935bd476b9f664
+Author: Sinaloit <Sinaloit@gmail.com>
+Date:   Wed Jul 16 16:51:15 2014 -0700
+
+    Re-Enable clipboard button.
+    Remove global, add upvalues.
+
+commit f6d355192b3d427bfdfe4fa051935bd476b9f664
+Author: Sinaloit <Sinaloit@gmail.com>
+Date:   Wed Jul 16 16:51:15 2014 -0700
+
+    Re-Enable clipboard button.
+    Remove global, add upvalues.
+
+commit ce981c6a7f6ccd4f85ff03da9115364439423d6e
+Author: Sinaloit <sinaloit@gmail.com>
+Date:   Tue Jul 15 08:09:44 2014 -0700
+
+    API Update
+
+commit 2b7f4cba6fb89bb7611600e6c4f117d0434bd46d
+Author: Leosky <kheless@gmail.com>
+Date:   Sun Jul 6 03:31:51 2014 +0200
+
+    Instant window show
+
+commit c69a72c836cf009c1edacc4fbb7f175aa6966f9a
+Author: Leosky <kheless@gmail.com>
+Date:   Sat Jul 5 20:12:36 2014 +0200
+
+    Interface menu entry for GeminiConsole
+
+commit ac4defe73d3735f4864e4767c20bf23845f021f4
+Author: Sinus Pi <sinus@sinpi.net>
+Date:   Fri Jun 6 01:08:51 2014 +0200
+
+    Added support for config variables and searching.
+    
+    set call 0/1 - turns off/on automatic calling of Get* and Is* funcs
+    find blablabla - finds string in last inspect results
+
+commit ac4defe73d3735f4864e4767c20bf23845f021f4
+Author: Sinus Pi <sinus@sinpi.net>
+Date:   Fri Jun 6 01:08:51 2014 +0200
+
+    Added support for config variables and searching.
+    
+    set call 0/1 - turns off/on automatic calling of Get* and Is* funcs
+    find blablabla - finds string in last inspect results
+
+commit bc5cc35ad2d59cdd56f8d093fdbff974ef6ddf1c
+Author: Sinus Pi <sinus@sinpi.net>
+Date:   Thu Jun 5 02:58:14 2014 +0200
+
+    Revert a change that makes GeminiConsoleInst public
+
+commit 3865046c0833e1505761391dc9e005e03e228f53
+Author: Sinus Pi <sinus@sinpi.net>
+Date:   Thu Jun 5 02:52:59 2014 +0200
+
+    FPS now shown as integer.
+
+commit 0c459028e080aff1bf845d24485e3b6026183ac5
+Author: Sinus Pi <sinus@sinpi.net>
+Date:   Thu Jun 5 02:47:27 2014 +0200
+
+    Auto expands Get* and Is* functions in tables or userdata.
+
+commit 4b0cc33a1fe78b0a68d4e314f7fc0c880c029fe5
+Author: Sinus Pi <sinus@sinpi.net>
+Date:   Thu Jun 5 02:44:46 2014 +0200
+
+    Changed font to Nameplates.
+
+commit 176d1bbeed58627d1eab1b88b2038cb15045c9d2
+Author: Sinus Pi <sinus@sinpi.net>
+Date:   Thu Jun 5 02:38:28 2014 +0200
+
+    Added support for custom depth limiting.
+    
+    Add <<n at the end of an inspect line to set a limit.
+    inspect _G <<2
+
+commit 768aa24cc109ff2268f4e6e9a6992ec2abc5228e
+Author: Sinus Pi <sinus@sinpi.net>
+Date:   Thu Jun 5 02:36:07 2014 +0200
+
+    Added a shortcut "i" for "inspect". Fixed a bug causing "inspect" to be replaced by "return" everywhere.
+
+commit bc28e73054728632b72c05c5312ad1d85c64691a
+Author: Sinus Pi <sinus@sinpi.net>
+Date:   Thu Jun 5 01:10:15 2014 +0200
+
+    Added a visible scrollbar to the console.
+
+commit 36347678f935d7b2814e11c6ce6d2c6f7afa2856
+Author: Tue <tt@atorbital.com>
+Date:   Fri May 23 18:59:46 2014 +0200
+
+    changed number of digits on FPS to 3 - to many digits made the font way small
+
+commit 36347678f935d7b2814e11c6ce6d2c6f7afa2856
+Author: Tue <tt@atorbital.com>
+Date:   Fri May 23 18:59:46 2014 +0200
+
+    changed number of digits on FPS to 3 - to many digits made the font way small
+
+commit 69ee535d3a45fa96f135984f48f77c4996ffcbfa
+Author: draftomatic <draftomatic@gmail.com>
+Date:   Sat May 3 10:26:06 2014 -0600
+
+    Patch for window loading crash that came up in API 8
+
+commit 60307988eb9e3d53cf15be566261ec13d4fc86a5
+Author: draftomatic <draftomatic@gmail.com>
+Date:   Fri May 2 12:33:00 2014 -0600
+
+    API 8
+
+commit f09ca1307445993114bf0da925f9422ab056ff8b
+Author: draftomatic <draftomatic@gmail.com>
+Date:   Wed Apr 2 19:39:18 2014 -0600
+
+    Initial content commit
+
+commit eb8778b1e64c1bd36b7af08be5c9b3a330264c7b
+Author: wildstarnasa <draftomatic@gmail.com>
+Date:   Mon Mar 31 19:22:33 2014 -0700
+
+    Initial commit
+

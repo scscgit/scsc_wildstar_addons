@@ -1,0 +1,10 @@
+lightweight tag fc15c2f04df2ae884bd4f61a888124deb6224985 v2.0.2b
+Author:	Arne De Herdt <arne.de.herdt@gmail.com>
+Date:	Tue Sep 1 00:08:55 2015 +0200
+
+commit fc15c2f04df2ae884bd4f61a888124deb6224985
+Author: Arne De Herdt <arne.de.herdt@gmail.com>
+Date:   Tue Sep 1 00:08:55 2015 +0200
+
+    typo in boolean variable name. Should be resolved now.
+

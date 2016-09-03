@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Nasapunk88" APIVersion="9" Name="DismissPet" Description="Adds a Dismiss Pet button to the Engineer&apos;s Pet Bar" Version="0.5">
+    <Script Name="DismissPet.lua"/>
+    <Form Name="DismissPet.xml"/>
+</Addon>

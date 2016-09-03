@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Quickblink" APIVersion="9" Name="NoOfflineRoster" Description="Gives the option to hide offline members in the Guild Roster." Version="1.1">
+    <Script Name="Libs/GeminiHook-1.0.lua"/>
+    <Script Name="Libs/GeminiAddon.lua"/>
+    <Script Name="NoOfflineRoster.lua"/>
+    <Form Name="NoOfflineRoster.xml"/>
+</Addon>

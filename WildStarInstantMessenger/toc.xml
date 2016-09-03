@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Neil Smith" APIVersion="9" Name="WildStarInstantMessenger" Description="An instant messaging addon for WildStar." Version="1.23">
+    <Script Name="Libs/GeminiColor/GeminiColor.lua"/>
+    <Script Name="Libs/GeminiDB/GeminiDB-1.0.lua"/>
+    <Script Name="Libs/GeminiHook/GeminiHook-1.0.lua"/>
+    <Form Name="WildStarInstantMessenger.xml"/>
+    <Script Name="WildStarInstantMessenger.lua"/>
+    <Script Name="Options.lua"/>
+    <!--<Script Name="Libs/ColorPicker/ColorPicker.lua"/>-->
+</Addon>

@@ -1,0 +1,105 @@
+0.1.28
+======
+-No changes. Version bumped as part of debugging Curse autopackager.
+
+0.1.27
+======
+-Fix for "RareTimer.lua:1197: attempt to index local 'msg' (a nil value)"
+
+0.1.26
+======
+-Fix for "RareTimer.lua:537: attempt to index local 'tMsg' (a string value)"
+
+0.1.25
+======
+-Use JSON to serialize messages for new ICCommLib api
+
+0.1.24
+======
+-API 10 update, take 2
+
+0.1.23
+======
+-Updated for API 10. I don't play anymore so let me know if it actually
+works.
+-Fix for "RareTimer.lua:555: attempt to index field 'wndMain' (a nil value)"
+errors.
+
+======
+0.1.22
+======
+-Known issue: Memory could not be read crashes. This version should reduce the
+frequency of the crashing a bit, but a real fix will require a patch
+from Carbine.
+-Bugfix for reported expired entries overwriting newer data
+-Tweaks to reduce ICCommLib usage
+
+0.1.21
+======
+-Bugfix for "RareTimer.lua:1168: attempt to compare number with nil"
+
+0.1.20
+======
+-Added Gargantua for Drop 3
+
+0.1.19
+======
+-Bugfix for "attempt to call global 'deepcopy'"
+
+0.1.18
+======
+-Added support for Critical Containment (AKA the R12 event)
+-Bugfix for "Due to spawn before %s"
+
+0.1.17
+======
+-Bugfix for old data sometimes replacing new
+
+0.1.16
+======
+-Adds world bosses (go into options to enable alerts for these mobs)
+-Full fr/de localization of mob names via http://wildstar.datminer.com
+
+0.1.15
+======
+-Corrects names for Subject J, K & V
+
+0.1.14
+======
+-Added requested mobs (go into options to enable alerts for these
+mobs):
+  -Bugwit
+  -Grinder
+  -KE-27 Sentinel
+  -Subject J
+  -Subject K
+  -Subject Tau
+  -Subject V
+
+0.1.13
+======
+-Misc bugfixes
+
+0.1.12
+======
+-Add snooze button
+
+0.1.11
+======
+-Fix grid display update bug, take 2
+
+0.1.10
+======
+-Enable automatic packaging for Curse
+
+0.1.9
+=====
+-Fix grid display update bug
+
+0.1.8
+=====
+-Add config window
+
+0.1.7
+=====
+-Initial Curse release

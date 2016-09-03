@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Vim" APIVersion="11" Name="ItemFinder" Description="Find an item with specific propeties." Version="">
+    <Script Name="ItemFinder.lua"/>
+    <Form Name="ItemFinder.xml"/>
+</Addon>

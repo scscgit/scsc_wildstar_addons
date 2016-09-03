@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Potato" APIVersion="12" Name="PotatoCastbars" Description="">
+    <Script Name="CastbarDefaults.lua"/>
+    <Script Name="PotatoCastbars.lua"/>
+    <Form Name="PotatoCastbars.xml"/>
+    <ReplaceAddon Name="CastBar"/>
+</Addon>

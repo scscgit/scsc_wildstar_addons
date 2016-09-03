@@ -1,0 +1,10 @@
+lightweight tag 0ebdf18133970cbc5ee3b93cc723702bfe84c7b4 v10.5
+Author:	porten <porten@gmail.com>
+Date:	Sun May 22 15:52:54 2016 +0200
+
+commit 0ebdf18133970cbc5ee3b93cc723702bfe84c7b4
+Author: porten <porten@gmail.com>
+Date:   Sun May 22 15:52:54 2016 +0200
+
+    API v12 update
+

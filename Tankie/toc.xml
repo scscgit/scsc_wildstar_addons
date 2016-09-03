@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Tsulong, Teatime, Arty" APIVersion="11" Name="Tankie" Description="Easily display the focus of your group&apos;s healer so you can keep up on there Focus!" Version="1.1">
+    <Script Name="Tankie.lua"/>
+    <Form Name="Tankie.xml"/>
+</Addon>

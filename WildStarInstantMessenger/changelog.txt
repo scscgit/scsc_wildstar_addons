@@ -1,0 +1,99 @@
+------------------------
+Ideas:
+User Comment:
++"some QoL improvements i'd like to ask for, first i saw you added tabs to whispers that's great but would love auto
+	grouping of whisper tabs, its not important but instead of dragging them manually would be nice."
++"The 2nd QoL option i'd like is instead of switching to new whisper tab, while having another one on focus
+	would be cool if you could just make the tab you recieved a whisper on "flash at name" rather than switch to it."
+------------------------
+------------------------
+BUGS:
+=====
+=====
+------------------------
+
+TODO:
+-Select text option/button with keybind --Meh Maybe Don't Need
+-Auto-group Whispers --working on... lots of work
+-maybe a new new msg icon --Maybe?
+-maybe a new conv button skin (more holo) --Looked for one and none. Either do custom or none
+-maybe keybinds -> show all, hide all, close all, show new, pop whisper wind, etc --Also Meh
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		HUGE!!!
+-Add code to make sure profile saves
+	and sets.
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+------------------------
+v1.3.1
+-URL detection picks up "http://" and "https://".
+-Removed Node Click debug text.
+-Fixed bug when dead in combat.
+-Messages don't pop up in combat if the option is checked.
+
+v1.3
+-Account whispers have been added.
+-Fixed current profile bug.
+
+v1.2.3
+-WildStar now sees it as the correct api.
+
+v1.2.2
+-API bump.
+-Fixed version bug.
+
+v1.2.1
+-Fixed chat history bug. If you still get an error, click the reset history button in the options and reload.
+-Added "Show Emoticons" option
+-Added "Close Windows on Escape" option
+-Added the option to have a minimal chat window UI.
+
+v1.2
+-Fixed emoticon bug.
+-Added Aurin emoticons! (A special ty to my lovely gf)
+-Expanded channel colors.
+-Added an entire message preview system.
+-Expanded viewable chat channels.
+-Minor bug fixes.
+-Added account whispers! (beta)
+-Improved URL detection.
+-Fixed bug with stock ChatLog addon.
+
+v1.1.2
+-Added tabbed chat windows!
+-Fixed opacity bug.
+-Fixed item linking... again.
+-Quest and Archive linking now works.
+-Addon now works in all locales. (should)
+-Shift + Clicking the Conversation Button opens all of the windows that have new messages.
+-Right Clicking the Conversation Button opens the options.
+-Added Chat History! Right now it holds 25 lines max. Soon you will be able to change it.
+-Pressing the "up" or "down" arrow keys in an input box now goes through the history of what you said.
+-Chat windows now come to the front when clicked.
+-Chat windows now fade in and out when closed or opened.
+-Improved handling if the Carbine addon ChatLog is not enabled.
+-A sound now plays when you recieve a whisper.
+-Added URL detection with the ability to copy it.
+-Added "only with whisper" options to both "Show Window" options.
+
+v1.1.1
+-Fixed crash caused by GeminiHook.
+-Fixed item linking bug.
+
+v1.1
+-Added the option to change the position of the Conversation Button dropdown.
+-Added Zone, Party, Advice, and Guild chat.
+-You can now whisper someone from the stock chat to open a new window even while the view option is turned off.
+-Added Item, Quest, and Lore links.
+-Added an opacity slider.
+-Added a profile system.
+-You can now enter commands from any chat window input.
+-Fixed dropdown box bugs.
+-Removed a couple obsolete options.
+-Instead of a suppress whispers option you now should just uncheck the view option in the stock chat window.
+-Added some helpful notes in the options.
+-You can now shift + click the Conversation Button to open up the options.
+-Fixed Invite to Group and Add Friend buttons.
+
+v1.0
+-Initial Release

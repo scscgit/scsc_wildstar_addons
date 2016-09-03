@@ -1,0 +1,4 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<Addon Author="Otagamo" APIVersion="9" Name="SimpleVolatility" Description="Simple Volatility Bar - removes background art and tweak bar colors" Version="1.0">
+    <Script Name="SimpleVolatility.lua"/>
+</Addon>

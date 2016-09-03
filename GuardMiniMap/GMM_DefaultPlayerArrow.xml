@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Sprites>
+  <Sprite Name="sprMM_PlayerMarker" Cycle="1">
+    <Frame Texture="UI\Assets\TexPieces\UI_CRB_HUD_MiniMap_0_258.tga" x0="0" x1="60" x2="60" x3="60" x4="60" x5="60" y0="0" y1="60" y2="60" y3="60" y4="60" y5="60" Stretchy="1" HotspotX="30" HotspotY="30" Duration="1.000" StartColor="ffffffff" EndColor="ffffffff"/>
+  </Sprite>
+</Sprites>

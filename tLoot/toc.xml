@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Toez & Olivar Nax" APIVersion="12" Name="tLoot" Description="Loot roll replacement" Version="2.1.1">
+    <Script Name="GeminiAddon\GeminiAddon.lua"/>
+    <Script Name="GeminiLogging\GeminiLogging.lua"/>
+    <Script Name="TLoot.lua"/>
+    <Form Name="TLoot.xml"/>
+    <Form Name="Options.xml"/>
+    <ReplaceAddon Name="NeedVsGreed"/>
+</Addon>

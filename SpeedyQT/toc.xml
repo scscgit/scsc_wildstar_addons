@@ -1,0 +1,5 @@
+<Addon Name="SpeedyQT" Version="1.0.0" Author="Lore Walker" APIVersion="10" Description="ObjectiveTracker and QuestTracker performance enhancement.">
+    <Script Name="SpeedyQT.lua"/>
+    <Form Name="SpeedyQT.xml"/>
+    <ReplaceAddon Name="QuestTracker"/>
+</Addon>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="NeoTron" APIVersion="9" Name="C.R.E.D.D Cut" Description="Automatically fills in buy / sell values for C.R.E.D.D trading.">
+  <Script Name="Libs/GeminiAddon/GeminiAddon.lua"/>
+  <Script Name="Libs/GeminiHook/GeminiHook-1.0.lua"/>
+  <Script Name="CreddCut.lua"/>
+</Addon>

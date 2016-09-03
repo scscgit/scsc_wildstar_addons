@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="DickieCrickets" APIVersion="9" Name="InfoPlates" Description="Adds a player class or mob rank (Prime/Superior/Champion/etc.) icon above units.">
+    <Script Name="InfoPlates.lua"/>
+    <Form Name="InfoPlates.xml"/>
+</Addon>

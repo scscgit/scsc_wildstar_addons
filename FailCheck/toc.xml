@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Tavi" APIVersion="10" Name="FailCheck" Description="Records and reports deaths and challenge-related damage." Version="1.1">
+    <Script Name="FailCheck.lua"/>
+    <Form Name="FailCheck.xml"/>
+</Addon>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="hit button" APIVersion="9" Name="ErrorHandler" Description="">
+    <Script Name="ErrorHandler.lua"/>
+    <Form Name="ErrorHandler.xml"/>
+</Addon>

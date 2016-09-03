@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Sprites>
+    <Sprite Name="Frame" Cycle="1">
+        <Frame Texture="KuronaBags\Sprites\SquareFrame.tga" x0="0" x1="2" x2="2" x3="2" x4="62" x5="64" y0="0" y1="2" y2="62" y3="62" y4="62" y5="64" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+</Sprites>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="vetusnox" APIVersion="8" Name="NoSwiping" Description="Highlights items on CX 'Sell-Order' So you aren't an idiot" Version="1.00">
+    <Script Name="lib/GeminiHook-1.0.lua"/>
+    <Script Name="lib/GeminiAddon.lua"/>
+    <Script Name="NoSwiping.lua"/>
+</Addon>

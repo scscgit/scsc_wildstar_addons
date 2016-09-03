@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Potato" APIVersion="12" Name="PotatoResources" Description="" Version="2.3">
+    <Script Name="PotatoResources.lua"/>
+    <Form Name="PotatoResources.xml"/>
+</Addon>

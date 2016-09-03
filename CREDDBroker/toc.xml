@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="SpielePhilosoph" APIVersion="9" Name="CREDDBroker" Description="Helps you to track C.R.E.D.D. prices." Version="0.4">
+    <Script Name="CREDDBroker.lua"/>
+    <Form Name="CREDDBroker.xml"/>
+    <Script Name="PixieHelper.lua"/>
+</Addon>

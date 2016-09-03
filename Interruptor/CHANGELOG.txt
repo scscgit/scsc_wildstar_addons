@@ -1,0 +1,102 @@
+2.8:
+- fixed the vulnerability bar to display the corect progress
+- fixed the toc file to the latest api update 11
+
+2.7:
+-added option to show icon for vulnerable bar
+-added slider for the gap between the Interrupt Armor bars
+-fixed a rare bug that would cause a crash in the config
+
+2.6:
+-added option to show Interrupt Armor only during casts
+
+2.5:
+-replaced the current targeting options with a more clear and more customisable priority system
+-updated GeminiAddon
+-fixed color reset buttons
+
+2.4.3:
+-fixed a bug that would cause the paddings sliders to save as border size
+-new GeminiColor: Hex and RGBA edit boxes! Easily copy/paste colors!
+
+2.4.2:
+-updated to API9
+
+2.4.1:
+-hehe to make it work again
+
+2.4:
+-a LOT more customisation including:
+	-Border Sizing
+	-Border Coloring
+	-Background Coloring
+	-Textures for Borders, Backgrounds, Castbar, Interrupt Armor
+	-Transparency for everything
+	-profiles including predefined ones
+-bug fix: now also tracks neutral targets when in focus mode
+-new custom sound for id:2 old sound is now on 3 (more on this soon)
+
+2.3.2:
+-fixed a bug where alternative targeting wouldn't work after zoning (you can safely run in focus mode now)
+
+2.3.1:
+-french localisation
+-new GeminiColor version
+
+2.3:
+-switched to GeminiColor for built in color picking (this deletes previously set colors once)
+
+2.2:
+-included german localisation (help make the french!)
+
+2.1.1:
+-last polishes
+-added filter to only take hostile npc's as alternative target
+-new GeminiAddon version
+
+2.1:
+-added minimal layout option
+-small pixel adjustments
+-small config fixes
+
+2.0:
+-completely new look
+-change Colors (currently requires ColorPicker installed)
+-small flash if you interrupted
+
+1.1.1:
+-fixed error 255
+-small intern change
+
+1.1:
+-options to hide default castbars added
+-display the interrupt armor you destroyed in red (temporary)
+
+1.0.1:
+-several fixes
+
+1.0:
+-mostly internal changes
+-some improvements to configuration
+
+0.9:
+-highlighting introduced
+
+0.8.1:
+-some internal changes
+-doesn't show castbar for enemys far away anymore if you are not in combat
+-added icon distribution value to configuration
+
+0.8:
+-icons introduced
+
+0.7.1:
+-hotfix for Error 250
+
+0.7:
+-introduced configuration window and targeting options
+
+0.6:
+-fixed bug that would cause coloring of interrupt armor to get messed up
+-fixed bug that would keep old name and cast time when chaincasting
+-added basic moving and scaling system

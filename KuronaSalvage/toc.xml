@@ -1,0 +1,5 @@
+<Addon Name="KuronaSalvage" Author="Carbine / Kurona" APIVersion="13" Version="" Description="Replaces the ImprovedSalvage with a modded version that works with KuronaBags">
+    <Script Name="KuronaSalvage.lua"/>
+    <Form Name="KuronaSalvage.xml"/>
+    <ReplaceAddon Name="ImprovedSalvage"/>
+</Addon>

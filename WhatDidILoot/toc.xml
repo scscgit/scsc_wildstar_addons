@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="CubicleNinja" APIVersion="11" Name="WhatDidILoot" Description="Provides a grid based listing of all the items you&apos;ve looted during the current play session and their total sell value.  Also tracks the amount of money you&apos;ve looted this session" Version="1.3.3">
+    <Script Name="WhatDidILoot.lua"/>
+    <Form Name="WhatDidILoot.xml"/>
+</Addon>

@@ -1,0 +1,27 @@
+<Addon Name="Hephaestus" APIVersion="9" Author="DoctorVanGogh" Version="2" Description="Crafting Enhancements: Crafting queue & multi item crafting">
+    <Script Name="lib/GeminiLogging/inspect.lua" />
+    <Script Name="lib/GeminiLogging/GeminiLogging.lua" />
+	<Script Name="lib/GeminiLocale/GeminiLocale.lua" />
+    <Script Name="lib/CallbackHandler/CallbackHandler-1.0.lua"/>
+    <Script Name="lib/GeminiAddon/GeminiAddon.lua"/>
+    <Script Name="lib/GeminiHook/GeminiHook-1.0.lua"/>
+    <Script Name="lib/GeminiDB/GeminiDB-1.0.lua"/>
+    <Script Name="lib/Loop/base.lua"/>
+    <Script Name="lib/Loop/table.lua"/>
+    <Script Name="lib/Loop/collection/ObjectCache.lua"/>
+    <Script Name="lib/Loop/simple.lua"/>
+    <Script Name="lib/Loop/multiple.lua"/>
+    <Script Name="lib/Loop/collection/OrderedSet.lua"/>
+    <Script Name="lib/Loop/cached.lua"/>
+    <Script Name="lib/Queue/Queue.lua"/>	
+	<Script Name="lib/AddonRegistry/AddonRegistry.lua" />
+	<Script Name="lib/LibApolloFixes/LibApolloFixes-1.0.lua" />
+    <Script Name="localization/enUS.lua"/>
+    <Script Name="localization/deDE.lua"/>
+    <Script Name="localization/frFR.lua"/>
+    <Script Name="CraftUtil.lua"/>
+    <Script Name="CraftQueueItem.lua"/>
+    <Script Name="CraftQueue.lua"/>
+    <Script Name="Hephaestus.lua"/>
+    <Form Name="Hephaestus.xml"/>
+</Addon>

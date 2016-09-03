@@ -1,0 +1,9 @@
+<Addon Author="Celess" Version="60828.0" APIVersion="13" Name="BGChron" Description="Records PvP match history and details.">
+    <Script Name="libs\PixiePlot\PixiePlot.lua"/>
+    <Script Name="BGChron.lua"/>
+    <Script Name="BGChronMatch.lua"/>
+    <Script Name="locales\enUS.lua"/>
+    <Script Name="locales\deDE.lua"/>
+    <Script Name="locales\frFR.lua"/>
+    <Form Name="BGChron.xml"/>
+</Addon>

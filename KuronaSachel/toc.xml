@@ -1,0 +1,5 @@
+<Addon Name="KuronaSachel" Author="Carbine / Kurona" APIVersion="13" Version="" Description="Replaces the Supply Satchel with a modded version that works with KuronaBags">
+    <Script Name="KuronaSachel.lua"/>
+    <Form Name="KuronaSachel.xml"/>
+    <ReplaceAddon Name="SupplySatchel"/>
+</Addon>

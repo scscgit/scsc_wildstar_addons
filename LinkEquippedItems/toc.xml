@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Athica" APIVersion="9" Name="LinkEquippedItems" Description="Adds command /link to link equipped items. e.g. &quot;/link weapon&quot;. Works when character is dead. (Making linking work on equipped items in the user interface seems to be impossible.)" Version="v0.1.0">
+    <Script Name="LinkEquippedItems.lua"/>
+</Addon>

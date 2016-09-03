@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="CubicleNinja" APIVersion="11" Name="GuardMiniMap" Description="MiniMap Replacement:  Square Option, Hide Guards, Special Icons for Prime Hostile and Prime Neutral targets, Unique icons for harvest nodes, Much more" Version="1.34">
+    <Script Name="libs\LibJSON\LibJSON-2.5.lua"/>
+    <Script Name="modules\GuardWaypoints.lua"/>
+    <Script Name="modules\NonMiniMapOptions.lua"/>
+    <Script Name="GuardMiniMap.lua"/>
+    <Form Name="modules\GuardWaypoints.xml"/>
+    <Form Name="GuardMiniMap.xml"/>
+    <ReplaceAddon Name="MiniMap"/>
+</Addon>

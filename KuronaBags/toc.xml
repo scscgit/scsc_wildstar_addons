@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="KuronaSilversky" APIVersion="13" Name="KuronaBags" Description="Bags Bags Bags" Version="1">
+    <Script Name="KuronaBags.lua"/>
+    <Script Name="KuronaBank.lua"/>
+    <Script Name="ItemPreview.lua"/>
+    <Form Name="ItemPreview.xml"/>
+    <Form Name="KuronaBags.xml"/>
+    <ReplaceAddon Name="Inventory"/>
+    <ReplaceAddon Name="ItemPreview"/>
+    <ReplaceAddon Name="ForgeUI_Inventory"/>
+    <ReplaceAddon Name="SpaceStashInventory"/>
+</Addon>

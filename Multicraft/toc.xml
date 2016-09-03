@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Fusspawn" APIVersion="8" Name="Multicraft" Description="Crafts Multiples of an Items. Saves my RSI">
+    <Script Name="Multicraft.lua"/>
+    <Form Name="Multicraft.xml"/>
+</Addon>

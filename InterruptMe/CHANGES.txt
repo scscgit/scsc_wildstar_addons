@@ -1,0 +1,12 @@
+tag 8b9d79e11448f07372010eb9a8c95dfd9ff34879 v0.4.2
+Author:	Christopher Kaster <atomicptr@gmail.com>
+Date:	Thu Jun 9 20:37:23 2016 +0200
+
+update to api version 12
+
+commit 8070acfc200d6e8b6dad567930314fb628732813
+Author: Christopher Kaster <atomicptr@gmail.com>
+Date:   Thu Jun 9 20:33:57 2016 +0200
+
+    update to api version 12
+

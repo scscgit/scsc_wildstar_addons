@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<Forms>
+    <Form Class="Window" LAnchorPoint="0" LAnchorOffset="4" TAnchorPoint="1" TAnchorOffset="-84" RAnchorPoint="0" RAnchorOffset="134" BAnchorPoint="1" BAnchorOffset="-44" RelativeToClient="1" Font="Default" Text="" BGColor="UI_WindowBGDefault" TextColor="UI_WindowTextDefault" Template="Default" TooltipType="OnCursor" Name="MainForm" Border="0" Picture="0" SwallowMouseClicks="1" Moveable="0" Escapable="0" Overlapped="1" IgnoreMouse="1" TooltipColor="" Tooltip="">
+        <Control Class="Window" LAnchorPoint="0" LAnchorOffset="0" TAnchorPoint="0.5" TAnchorOffset="-12" RAnchorPoint="0" RAnchorOffset="24" BAnchorPoint="0.5" BAnchorOffset="12" RelativeToClient="1" Font="Default" Text="" BGColor="UI_WindowBGDefault" TextColor="UI_WindowTextDefault" Template="Default" TooltipType="OnCursor" Name="OrbContainer" TooltipColor="">
+            <Control Class="Window" LAnchorPoint="0" LAnchorOffset="0" TAnchorPoint="0" TAnchorOffset="0" RAnchorPoint="1" RAnchorOffset="0" BAnchorPoint="1" BAnchorOffset="0" RelativeToClient="1" Font="Default" Text="" BGColor="ff00ff00" TextColor="UI_WindowTextDefault" Template="Default" TooltipType="OnCursor" Name="Orb" TooltipColor="" Picture="1" IgnoreMouse="1" Sprite="VLM:Orb"/>
+            <Control Class="Window" LAnchorPoint="0" LAnchorOffset="0" TAnchorPoint="0" TAnchorOffset="0" RAnchorPoint="1" RAnchorOffset="0" BAnchorPoint="1" BAnchorOffset="0" RelativeToClient="1" Font="Default" Text="" BGColor="dfffffff" TextColor="UI_WindowTextDefault" Template="Default" TooltipType="OnCursor" Name="Highlight" TooltipColor="" Sprite="VLM:OrbHighlight" Picture="1" IgnoreMouse="1"/>
+        </Control>
+        <Event Name="WindowMove" Function="OnMainWindowMove"/>
+        <Control Class="Window" LAnchorPoint="0" LAnchorOffset="26" TAnchorPoint="0" TAnchorOffset="0" RAnchorPoint="1" RAnchorOffset="0" BAnchorPoint="1" BAnchorOffset="0" RelativeToClient="1" Font="CRB_Header9_O" Text="" BGColor="UI_WindowBGDefault" TextColor="UI_WindowTextDefault" Template="Default" TooltipType="OnCursor" Name="TextContainer" TooltipColor="" DT_CENTER="0" DT_BOTTOM="0" DT_VCENTER="1" TextId="">
+            <Control Class="MLWindow" LAnchorPoint="0" LAnchorOffset="0" TAnchorPoint="0" TAnchorOffset="12" RAnchorPoint="1" RAnchorOffset="110" BAnchorPoint="1" BAnchorOffset="10" RelativeToClient="1" Font="CRB_Header9_O" Text="274 / 642 ms" BGColor="UI_WindowBGDefault" TextColor="UI_WindowTextDefault" Template="Default" TooltipType="OnCursor" Name="Text" TooltipColor="" TextId="" DT_VCENTER="1" DT_SINGLELINE="1" IgnoreMouse="1" NoClip="1" AutoScaleTextOff="1" DT_RIGHT="0" Tooltip="" DT_CENTER="0"/>
+        </Control>
+    </Form>
+    <SpriteFile Name="VLM.xml"/>
+</Forms>

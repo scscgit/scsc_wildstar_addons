@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Daorven" APIVersion="13" Name="Gear" Description="&apos;Equipment Manager&apos;." Version="2.4.1">
+    <!-- Libraries -->
+    <Script Name="libs\ApolloFixes-1.0\ApolloFixes-1.0.lua"/>
+    <Script Name="libs\GeminiLocale-1.0\GeminiLocale.lua"/>
+    <Script Name="libs\GeminiHook-1.0\GeminiHook-1.0.lua"/>
+    <Script Name="libs\LibGear-1.0\LibGear-1.0.lua"/>
+    <!-- Localization -->
+    <Script Name="locale\enUS.lua"/>
+    <Script Name="locale\deDE.lua"/>
+    <Script Name="locale\frFR.lua"/>
+    <!-- Addon -->
+    <Script Name="Gear.lua"/>
+    <Form Name="Gear.xml"/>
+</Addon>

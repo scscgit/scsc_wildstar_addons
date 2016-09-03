@@ -1,0 +1,5 @@
+<Addon Name="DungeonMedalsEnhanced" Version="1.1" Author="GreenyNeko" APIVersion="11" Description="Shows the points you get for silver time, deathless and rest time to silver time.">
+    <Script Name="DungeonMedalsEnhanced.lua"/>
+    <Form Name="DungeonMedalsEnhanced.xml"/>
+    <ReplaceAddon Name="DungeonMedals"/>
+</Addon>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Quickblink" APIVersion="11" Name="Interruptor" Description="Enemy Castbar and Interrupt Armor" Version="2.8">
+    <Script Name="Libs/GeminiAddon.lua"/>
+    <Script Name="Libs/GeminiLocale.lua"/>
+    <Script Name="Libs/enUS.lua"/>
+    <Script Name="Libs/deDE.lua"/>
+    <Script Name="Libs/frFR.lua"/>
+    <Script Name="Libs/GeminiColor/GeminiColor.lua"/>
+    <Form Name="Libs/GeminiColor/GeminiColor.xml"/>
+    <Script Name="Libs/CallbackHandler-1.0.lua"/>
+    <Script Name="Libs/GeminiDB-1.0.lua"/>
+    <Script Name="Interruptor.lua"/>
+    <Form Name="Interruptor.xml"/>
+    <Script Name="Style/BorderTextures.lua"/>
+    <Script Name="Style/RegularTextures.lua"/>
+    <Script Name="Style/CarbineTextures.lua"/>
+    <Script Name="Style/Profiles.lua"/>
+</Addon>

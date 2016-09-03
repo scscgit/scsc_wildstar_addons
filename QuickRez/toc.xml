@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Allie" APIVersion="9" Name="QuickRez" Description="">
+    <Script Name="QuickRez.lua"/>
+    <Form Name="QuickRez.xml"/>
+</Addon>

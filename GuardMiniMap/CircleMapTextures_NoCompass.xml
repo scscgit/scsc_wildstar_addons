@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Sprites>
+  <Sprite Name="MiniMapCompassOverlay" Cycle="1">
+    <Frame Texture="&lt; No Texture Selected &gt;" x0="0" x1="0" x2="204" x3="204" x4="204" x5="204" y0="0" y1="0" y2="204" y3="204" y4="204" y5="204" Stretchy="1" HotspotX="103" HotspotY="103" Duration="1.000" StartColor="ffffffff" EndColor="ffffffff"/>
+  </Sprite>
+  <Sprite Name="MiniMapCompassOverlayB" Cycle="1">
+    <Frame Texture="&lt; No Texture Selected &gt;" x0="0" x1="0" x2="264" x3="264" x4="264" x5="264" y0="0" y1="0" y2="257" y3="257" y4="257" y5="257" Stretchy="1" HotspotX="132" HotspotY="129" Duration="1.000" StartColor="ffffffff" EndColor="ffffffff"/>
+  </Sprite>
+</Sprites>

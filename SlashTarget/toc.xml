@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="daihenka" APIVersion="7" Name="SlashTarget" Description="Adding /target and /targetexact functionality" Version="0.3">
+    <Script Name="SlashTarget.lua"/>
+</Addon>

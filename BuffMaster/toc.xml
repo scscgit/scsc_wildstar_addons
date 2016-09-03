@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Caedo" APIVersion="9" Name="BuffMaster" Description="Replacement, configurable buff bars" Version="0.3.2">
+    <Script Name="ColorPicker.lua"/>
+    <Script Name="DisplayBar.lua"/>
+    <Script Name="DisplayBlock.lua"/>
+    <Script Name="BuffMaster.lua"/>
+    <Sprites Name="BarTextures.xml"/>
+    <Form Name="BuffMaster.xml"/>
+</Addon>

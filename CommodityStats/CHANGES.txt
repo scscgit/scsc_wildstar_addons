@@ -1,0 +1,8 @@
+Changes since tag v2.1
+
+commit 09412566a5d7df8825b2b5d3c465245cacd495c4
+Author: Jimmy Van Hecke <jimmy@boe2.be>
+Date:   Mon Apr 4 22:18:56 2016 +0200
+
+    Make compatible with API V12
+

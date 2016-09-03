@@ -1,0 +1,5 @@
+www<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Dullone" APIVersion="11" Name="CheatSimon" Description="Cheat the memory game!" Version="">
+    <Script Name="CheatSimon.lua"/>
+    <Form Name="CheatSimon.xml"/>
+</Addon>

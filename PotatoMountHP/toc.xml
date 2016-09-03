@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Potato" APIVersion="12" Name="PotatoMountHP" Description="Creates a mount healthbar for PotatoUI.">
+    <Script Name="MountHPDefaults.lua"/>
+    <Script Name="PotatoMountHP.lua"/>
+    <Form Name="PotatoMountHP.xml"/>
+</Addon>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Sprites>
+	<Sprite Name="VeryHappy" Cycle="1">
+		<Frame Texture="WildStarInstantMessenger\Sprites\Emoticons\VeryHappy.png"  x0="0" x1="0" x2="20" x3="20" x4="20" x5="20" y0="0" y1="0" y2="20" y3="20" y4="20" y5="20" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="ffffffff" EndColor="ffffffff"/>
+    </Sprite>
+	<Sprite Name="Bored" Cycle="1">
+		<Frame Texture="WildStarInstantMessenger\Sprites\Emoticons\Bored.png"  x0="0" x1="0" x2="20" x3="20" x4="20" x5="20" y0="0" y1="0" y2="20" y3="20" y4="20" y5="20" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="ffffffff" EndColor="ffffffff"/>
+    </Sprite>
+	<Sprite Name="Crying" Cycle="1">
+		<Frame Texture="WildStarInstantMessenger\Sprites\Emoticons\Crying.png"  x0="0" x1="0" x2="20" x3="20" x4="20" x5="20" y0="0" y1="0" y2="20" y3="20" y4="20" y5="20" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="ffffffff" EndColor="ffffffff"/>
+    </Sprite>
+	<Sprite Name="Disappointed" Cycle="1">
+		<Frame Texture="WildStarInstantMessenger\Sprites\Emoticons\Disappointed.png"  x0="0" x1="0" x2="20" x3="20" x4="20" x5="20" y0="0" y1="0" y2="20" y3="20" y4="20" y5="20" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="ffffffff" EndColor="ffffffff"/>
+    </Sprite>
+	<Sprite Name="Doh" Cycle="1">
+		<Frame Texture="WildStarInstantMessenger\Sprites\Emoticons\Doh.png"  x0="0" x1="0" x2="20" x3="20" x4="20" x5="20" y0="0" y1="0" y2="20" y3="20" y4="20" y5="20" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="ffffffff" EndColor="ffffffff"/>
+    </Sprite>
+	<Sprite Name="Nyan" Cycle="1">
+		<Frame Texture="WildStarInstantMessenger\Sprites\Emoticons\Nyan.png"  x0="0" x1="0" x2="20" x3="20" x4="20" x5="20" y0="0" y1="0" y2="20" y3="20" y4="20" y5="20" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="ffffffff" EndColor="ffffffff"/>
+    </Sprite>
+	<Sprite Name="Sad" Cycle="1">
+		<Frame Texture="WildStarInstantMessenger\Sprites\Emoticons\Sad.png"  x0="0" x1="0" x2="20" x3="20" x4="20" x5="20" y0="0" y1="0" y2="20" y3="20" y4="20" y5="20" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="ffffffff" EndColor="ffffffff"/>
+    </Sprite>
+	<Sprite Name="Shocked" Cycle="1">
+		<Frame Texture="WildStarInstantMessenger\Sprites\Emoticons\Shocked.png"  x0="0" x1="0" x2="20" x3="20" x4="20" x5="20" y0="0" y1="0" y2="20" y3="20" y4="20" y5="20" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="ffffffff" EndColor="ffffffff"/>
+    </Sprite>
+	<Sprite Name="Sick" Cycle="1">
+		<Frame Texture="WildStarInstantMessenger\Sprites\Emoticons\Sick.png"  x0="0" x1="0" x2="20" x3="20" x4="20" x5="20" y0="0" y1="0" y2="20" y3="20" y4="20" y5="20" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="ffffffff" EndColor="ffffffff"/>
+    </Sprite>
+	<Sprite Name="Smile" Cycle="1">
+		<Frame Texture="WildStarInstantMessenger\Sprites\Emoticons\Smile.png"  x0="0" x1="0" x2="20" x3="20" x4="20" x5="20" y0="0" y1="0" y2="20" y3="20" y4="20" y5="20" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="ffffffff" EndColor="ffffffff"/>
+    </Sprite>
+	<Sprite Name="Tired" Cycle="1">
+		<Frame Texture="WildStarInstantMessenger\Sprites\Emoticons\Tired.png"  x0="0" x1="0" x2="20" x3="20" x4="20" x5="20" y0="0" y1="0" y2="20" y3="20" y4="20" y5="20" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="ffffffff" EndColor="ffffffff"/>
+    </Sprite>
+	<Sprite Name="Wink" Cycle="1">
+		<Frame Texture="WildStarInstantMessenger\Sprites\Emoticons\Wink.png"  x0="0" x1="0" x2="20" x3="20" x4="20" x5="20" y0="0" y1="0" y2="20" y3="20" y4="20" y5="20" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="ffffffff" EndColor="ffffffff"/>
+    </Sprite>
+</Sprites>

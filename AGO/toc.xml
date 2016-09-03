@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="LayA" APIVersion="11" Name="AGO" Description="Gui for finer adjustment of the render target option" Version="">
+    <Script Name="AGO.lua"/>
+    <Form Name="AGO.xml"/>
+</Addon>

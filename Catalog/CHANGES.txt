@@ -1,0 +1,10 @@
+lightweight tag 23a3c9b33d88f4a146ae481cad6a9e19e722f79e 1.1.5
+Author:	Thomas Lokshall <thomas@lokshall.no>
+Date:	Tue Oct 28 09:19:07 2014 +0100
+
+commit 23a3c9b33d88f4a146ae481cad6a9e19e722f79e
+Author: Thomas Lokshall <thomas@lokshall.no>
+Date:   Tue Oct 28 09:19:07 2014 +0100
+
+    Database updated
+

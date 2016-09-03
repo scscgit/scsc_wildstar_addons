@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Potato" APIVersion="12" Name="PotatoInterrupt" Description="">
+    <Script Name="InterruptDefaults.lua"/>
+    <Script Name="PotatoInterrupt.lua"/>
+    <Form Name="PotatoInterrupt.xml"/>
+</Addon>

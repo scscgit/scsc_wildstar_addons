@@ -1,0 +1,6 @@
+<Addon Name="BetterQuestLog" Author="buddyp450" APIVersion="10" Version="1.3.11" Description="Minimalist quest log replacement for wildstar's questlog">
+	<Script Name="Libs/LibJSON/LibJSON-2.5.lua"/>
+    <Script Name="BetterQuestLog.lua"/>
+    <Form Name="BetterQuestLog.xml"/>
+    <ReplaceAddon Name="QuestLog"/>
+</Addon>

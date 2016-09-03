@@ -1,0 +1,10 @@
+lightweight tag 18afa6895c982394285835f96b848c05b908305d v1.0.2
+Author:	Twinkie <caos81@live.it>
+Date:	Sun Jan 10 16:59:05 2016 +0100
+
+commit 18afa6895c982394285835f96b848c05b908305d
+Author: Twinkie <caos81@live.it>
+Date:   Sun Jan 10 16:59:05 2016 +0100
+
+    Changed version
+

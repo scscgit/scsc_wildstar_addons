@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="BlazzBolt" APIVersion="9" Name="ResurrectHereConfirmation" Description="Adds a confirmation dialogue to the &quot;Resurrect Here&quot; button">
+    <Script Name="ResurrectHereConfirmation.lua"/>
+    <Form Name="ResurrectHereConfirmation.xml"/>
+</Addon>

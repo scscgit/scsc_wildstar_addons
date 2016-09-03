@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Kekz" APIVersion="9" Name="AchievementTooltips" Description="Show tooltips on recently updated achievements.">
+	<Script Name="AchievementTooltips.lua"/>
+	<Script Name="LibApolloFixes/LibApolloFixes-1.0.lua"/>
+</Addon>
