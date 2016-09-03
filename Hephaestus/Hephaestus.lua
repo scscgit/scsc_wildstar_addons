@@ -429,18 +429,21 @@ function Hephaestus:DrawSchematic(luaCaller, tSchematic)
 	local wndMaterials = wndSchem:FindChild("MaterialsScroll")
 	
 	wndMaterials:DestroyChildren()
-	for key, tMaterial in pairs(tSchematicInfo.tMaterials) do
-		if tMaterial.nAmount > 0 then
-			local wndMaterial = Apollo.LoadForm(self.xmlDoc, "MaterialsItem", wndMaterials, self)
-			local nBackpackCount = tMaterial.itemMaterial:GetBackpackCount()
-			wndMaterial:FindChild("MaterialsIcon"):SetSprite(tMaterial.itemMaterial:GetIcon())
-			wndMaterial:FindChild("MaterialsName"):SetText(tMaterial.itemMaterial:GetName())
-			wndMaterial:FindChild("MaterialsIcon"):SetText(String_GetWeaselString(Apollo.GetString("Achievements_ProgressBarProgress"), nBackpackCount, tMaterial.nAmount))
-			wndMaterial:FindChild("MaterialsIconNotEnough"):Show(nBackpackCount < tMaterial.nAmount)
-			luaCaller:HelperBuildItemTooltip(wndMaterial, tMaterial.itemMaterial)
 
-			nNumCraftable = math.min(nNumCraftable, math.floor(nBackpackCount / tMaterial.nAmount))
-			bHaveEnoughMats = bHaveEnoughMats and nBackpackCount >= tMaterial.nAmount
+	-- scsc: tMaterials changed to arMaterials, property nAmount changed to nNeeded
+	SendVarToRover("schema", tSchematicInfo, 0)
+	for key, arMaterial in pairs(tSchematicInfo.arMaterials) do
+		if arMaterial.nNeeded  > 0 then
+			local wndMaterial = Apollo.LoadForm(self.xmlDoc, "MaterialsItem", wndMaterials, self)
+			local nBackpackCount = arMaterial.itemMaterial:GetBackpackCount()
+			wndMaterial:FindChild("MaterialsIcon"):SetSprite(arMaterial.itemMaterial:GetIcon())
+			wndMaterial:FindChild("MaterialsName"):SetText(arMaterial.itemMaterial:GetName())
+			wndMaterial:FindChild("MaterialsIcon"):SetText(String_GetWeaselString(Apollo.GetString("Achievements_ProgressBarProgress"), nBackpackCount, arMaterial.nNeeded))
+			wndMaterial:FindChild("MaterialsIconNotEnough"):Show(nBackpackCount < arMaterial.nNeeded)
+			luaCaller:HelperBuildItemTooltip(wndMaterial, arMaterial.itemMaterial)
+
+			nNumCraftable = math.min(nNumCraftable, math.floor(nBackpackCount / arMaterial.nNeeded))
+			bHaveEnoughMats = bHaveEnoughMats and nBackpackCount >= arMaterial.nNeeded
 		end
 	end
 

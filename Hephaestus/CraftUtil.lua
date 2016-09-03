@@ -54,11 +54,12 @@ function CraftUtil:GetMaxCraftableForSchematic(tSchematicInfo)
 
 	local nNumCraftable = 9000
 	
-	for key, tMaterial in pairs(tSchematicInfo.tMaterials) do
-		if tMaterial.nAmount > 0 then			
-			local nBackpackCount = tMaterial.itemMaterial:GetBackpackCount()
+	-- scsc: tMaterials changed to arMaterials, property nAmount changed to nNeeded
+	for key, arMaterial in pairs(tSchematicInfo.arMaterials) do
+		if arMaterial.nNeeded > 0 then
+			local nBackpackCount = arMaterial.itemMaterial:GetBackpackCount()
 
-			nNumCraftable = math.min(nNumCraftable, math.floor(nBackpackCount / tMaterial.nAmount))
+			nNumCraftable = math.min(nNumCraftable, math.floor(nBackpackCount / arMaterial.nNeeded))
 		end
 	end
 
