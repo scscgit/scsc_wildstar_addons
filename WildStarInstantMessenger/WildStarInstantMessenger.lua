@@ -167,7 +167,7 @@ function WildStarInstantMessenger:OnDocLoaded()
 			[ChatSystemLib.ChatChannel_Instance] 		= ApolloColor.new("ChatParty"),
 			[ChatSystemLib.ChatChannel_WarParty] 		= ApolloColor.new("ChatWarParty"),
 			[ChatSystemLib.ChatChannel_WarPartyOfficer] = ApolloColor.new("ChatWarPartyOfficer"),
-			[ChatSystemLib.ChatChannel_Advice] 			= ApolloColor.new("ChatAdvice"),
+			--removed scsc [ChatSystemLib.ChatChannel_Advice] 			= ApolloColor.new("ChatAdvice"),
 			[ChatSystemLib.ChatChannel_AccountWhisper]	= ApolloColor.new("ChatAccountWisper"),
 		}
 		
@@ -185,7 +185,7 @@ function WildStarInstantMessenger:OnDocLoaded()
 			[ChatSystemLib.ChatChannel_Instance] 		= "Instance",
 			[ChatSystemLib.ChatChannel_WarParty] 		= "WarParty",
 			--[ChatSystemLib.ChatChannel_WarPartyOfficer] = "WarPartyOfficer",
-			[ChatSystemLib.ChatChannel_Advice] 			= "Advice",
+			--removed scsc [ChatSystemLib.ChatChannel_Advice] 			= "Advice",
 			[ChatSystemLib.ChatChannel_AccountWhisper]	= "Account Whisper",
 			--Custom
 			[40] 			= "Chat History",
@@ -844,7 +844,12 @@ function WildStarInstantMessenger:AddToChatLog(self, strSender, saveText, strDat
 		end
 	end
 	
-	table.insert(self.db.char.tChatLog[strSender][strDate], saveText)
+	-- scsc: for some reason it can be nil and thus does errors, so we exclude it
+	local a = self.db.char.tChatLog[strSender][strDate];
+	local b = saveText;
+	if a and b then
+		table.insert(a, b)
+	end
 	
 	--This comes to a max of 25 per a date with a max of 5 dates per a person (125 total lines) :/
 	--	I wanted to try 25 total but how would you figure out where to remove a line?

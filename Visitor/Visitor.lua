@@ -85,9 +85,15 @@ function Visitor:OnLoad()
                 local wndNew = wndButtonList:FindChildByUserData(tObject)
                 if not wndNew then
                     wndNew = Apollo.LoadForm(self.contextMenu.xmlDoc, "BtnRegular", wndButtonList, self.contextMenu)
-                    wndNew:SetData("BtnVisitorButtonHome")
+                    -- scsc wndNew is null
+                    if wndNew then
+                        wndNew:SetData("BtnVisitorButtonHome")
+                    end
                 end
-                wndNew:FindChild("BtnText"):SetText("Visit Home")
+                -- scsc wndNew is null
+                if wndNew then
+                    wndNew:FindChild("BtnText"):SetText("Visit Home")
+                end
             end
         end
         oldRedrawAll(context)

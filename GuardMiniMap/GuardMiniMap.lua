@@ -798,7 +798,35 @@ function GuardMiniMap:OnDocumentReady()
 	self:UpdateRapidTransportBtn()
 	self:OnOptionsUpdated()
 	self:OnWindowManagementReady()
-	self.wndMain:FindChild("RapidTransportBtnOverlay"):Show(false)
+
+	-- scsc: buttons always shown
+	if self.bSquareMap then
+		local tDispSize = Apollo.GetDisplaySize()
+		local dispWidth = tDispSize["nWidth"]
+		local dispHeight = tDispSize["nHeight"]
+		local x,y = self.wndMain:GetPos()
+		local tButtonsLocation = self.wndMain:FindChild("ButtonContainer"):GetLocation():ToTable()
+		if y > dispHeight / 2.5 then
+			self.wndMain:FindChild("ButtonContainer"):SetAnchorPoints(tButtonsLocation.fPoints[1], 0, tButtonsLocation.fPoints[3], 0)
+			self.wndMain:FindChild("ButtonContainer"):SetAnchorOffsets(tButtonsLocation.nOffsets[1], -15, tButtonsLocation.nOffsets[3], 25)
+		else
+			self.wndMain:FindChild("ButtonContainer"):SetAnchorPoints(tButtonsLocation.fPoints[1], 1, tButtonsLocation.fPoints[3], 1)
+			self.wndMain:FindChild("ButtonContainer"):SetAnchorOffsets(tButtonsLocation.nOffsets[1], -25, tButtonsLocation.nOffsets[3], 15)
+		end
+	end
+
+	self.wndMain:FindChild("ZoomInButton"):Show(true)
+	self.wndMain:FindChild("ZoomOutButton"):Show(true)
+	self.wndMain:FindChild("MapToggleBtn"):Show(true)
+	self.wndMain:FindChild("MapMenuButton"):Show(true)
+
+	if self.bOnArkship == nil or self.bOnArkship == false then
+		self.wndMain:FindChild("RapidTransportBtnOverlay"):Show(true)
+	end
+
+	if self.wndMain:FindChild("MiniMapResizeArtForPixie") then
+		self.wndMain:FindChild("MiniMapResizeArtForPixie"):Show(true)
+	end
 end
 
 function GuardMiniMap:OnCharacterCreated()
@@ -2454,34 +2482,36 @@ function GuardMiniMap:OnMiniMapMouseEnter(wndHandler, wndControl)
 			self.wndMain:FindChild("ButtonContainer"):SetAnchorOffsets(tButtonsLocation.nOffsets[1], -25, tButtonsLocation.nOffsets[3], 15)
 		end
 	end
-	
+
 	self.wndMain:FindChild("ZoomInButton"):Show(true)
 	self.wndMain:FindChild("ZoomOutButton"):Show(true)
 	self.wndMain:FindChild("MapToggleBtn"):Show(true)
 	self.wndMain:FindChild("MapMenuButton"):Show(true)
-	
+
 	if self.bOnArkship == nil or self.bOnArkship == false then
 		self.wndMain:FindChild("RapidTransportBtnOverlay"):Show(true)
 	end
-	
+
 	if self.wndMain:FindChild("MiniMapResizeArtForPixie") then
 		self.wndMain:FindChild("MiniMapResizeArtForPixie"):Show(true)
 	end
 end
 
 function GuardMiniMap:OnMiniMapMouseExit(wndHandler, wndControl)
-	if wndHandler ~= wndControl then
-		return
-	end
-	self.wndMain:FindChild("ZoomInButton"):Show(false)
-	self.wndMain:FindChild("ZoomOutButton"):Show(false)
-	self.wndMain:FindChild("MapToggleBtn"):Show(false)
-	self.wndMain:FindChild("MapMenuButton"):Show(false)	
-	self.wndMain:FindChild("RapidTransportBtnOverlay"):Show(false)
-	
-	if self.wndMain:FindChild("MiniMapResizeArtForPixie") then
-		self.wndMain:FindChild("MiniMapResizeArtForPixie"):Show(false)
-	end
+	-- scsc: always show buttons
+
+	--if wndHandler ~= wndControl then
+	--	return
+	--end
+	--self.wndMain:FindChild("ZoomInButton"):Show(false)
+	--self.wndMain:FindChild("ZoomOutButton"):Show(false)
+	--self.wndMain:FindChild("MapToggleBtn"):Show(false)
+	--self.wndMain:FindChild("MapMenuButton"):Show(false)
+	--self.wndMain:FindChild("RapidTransportBtnOverlay"):Show(false)
+	--
+	--if self.wndMain:FindChild("MiniMapResizeArtForPixie") then
+	--	self.wndMain:FindChild("MiniMapResizeArtForPixie"):Show(false)
+	--end
 end
 
 ---------------------------------------------------------------------------------------------------

@@ -297,6 +297,11 @@ function EZAuction:UpdatePrice(tAuctionWindow, nBidPrice, nBuyoutPrice, isOwnBid
 	local tBuyoutInput = tAuctionWindow:FindChild("SellContainer:SellRightSide:CreateOrderContainer:CreateBuyoutInputBG:CreateBuyoutInputBox")
 	local nNewBuyoutPrice = self:CalculatePrice(nBuyoutPrice, true, self.SaveData.config.BuyoutUndercutByPercent, isOwnBuyout)
 	
+	-- scsc: fixing nil error
+	if tBuyoutInput == nil then
+		return
+	end
+
 	local wndSellOrderBtn = tAuctionWindow:FindChild("SellContainer"):FindChild("CreateSellOrderBtn")
 	local itemMerchendice = wndSellOrderBtn:GetData()
 	

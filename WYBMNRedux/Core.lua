@@ -230,9 +230,17 @@ do
 	end
 end
 
+function Addon:zeplot()
+	local a = HousingLib.GetResidence()
+	if a then
+		return a:GetPlotCount();
+	end
+	return 0;
+end
+
 function Addon:OnPlotsReceived()
 -- this event fires twice for some reason: the 1st time GetPlotCount() returns 0, the plots are NOT loaded, the 2nd time everything is in order
-	if not HousingLib.IsHousingWorld() or HousingLib.GetResidence():GetPlotCount() == 0 then return end
+	if not HousingLib.IsHousingWorld() or Addon:zeplot() == 0 then return end
 
 	if HousingLib.IsOnMyResidence() then
 		self:UpdateOwnData()

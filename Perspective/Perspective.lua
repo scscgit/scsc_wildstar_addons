@@ -1332,7 +1332,7 @@ function Perspective:MarkersInit()
     -- Destroy any current makers
     self.markers = {}
 
-    local episodes = PlayerPathLib:GetPathEpisodeForZone()
+    local episodes = PlayerPathLib.GetPathEpisodeForZone()
 
     if episodes then
         for _, mission in pairs(episodes:GetMissions()) do

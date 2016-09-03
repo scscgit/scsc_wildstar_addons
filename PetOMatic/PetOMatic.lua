@@ -136,7 +136,7 @@ end
 -- PetOMatic OnDocLoaded Function
 -----------------------------------------------------------------------------------------------
 function PetOMatic:OnDocLoaded()
-	self:PrintMsg(string.format("Version %s loaded", tostring(kVersion_POM)), true)
+	-- scsc remove startup msg self:PrintMsg(string.format("Version %s loaded", tostring(kVersion_POM)), true)
 	
 	self.wndPetFlyout = Apollo.LoadForm(self.xmlDoc, "PetFlyout", "FixedHudStratumLow", self)
 	self.wndPetFlyoutFrame  = Apollo.LoadForm(self.xmlDoc, "PetFlyoutFrame", nil, self)

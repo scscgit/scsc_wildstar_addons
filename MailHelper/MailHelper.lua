@@ -90,7 +90,7 @@ function MailHelper:OnEnable()
 	    -- TODO: Load with a hook
 	
 	    -- Get Char name and save it to people.alts
-	    self.charName = GameLib:GetAccountRealmCharacter().strCharacter
+	    self.charName = GameLib.GetPlayerCharacterName().strCharacter
 
 	    self:PostHook(self.mailAddon , "ComposeMail", "SetupAltContainer" )
 		self:PostHook(self.mailAddon , "OnDocumentReady", "SetupMailWindow")
