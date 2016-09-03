@@ -1,0 +1,1 @@
+SchTasks /Create /SC HOURLY /TN "Git Pull WildStar Addons" /TR "%cd%\Pull_from_Git.bat"
