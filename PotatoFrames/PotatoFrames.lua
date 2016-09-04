@@ -950,15 +950,20 @@ end
 
 --START Pet Functions--
 function PotatoFrames:LoadPetsIntoFrames(unitExtraPet)
-	
+
 	local tPets = GameLib.GetPlayerPets()
 	if unitExtraPet then
 		table.insert(tPets, unitExtraPet)
 	end
-	
+
 	--Print("We has pets? "..#tPets)
-	
+
 	for idx, unitPet in pairs(tPets) do
+		-- scsc: skip non-combat pets; I found Health to be the most reliable factor to decide it by
+		if unitPet:GetHealth() == nil then
+			return
+		end
+
 		if idx < 3 then
 			--Print("Loading ".. unitPet:GetName())
 			
