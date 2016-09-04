@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Zulunko" APIVersion="9" Name="ZThreat" Description="Shows your percentage of threat. The number is red if you have threat and green if you don&apos;t have threat.">
+    <Script Name="ZThreat.lua"/>
+    <Form Name="ZThreat.xml"/>
+</Addon>

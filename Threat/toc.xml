@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Zhevron" APIVersion="13" Name="Threat" Description="A threat meter. Use it.">
+  <!-- Libs -->
+  <Script Name="Libs/CallbackHandler/CallbackHandler-1.0.lua"/>
+  <Script Name="Libs/GeminiAddon/GeminiAddon.lua"/>
+  <Script Name="Libs/GeminiColor/GeminiColor.lua"/>
+  <Script Name="Libs/GeminiDB/GeminiDB-1.0.lua"/>
+
+  <!-- Main -->
+  <Script Name="Threat.lua"/>
+
+  <!-- Modules -->
+  <Script Name="Modules/Main.lua"/>
+  <Script Name="Modules/Settings.lua"/>
+  <Script Name="Modules/List.lua"/>
+  <Script Name="Modules/Notify.lua"/>
+  <Script Name="Modules/Mini.lua"/>
+
+  <!-- Forms -->
+  <Form Name="Forms/List.xml"/>
+  <Form Name="Forms/Notify.xml"/>
+  <Form Name="Forms/Settings.xml"/>
+</Addon>
