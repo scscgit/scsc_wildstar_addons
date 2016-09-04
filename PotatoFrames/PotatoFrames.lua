@@ -960,11 +960,7 @@ function PotatoFrames:LoadPetsIntoFrames(unitExtraPet)
 
 	for idx, unitPet in pairs(tPets) do
 		-- scsc: skip non-combat pets; I found Health to be the most reliable factor to decide it by
-		if unitPet:GetHealth() == nil then
-			return
-		end
-
-		if idx < 3 then
+		if idx < 3 and unitPet:GetHealth() then
 			--Print("Loading ".. unitPet:GetName())
 			
 			local tData = self.tFrames[5+(idx-1)].window:GetData()
