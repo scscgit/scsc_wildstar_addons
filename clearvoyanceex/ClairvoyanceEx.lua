@@ -165,7 +165,7 @@ function ClairvoyanceEx:OnCCRemove(code, userdata)
 			self.wndWeaponIndicator:Show(false)
 		end
 		if code == Unit.CodeEnumCCState.Disorient then
-			GameLib.SetKeyBindings(self.originalKeybindings)
+			GameLib:SetKeyBindings(self.originalKeybindings)
 			self.lastLocation = nil
 			self.wndDisorient:Show(false)
 			self.wndDisorient:FindChild("forwardButton"):DestroyAllPixies()
