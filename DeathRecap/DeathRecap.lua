@@ -62,7 +62,7 @@ end
 function DeathRecap:OpenDR()
 	self:Calculate()
 	self.wndMain:Show(true, true)
-	self.closeTimer = 15
+	self.closeTimer = 4
 	self.wndMain:FindChild("closeTimer"):Show(true, true)
 	self.wndMain:FindChild("Title"):SetText("                                           Death Recap")
 end

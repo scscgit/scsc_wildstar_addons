@@ -447,7 +447,6 @@ function WrapOnAchievementNotice(ftpSelf, strAch)
 	local found = false
 
 	-- scsc: Changing the finding regex to "Anything: Text" matching "Text"
-	SendVarToRover("strAch in AchievementTooltips:WrapOnAchievementNotice()", strAch , 0)
 	--local i1, i2 = string.find(strAch, "\".*\"")
 	local i1, i2 = string.find(strAch, ": .*")
 	--local strName = string.sub(strAch, i1+1, i2-1)

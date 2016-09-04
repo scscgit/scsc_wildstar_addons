@@ -118,14 +118,16 @@ function Tankie:onTankieFocusWatch()
 	if uMyHealer == nil then
 		self.wndMain:FindChild("wndDisplay"):Show(false, false, 2)
 		self.wndMain:FindChild("wndResetHealer"):Show(true, false, 2)
-	elseif uMyHealer:GetMana() == nil then
+	else
+	SendVarToRover("uMyHealer tankie", uMyHealer, 0)
+	--[[elseif uMyHealer:GetMana() == nil then
 	else																															
 		self.wndMain:FindChild("strHealerName"):SetText(uMyHealer:GetName())
 		self.wndMain:FindChild("pFocus"):SetMax(1000)
 		self.wndMain:FindChild("pFocus"):SetProgress(uMyHealer:GetMana())
 		if uMyHealer:GetMana() <= tSettings["nLowFocus"] then
 			self:SoundOffFocus()
-		end
+		end--]]
 	end
 end
 

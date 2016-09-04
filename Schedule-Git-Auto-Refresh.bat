@@ -9,7 +9,7 @@ echo Set s = CreateObject("WScript.Shell"^)
 
 echo s.CurrentDirectory = "%cur%\..\"
 echo s.Run "cmd.exe /c git -C Addons fetch origin master", 0
-echo s.Run "cmd.exe /c git -C Addons reset --hard origin/master", 0
+echo s.Run "cmd.exe /c git -C Addons reset origin/master", 0
 )
 
 @echo.
