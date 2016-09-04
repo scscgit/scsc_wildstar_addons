@@ -492,12 +492,12 @@ function TwinkiePlates:OnLoad()
 end
 
 function TwinkiePlates:OnSave(p_type)
-  if p_type ~= GameLib.CodeEnumAddonSaveLevel.Character then return end
+  if p_type ~= GameLib.CodeEnumAddonSaveLevel.Account then return end
   return _tSettings
 end
 
 function TwinkiePlates:OnRestore(p_type, p_savedData)
-  if p_type ~= GameLib.CodeEnumAddonSaveLevel.Character then return end
+  if p_type ~= GameLib.CodeEnumAddonSaveLevel.Account then return end
   _tSettings = p_savedData
   self:CheckMatrixIntegrity()
 end
