@@ -1,7 +1,7 @@
 @SET cur=%cd%
 @SET vbs=..\pull_addons_from_git.vbs
 
-@echo Creating a file in the directory above current one: %vbs% that will be periodically run
+@echo Creating a file in the directory above the current one, that will be periodically run: %vbs%
 
 >"%vbs%" (
 echo Dim s
@@ -12,7 +12,7 @@ echo s.Run "cmd.exe /c git -C Addons fetch origin master & cmd.exe /c git -C Add
 )
 
 @echo.
-@echo Creating a scheduled task
+@echo Creating the scheduled task
 
 SchTasks /Create /SC HOURLY /TN "Git Pull WildStar Addons" /TR "%cur%\%vbs%"
 

@@ -99,7 +99,7 @@ function ZThreat:OnSlash()
 end
 
 function ZThreat:OnSave(eLevel)
-	if (eLevel ~= GameLib.CodeEnumAddonSaveLevel.Character) then
+	if (eLevel ~= GameLib.CodeEnumAddonSaveLevel.Account) then
 		return nil
 	end
 	
@@ -111,7 +111,7 @@ function ZThreat:OnSave(eLevel)
 end
 
 function ZThreat:OnRestore(eLevel, tData)
-	if (eLevel ~= GameLib.CodeEnumAddonSaveLevel.Character) then
+	if (eLevel ~= GameLib.CodeEnumAddonSaveLevel.Account) then
 		return nil
 	end
 	self.restoreData = tData
