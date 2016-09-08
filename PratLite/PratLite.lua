@@ -595,7 +595,8 @@ function PratLite:OnStartUp()
     for name, data in pairs(tPlayerInfo) do
 	    if string.find(name, " ") ~= 0 then nMembers = nMembers + 1 end
 	end
-	if self.nSecondsSession > 300 then strToolTip = strLastStatistic
+	-- scsc added not nil confirmation
+	if self.nSecondsSession and self.nSecondsSession > 300 then strToolTip = strLastStatistic
 	else strToolTip = "( /update - quiet update.)"
 	    if bRus == true then strToolTip = "( /update - тихое обновление )" end
 	end
@@ -1275,7 +1276,7 @@ function PratLite:OnWhoResponse(arResponse, eWhoResult, strResponse, tResult)
 		if WhoAddon == Apollo.GetAddon("Who") then
 		    self.tWhoPlayers = arResponse
 	        self.bShowSearchResults = true
-	        self:HelperResetUI()
+	        -- scsc: removed nil: self:HelperResetUI()
 		else --WhoAddon:OnCloseSettingsWnd()
 		end
 	    if PratLiteAddon.bUdate == true then PratLiteAddon:VisibilityUpdates(tWhoPlayers) end
@@ -1375,7 +1376,7 @@ function PratLite:HelperGenerateChatMessage(tQueuedMessage)
 	    [ChatSystemLib.ChatChannel_Instance] 		= ChannelInstance.name, 			
 	    [ChatSystemLib.ChatChannel_WarParty] 		= ChannelWarParty.name,		
 	    [ChatSystemLib.ChatChannel_WarPartyOfficer] = ChannelWarPartyOfficer.name,
-	    [ChatSystemLib.ChatChannel_Advice] 			= ChannelAdvice.name, 		
+	    -- scsc removed: [ChatSystemLib.ChatChannel_Advice] 			= ChannelAdvice.name, 		
 	    [ChatSystemLib.ChatChannel_AccountWhisper] 	= ChannelAccountWhisper.name,
 	}
 	self.arChatColor = {
@@ -1408,9 +1409,9 @@ function PratLite:HelperGenerateChatMessage(tQueuedMessage)
 		[ChatSystemLib.ChatChannel_Instance] 		= ChannelInstance.color,
 		[ChatSystemLib.ChatChannel_WarParty] 		= ChannelWarParty.color,
 		[ChatSystemLib.ChatChannel_WarPartyOfficer] = ChannelWarPartyOfficer.color,
-		[ChatSystemLib.ChatChannel_Advice] 			= ChannelAdvice.color,
-		[ChatSystemLib.ChatChannel_AdviceGerman]	= ChannelAdvice.color,
-		[ChatSystemLib.ChatChannel_AdviceFrench]	= ChannelAdvice.color,
+		-- scsc removed: [ChatSystemLib.ChatChannel_Advice] 			= ChannelAdvice.color,
+		-- scsc removed: [ChatSystemLib.ChatChannel_AdviceGerman]	= ChannelAdvice.color,
+		-- scsc removed: [ChatSystemLib.ChatChannel_AdviceFrench]	= ChannelAdvice.color,
 		[ChatSystemLib.ChatChannel_AccountWhisper]	= ChannelAccountWhisper.color,
 	}
 	local tSoundCannels = {
@@ -1441,7 +1442,7 @@ function PratLite:HelperGenerateChatMessage(tQueuedMessage)
 	    [ChatSystemLib.ChatChannel_Instance] 		= ChannelInstance.sound, 			
 	    [ChatSystemLib.ChatChannel_WarParty] 		= ChannelWarParty.sound,		
 	    [ChatSystemLib.ChatChannel_WarPartyOfficer] = ChannelWarPartyOfficer.sound,
-	    [ChatSystemLib.ChatChannel_Advice] 			= ChannelAdvice.sound, 		
+	    -- scsc removed: [ChatSystemLib.ChatChannel_Advice] 			= ChannelAdvice.sound, 		
 	    [ChatSystemLib.ChatChannel_AccountWhisper] 	= ChannelAccountWhisper.sound,
 	}
 	local tChannelLink = {
@@ -1472,7 +1473,7 @@ function PratLite:HelperGenerateChatMessage(tQueuedMessage)
 	    [ChatSystemLib.ChatChannel_Instance] 		= "i", 			
 	    [ChatSystemLib.ChatChannel_WarParty] 		= "NoLink",		
 	    [ChatSystemLib.ChatChannel_WarPartyOfficer] = "NoLink",
-	    [ChatSystemLib.ChatChannel_Advice] 			= "a", 		
+	    -- scsc removed: [ChatSystemLib.ChatChannel_Advice] 			= "a", 		
 	    [ChatSystemLib.ChatChannel_AccountWhisper] 	= "NoLink",
 	}
 	if nNumberLine == 0 then Event_FireGenericEvent("GenericEvent_OnChannelsNames", tColorCustomChannel, tColorCircleChannel) end
