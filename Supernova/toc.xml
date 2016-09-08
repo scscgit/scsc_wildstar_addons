@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Shikaga" APIVersion="8" Name="Supernova" Description="A Commodity Market helper">
+    <Script Name="Supernova.lua"/>
+    <Form Name="Supernova.xml"/>
+    <Script Name="CommodityHandler.lua"/>
+    <Script Name="Commodity.lua"/>
+    <Script Name="Watchlist.lua"/>
+    <Script Name="WatchlistRow.lua"/>
+    <Script Name="IntegratedWatchlist.lua"/>
+    <Script Name="IntegratedWatchlistRow.lua"/>
+    <Script Name="IntegratedWatchlistOrderRow.lua"/>
+    <Script Name="TradeTicket.lua"/>
+    <Script Name="TradeTicketHandler.lua"/>
+    <Script Name="ListingPriceHandler.lua"/>
+    <Script Name="ListingHandler.lua"/>
+</Addon>
