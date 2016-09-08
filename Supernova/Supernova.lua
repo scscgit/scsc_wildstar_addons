@@ -89,7 +89,8 @@ function Supernova:AddAddCommodityButtons()
 	Print("AAA")
 	local fnOldHeaderBtnToggle = self.MarketplaceCommodity.OnHeaderBtnToggle
     self.MarketplaceCommodity.OnHeaderBtnToggle = function(tMarketPlaceCommodity)
-		marketplaceWindow  = tMarketPlaceCommodity.wndMain
+        -- scsc: added .tWndRefs before .wndMain based on debugging the tMarketPlaceCommodity
+        marketplaceWindow  = tMarketPlaceCommodity.tWndRefs.wndMain
         fnOldHeaderBtnToggle(tMarketPlaceCommodity)
         local children = marketplaceWindow:FindChild("MainScrollContainer"):GetChildren()
         for i, child in ipairs(children) do
