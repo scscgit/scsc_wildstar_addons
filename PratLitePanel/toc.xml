@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Sexnonstop" APIVersion="12" Version="2.9.5.beta" Name="PratLitePanel" Description="Quick selection of chat channels">
+    <Script Name="PratLitePanel.lua"/>
+</Addon>

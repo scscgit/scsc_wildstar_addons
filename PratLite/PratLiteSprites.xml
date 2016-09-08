@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Sprites>
+    <Sprite Name="DescriptionEN" Cycle="1">
+        <Frame Texture="PratLite\images\DescriptionEN.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="810" y0="0" y1="0" y2="0" y3="0" y4="0" y5="3500" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+    <Sprite Name="DescriptionRU" Cycle="1">
+        <Frame Texture="PratLite\images\DescriptionRU.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="810" y0="0" y1="0" y2="0" y3="0" y4="0" y5="3500" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="PratLiteLogo" Cycle="1">
+        <Frame Texture="PratLite\images\logo.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="200" y0="0" y1="0" y2="0" y3="0" y4="0" y5="95" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="PratLite_Description" Cycle="1">
+        <Frame Texture="PratLite\images\Description.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="78" y0="0" y1="0" y2="0" y3="0" y4="0" y5="28" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="PratLite_Description_RU" Cycle="1">
+        <Frame Texture="PratLite\images\Description_RU.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="78" y0="0" y1="0" y2="0" y3="0" y4="0" y5="28" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="PratLite_Options" Cycle="1">
+        <Frame Texture="PratLite\images\Options.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="78" y0="0" y1="0" y2="0" y3="0" y4="0" y5="28" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="PratLite_Options_RU" Cycle="1">
+        <Frame Texture="PratLite\images\Options_RU.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="78" y0="0" y1="0" y2="0" y3="0" y4="0" y5="28" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="icon_Description" Cycle="1">
+        <Frame Texture="PratLite\images\icon\Description.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="32" y0="0" y1="0" y2="0" y3="0" y4="0" y5="32" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="icon_Panel" Cycle="1">
+        <Frame Texture="PratLite\images\icon\Panel.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="32" y0="0" y1="0" y2="0" y3="0" y4="0" y5="32" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="icon_Friends" Cycle="1">
+        <Frame Texture="PratLite\images\icon\Friends.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="32" y0="0" y1="0" y2="0" y3="0" y4="0" y5="32" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="icon_Circles" Cycle="1">
+        <Frame Texture="PratLite\images\icon\Circles.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="32" y0="0" y1="0" y2="0" y3="0" y4="0" y5="32" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="icon_Guild" Cycle="1">
+        <Frame Texture="PratLite\images\icon\Guild.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="32" y0="0" y1="0" y2="0" y3="0" y4="0" y5="32" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="icon_Guild_Medium" Cycle="1">
+        <Frame Texture="PratLite\images\icon\Guild_medium.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="16" y0="0" y1="0" y2="0" y3="0" y4="0" y5="16" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="icon_EarthAlert" Cycle="1">
+        <Frame Texture="PratLite\images\icon\EarthAlert.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="32" y0="0" y1="0" y2="0" y3="0" y4="0" y5="32" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="icon_Crafting_Vouchers" Cycle="1">
+        <Frame Texture="PratLite\images\icon\Crafting_Vouchers.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="32" y0="0" y1="0" y2="0" y3="0" y4="0" y5="32" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="icon_Elder_Gems" Cycle="1">
+        <Frame Texture="PratLite\images\icon\ElderGems.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="32" y0="0" y1="0" y2="0" y3="0" y4="0" y5="32" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="icon_FortuneCoin" Cycle="1">
+        <Frame Texture="PratLite\images\icon\FortuneCoin.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="32" y0="0" y1="0" y2="0" y3="0" y4="0" y5="32" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="icon_Glory" Cycle="1">
+        <Frame Texture="PratLite\images\icon\Glory.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="32" y0="0" y1="0" y2="0" y3="0" y4="0" y5="32" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="icon_OmniBits" Cycle="1">
+        <Frame Texture="PratLite\images\icon\OmniBits.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="32" y0="0" y1="0" y2="0" y3="0" y4="0" y5="32" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="icon_Prestige" Cycle="1">
+        <Frame Texture="PratLite\images\icon\Prestige.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="32" y0="0" y1="0" y2="0" y3="0" y4="0" y5="32" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="icon_ServiceToken" Cycle="1">
+        <Frame Texture="PratLite\images\icon\ServiceToken.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="32" y0="0" y1="0" y2="0" y3="0" y4="0" y5="32" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="icon_Renown" Cycle="1">
+        <Frame Texture="PratLite\images\icon\Renown.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="32" y0="0" y1="0" y2="0" y3="0" y4="0" y5="32" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+    <Sprite Name="PratLiteBlow" Cycle="1">
+        <Frame Texture="PratLite\images\blow\0.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="295" y0="0" y1="0" y2="0" y3="0" y4="0" y5="75" Stretchy="1" HotspotX="50" HotspotY="50" Duration="0.150" StartColor="white" EndColor="white"/>
+        <Frame Texture="PratLite\images\blow\1.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="295" y0="0" y1="0" y2="0" y3="0" y4="0" y5="75" Stretchy="1" HotspotX="50" HotspotY="50" Duration="0.150" StartColor="white" EndColor="white"/>
+        <Frame Texture="PratLite\images\blow\2.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="295" y0="0" y1="0" y2="0" y3="0" y4="0" y5="75" Stretchy="1" HotspotX="50" HotspotY="50" Duration="0.150" StartColor="white" EndColor="white"/>
+        <Frame Texture="PratLite\images\blow\3.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="295" y0="0" y1="0" y2="0" y3="0" y4="0" y5="75" Stretchy="1" HotspotX="50" HotspotY="50" Duration="0.150" StartColor="white" EndColor="white"/>
+        <Frame Texture="PratLite\images\blow\4.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="295" y0="0" y1="0" y2="0" y3="0" y4="0" y5="75" Stretchy="1" HotspotX="50" HotspotY="50" Duration="0.150" StartColor="white" EndColor="white"/>
+        <Frame Texture="PratLite\images\blow\5.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="295" y0="0" y1="0" y2="0" y3="0" y4="0" y5="75" Stretchy="1" HotspotX="50" HotspotY="50" Duration="0.150" StartColor="white" EndColor="white"/>
+        <Frame Texture="PratLite\images\blow\6.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="295" y0="0" y1="0" y2="0" y3="0" y4="0" y5="75" Stretchy="1" HotspotX="50" HotspotY="50" Duration="0.150" StartColor="white" EndColor="white"/>
+        <Frame Texture="PratLite\images\blow\7.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="295" y0="0" y1="0" y2="0" y3="0" y4="0" y5="75" Stretchy="1" HotspotX="50" HotspotY="50" Duration="0.150" StartColor="white" EndColor="white"/>
+        <Frame Texture="PratLite\images\blow\8.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="295" y0="0" y1="0" y2="0" y3="0" y4="0" y5="75" Stretchy="1" HotspotX="50" HotspotY="50" Duration="0.150" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="PratLiteWorldBoss" Cycle="1">
+	    <Frame Texture="PratLite\images\animechat\WorldBoss_1.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="166" y0="0" y1="0" y2="0" y3="0" y4="0" y5="16" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+	    <Frame Texture="PratLite\images\animechat\WorldBoss_2.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="166" y0="0" y1="0" y2="0" y3="0" y4="0" y5="16" Stretchy="1" HotspotX="50" HotspotY="50" Duration="0.300" StartColor="white" EndColor="white"/>
+	</Sprite>
+	<Sprite Name="PratLiteYourName" Cycle="1">
+	    <Frame Texture="PratLite\images\animechat\YourName_1.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="112" y0="0" y1="0" y2="0" y3="0" y4="0" y5="16" Stretchy="1" HotspotX="50" HotspotY="50" Duration="0.300" StartColor="white" EndColor="white"/>
+	    <Frame Texture="PratLite\images\animechat\YourName_2.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="112" y0="0" y1="0" y2="0" y3="0" y4="0" y5="16" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+	</Sprite>
+	<Sprite Name="PratLiteWorldBossImage" Cycle="1">
+	    <Frame Texture="PratLite\images\animechat\WorldBoss_1.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="166" y0="0" y1="0" y2="0" y3="0" y4="0" y5="16" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+	</Sprite>
+	<Sprite Name="PratLiteYourNameImage" Cycle="1">
+	    <Frame Texture="PratLite\images\animechat\YourName_2.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="112" y0="0" y1="0" y2="0" y3="0" y4="0" y5="16" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+	</Sprite>
+	<Sprite Name="number_1" Cycle="1">
+        <Frame Texture="PratLite\images\Number\1.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="8" y0="0" y1="0" y2="0" y3="0" y4="0" y5="12" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="number_2" Cycle="1">
+        <Frame Texture="PratLite\images\Number\2.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="8" y0="0" y1="0" y2="0" y3="0" y4="0" y5="12" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="number_3" Cycle="1">
+        <Frame Texture="PratLite\images\Number\3.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="8" y0="0" y1="0" y2="0" y3="0" y4="0" y5="12" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="number_4" Cycle="1">
+        <Frame Texture="PratLite\images\Number\4.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="8" y0="0" y1="0" y2="0" y3="0" y4="0" y5="12" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="number_5" Cycle="1">
+        <Frame Texture="PratLite\images\Number\5.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="8" y0="0" y1="0" y2="0" y3="0" y4="0" y5="12" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="number_6" Cycle="1">
+        <Frame Texture="PratLite\images\Number\6.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="8" y0="0" y1="0" y2="0" y3="0" y4="0" y5="12" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="number_7" Cycle="1">
+        <Frame Texture="PratLite\images\Number\7.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="8" y0="0" y1="0" y2="0" y3="0" y4="0" y5="12" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="number_8" Cycle="1">
+        <Frame Texture="PratLite\images\Number\8.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="8" y0="0" y1="0" y2="0" y3="0" y4="0" y5="12" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="number_9" Cycle="1">
+        <Frame Texture="PratLite\images\Number\9.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="8" y0="0" y1="0" y2="0" y3="0" y4="0" y5="12" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+	<Sprite Name="number_0" Cycle="1">
+        <Frame Texture="PratLite\images\Number\0.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="8" y0="0" y1="0" y2="0" y3="0" y4="0" y5="12" Stretchy="1" HotspotX="50" HotspotY="50" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+</Sprites>

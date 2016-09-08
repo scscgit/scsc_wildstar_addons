@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Name="PratLite" Version="3.0" Author="Sexnonstop/Alb" APIVersion="12" Description="Modification ChatLog">
+    <Script Name="PratLite.lua"/>
+    <Form Name="PratLite.xml"/>
+    <Script Name="libs\CassPkg.lua"/>
+	<ReplaceAddon Name="NoisyQ"/>
+	<ReplaceAddon Name="Вызов"/>
+	<ReplaceAddon Name="ChatAdvanced"/>
+	<ReplaceAddon Name="DevHyperLink"/>
+	<ReplaceAddon Name="ChatLinks"/>
+	<ReplaceAddon Name="BetterChatLog"/>
+	<ReplaceAddon Name="ChatCommandsImproved"/>
+	<ReplaceAddon Name="ChatFixed"/>
+	<ReplaceAddon Name="ChatFontSize"/>
+	<ReplaceAddon Name="ChatSounds"/>
+	<ReplaceAddon Name="ChatSplitter"/>
+	<ReplaceAddon Name="ShortChannelName"/>
+	<ReplaceAddon Name="WhisperAlert"/>
+	<ReplaceAddon Name="WoWChatColors"/>
+	<ReplaceAddon Name="ImprovedChatLog"/>
+</Addon>
