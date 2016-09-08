@@ -715,7 +715,8 @@ function WiWiBar:OnDocLoaded()
 		self.tDisplay.tWindowItemSearch.wndItemSearch = self.wndMainWin:FindChild("wndItemSearch")
 		self.tDisplay.tWindowSettings.wndSettings = self.wndMainWin:FindChild("wndSettings")
 		
-
+		-- scsc: added X
+		self.tDisplay.tWindowSettings.wndBarPosXTxtBox = self.wndMainWin:FindChild("BarPosXTxtBox")
 		self.tDisplay.tWindowSettings.wndBarPosYTxtBox = self.wndMainWin:FindChild("BarPosYTxtBox")
 		
 		self.tDisplay.tWindowSettings.tCheck.chkDisplayBarBackground = self.tDisplay.tWindowSettings.wndSettings:FindChild("ButtonDisplayBarBackground")
@@ -906,6 +907,11 @@ function WiWiBar:RestoreAllSettings()
 	self.tDisplay.tWindowSettings.wndBarPosYTxtBox:SetText(self.tSavedData.tConfiguration.nBarPosY)
 	self:CenterAllPinnedTab()
 	self:SetBarPosY(self.tSavedData.tConfiguration.nBarPosY)
+
+	-- scsc: X (only if exists)
+	if self.tSavedData.tConfiguration.nBarPosX then
+		self:SetBarPosX(self.tSavedData.tConfiguration.nBarPosX)
+	end
 	
 	self.SettingsRestored = true
 end
@@ -1017,12 +1023,31 @@ function WiWiBar:CenterAllPinnedTab()
 	self.tDisplay.tToolTip.tPlayerCurrentElderGemInfo:CenterPos()	
 end
 
+-- scsc: added X pos changer
+function WiWiBar:OnXPosTextChanged(wnd)
+	local pos = tonumber(wnd:GetText())
+	if pos ~= nil then
+		self:SetBarPosX(pos)
+		self:CenterAllPinnedTab()		
+	end
+end
+
 function WiWiBar:OnYPosTextChanged(wnd)
 	local pos = tonumber(wnd:GetText())
 	if pos ~= nil then
 		self:SetBarPosY(pos)
 		self:CenterAllPinnedTab()		
 	end
+end
+
+-- scsc: added X pos change
+function WiWiBar:OnSliderBarPosXChange(wndHandler, unknownStuff, fNewValue)
+	--TODO !! at load, set the bar pos (slider)
+	fNewValue = math.floor(fNewValue)
+--	sPrint(tostring(fNewValue) )
+	self.tDisplay.tWindowSettings.wndBarPosXTxtBox:SetText(fNewValue)
+	self:SetBarPosX(fNewValue)
+	self:CenterAllPinnedTab()	
 end
 
 function WiWiBar:OnSliderBarPosYChange(wndHandler, unknownStuff, fNewValue)
@@ -1032,6 +1057,18 @@ function WiWiBar:OnSliderBarPosYChange(wndHandler, unknownStuff, fNewValue)
 	self.tDisplay.tWindowSettings.wndBarPosYTxtBox:SetText(fNewValue)
 	self:SetBarPosY(fNewValue)
 	self:CenterAllPinnedTab()	
+end
+
+-- scsc: added X pos changer
+function WiWiBar:SetBarPosX(nNexPosX)
+	local AnchorBuffer = { self.wndMain:GetAnchorOffsets() }
+	local old = AnchorBuffer[1];
+	AnchorBuffer[1] = nNexPosX
+	-- scsc: this should make it dynamic maybe? (not tested)
+	AnchorBuffer[3] = AnchorBuffer[3] - old + nNexPosX
+	self.wndMain:SetAnchorOffsets(AnchorBuffer[1], AnchorBuffer[2], AnchorBuffer[3], AnchorBuffer[4] )		
+	BarPosX = AnchorBuffer[1]
+	self.tSavedData.tConfiguration.nBarPosX = BarPosX 
 end
 
 function WiWiBar:SetBarPosY(nNexPosY)
