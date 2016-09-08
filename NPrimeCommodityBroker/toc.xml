@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<Addon Author="NyanPrime" APIVersion="8" Name="NPrimeCommodityBroker" Description="" Version="1.0">
-    <Script Name="NPrimeCommodityBroker.lua"/>
-    <Form Name="NPrimeCommodityBroker.xml"/>
-    <ReplaceAddon Name="MarketplaceCommodity"/>
-</Addon>
