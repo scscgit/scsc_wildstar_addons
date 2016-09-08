@@ -1623,6 +1623,15 @@ function PratLite:HelperGenerateChatMessage(tQueuedMessage)
 		if eChannelType == ChatSystemLib.ChatChannel_Custom and strShortNamesCustom == "check" then
 		    strChannel = string.upper(tQueuedMessage.strChannelCommand) -- Workaround for custom channels
 		end
+		-- scsc: Added a workaround for NEXUS channel that is new in API 13, TODO: integrate it with this entire addon, not just here
+		if eChannelType == ChatSystemLib.ChatChannel_Nexus then
+		    strChannel = 'N'
+		end
+		-- scsc: override a nil crash by letting the channel be displayed as [ERROR] and log a rover variable when channel unknown
+		if not strChannel then
+			strChannel = "ERROR"
+			SendVarToRover("PratLite eChannelType unknown, displayed ERROR message", eChannelType, 0)
+		end
 		strChannel = "["..strChannel.."] "
 		if self.bShowChannel ~= true then
 			strChannel = ""
