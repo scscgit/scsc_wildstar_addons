@@ -1014,7 +1014,10 @@ function WiWiBar:CenterAllPinnedTab()
 	self.tDisplay.tToolTip.tPlayerCurrentMoneyInfo:CenterPos()
 	self.tDisplay.tToolTip.tPlayerCurrentXpInfo:CenterPos() 
 	self.tDisplay.tToolTip.tPlayerCurrentRenownInfo:CenterPos()
-	self.tDisplay.tToolTip.tPlayerCurrentElderGemInfo:CenterPos()	
+	-- scsc: under level 50 no elder gem info
+		if self.tDisplay.tToolTip.tPlayerCurrentElderGemInfo then
+		self.tDisplay.tToolTip.tPlayerCurrentElderGemInfo:CenterPos()
+	end
 end
 
 function WiWiBar:OnYPosTextChanged(wnd)
@@ -1047,7 +1050,10 @@ function WiWiBar:OnSortBar()
 	self.tDisplay.tToolTip.tPlayerCurrentMoneyInfo:SetPosX(tTableInfo.nBaseDecal)
 	self.tDisplay.tToolTip.tPlayerCurrentXpInfo:SetPosX(tTableInfo.nBaseDecal + 186) 
 	self.tDisplay.tToolTip.tPlayerCurrentRenownInfo:SetPosX(tTableInfo.nBaseDecal + 186 * 2)
-	self.tDisplay.tToolTip.tPlayerCurrentElderGemInfo:SetPosX(tTableInfo.nBaseDecal + 186 * 3)
+	-- scsc: under level 50 no elder gem info
+	if self.tDisplay.tToolTip.tPlayerCurrentElderGemInfo then
+		self.tDisplay.tToolTip.tPlayerCurrentElderGemInfo:SetPosX(tTableInfo.nBaseDecal + 186 * 3)
+	end
 	
 	for i = 1, self.tDisplay.nCustomTabCount do
 		self.tDisplay.tCustomTab[i]:SetPosX(tTableInfo.nBaseDecal + 186 * (i + 3))
@@ -1077,7 +1083,10 @@ function WiWiBar:OnCheckDisplayBarALL()
 		self.tDisplay.tToolTip.tPlayerCurrentMoneyInfo:Show(true)
 		self.tDisplay.tToolTip.tPlayerCurrentXpInfo:Show(true)
 		self.tDisplay.tToolTip.tPlayerCurrentRenownInfo:Show(true)
-		self.tDisplay.tToolTip.tPlayerCurrentElderGemInfo:Show(true)
+		-- scsc: under level 50 no elder gem info
+		if self.tDisplay.tToolTip.tPlayerCurrentElderGemInfo then
+			self.tDisplay.tToolTip.tPlayerCurrentElderGemInfo:Show(true)
+		end
 		if self.tSavedData.tConfiguration.bBarDisplayed then
 			self.wndMain:Show(true, true)
 		end
@@ -1094,7 +1103,10 @@ function WiWiBar:OnUncheckDisplayBarALL()
 		self.tDisplay.tToolTip.tPlayerCurrentMoneyInfo:Show(false)
 		self.tDisplay.tToolTip.tPlayerCurrentXpInfo:Show(false)
 		self.tDisplay.tToolTip.tPlayerCurrentRenownInfo:Show(false)
-		self.tDisplay.tToolTip.tPlayerCurrentElderGemInfo:Show(false)
+		-- scsc: under level 50 no elder gem info
+		if self.tDisplay.tToolTip.tPlayerCurrentElderGemInfo then
+			self.tDisplay.tToolTip.tPlayerCurrentElderGemInfo:Show(false)
+		end
 	
 
 		self.wndMain:Show(false, true)

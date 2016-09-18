@@ -616,7 +616,12 @@ function PratLite:OnPlayedtime(strCreationDate, strPlayedTime, strPlayedLevelTim
 	    nStartUpdate = nSecondStart
 	else tTime.bOneLoginGame = false
 	end
-	local nRealTimeUpdate = nSecondStart - nStartUpdate
+	-- scsc: nStartUpdate was nil, I will make it effectively 0 in that case
+	if nStartUpdate then
+		local nRealTimeUpdate = nSecondStart - nStartUpdate
+	else
+		local nRealTimeUpdate = nSecondStart
+	end
 	if nSecondsSession > 3600 and (nRealTimeUpdate > 3540 or nSecondStart < nStartUpdate) then tTime.bOneLoginGame = true
 	    nStartUpdate = nSecondStart
 	end
