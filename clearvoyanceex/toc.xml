@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Addon Author="Olivar Nax" APIVersion="10" Name="ClairvoyanceEx" Description="This addon provides functionality to ease the process of dealing with crowd control abilities other than stun." Version="2.0.2">
-    <Script Name="ClairvoyanceEx.lua"/>
-    <Form Name="ClairvoyanceEx.xml"/>
-</Addon>
