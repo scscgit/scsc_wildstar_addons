@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Addon Author="Potato" APIVersion="12" Name="PotatoBuffs" Description="">
-    <Script Name="BuffDefaults.lua"/>
-    <Script Name="PotatoBuffs.lua"/>
-    <Form Name="PotatoBuffs.xml"/>
-</Addon>

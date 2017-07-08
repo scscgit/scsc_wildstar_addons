@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Addon Author="Potato" APIVersion="12" Name="PotatoLib" Description="" Version="2.3">
-    <Script Name="PotatoLib.lua"/>
-    <Form Name="PotatoLib.xml"/>
-    <Sprites Name="PotatoSprites.xml"/>
-</Addon>

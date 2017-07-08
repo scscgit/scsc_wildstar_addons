@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<Forms>
-    <SpriteFile Name="..\PotatoLib\PotatoSprites.xml"/>
-    <Form Class="Window" LAnchorPoint="0.5" LAnchorOffset="-752" TAnchorPoint="1" TAnchorOffset="-822" RAnchorPoint="0.5" RAnchorOffset="-697" BAnchorPoint="1" BAnchorOffset="-762" RelativeToClient="1" Font="CRB_HeaderHuge_O" Text="" BGColor="UI_WindowBGDefault" TextColor="UI_WindowTextDefault" Template="Default" TooltipType="OnCursor" Name="InterruptArmor" Border="0" Picture="1" SwallowMouseClicks="1" Moveable="0" Escapable="0" Overlapped="0" Sprite="PotatoSprites:IABacker" TextId="" DT_RIGHT="0" DT_VCENTER="1" DT_CENTER="1" TooltipColor="" Tooltip="" Visible="0" Sizable="0" NewWindowDepth="1">
-        <Control Class="Window" LAnchorPoint="0" LAnchorOffset="0" TAnchorPoint="0" TAnchorOffset="0" RAnchorPoint="1" RAnchorOffset="0" BAnchorPoint="1" BAnchorOffset="0" RelativeToClient="1" Font="CRB_Header13_O" Text="24" BGColor="UI_WindowBGDefault" TextColor="white" Template="Default" TooltipType="OnCursor" Name="Value" TooltipColor="" TextId="" DT_CENTER="1" DT_VCENTER="1" Tooltip=""/>
-    </Form>
-</Forms>
