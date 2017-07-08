@@ -26,7 +26,7 @@ CSITypeEnumerationLookupTable[CSIsLib.ClientSideInteractionType_Memory] = "Memor
 CSITypeEnumerationLookupTable[CSIsLib.ClientSideInteractionType_Keypad] = "Keypad"  --??? Needs a database of entry codes?
 CSITypeEnumerationLookupTable[CSIsLib.ClientSideInteractionType_RapidTappingInverse] = "RapidTappingInverse"  --Done
 
-local sVersion = "1.8.4"
+local sVersion = "1.9"
 -----------------------------------------------------------------------------------------------
 -- Locals
 -----------------------------------------------------------------------------------------------
@@ -125,7 +125,7 @@ function TapThat:OnDocLoaded()
 		Apollo.RegisterEventHandler("InterfaceMenuListHasLoaded", "OnInterfaceMenuListHasLoaded", self)
 		Apollo.RegisterEventHandler("TapThatInterfaceList", "OnConfigure", self)
 		Apollo.RegisterSlashCommand("tt", "OnConfigure", self)
-		Apollo.RegisterSlashCommand("tapthat", "OnConfigure", self)
+		Apollo.RegisterSlashCommand("TapThat", "OnConfigure", self)
 
 		--Default options  Race condition here, but order does not matter for this.
 		for sOptionName, optionValue in pairs(tDefaultOptions) do

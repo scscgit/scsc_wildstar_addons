@@ -1,0 +1,22 @@
+lightweight tag 3fc9d2c2b32fd6c8fa54f32d9de1fdebc36a9c53 v2.4
+Author:	Arne De Herdt <arne.de.herdt@gmail.com>
+Date:	Thu Mar 9 20:33:33 2017 +0100
+
+commit 3fc9d2c2b32fd6c8fa54f32d9de1fdebc36a9c53
+Author: Arne De Herdt <arne.de.herdt@gmail.com>
+Date:   Thu Mar 9 20:33:33 2017 +0100
+
+    API 15 release
+
+commit 4bae3aa7e0b83b682421d6ea0f007fc929a7343e
+Author: Arne De Herdt <arne.de.herdt@gmail.com>
+Date:   Sat Jan 21 11:31:47 2017 +0100
+
+    version bump for API 14
+
+commit 4bae3aa7e0b83b682421d6ea0f007fc929a7343e
+Author: Arne De Herdt <arne.de.herdt@gmail.com>
+Date:   Sat Jan 21 11:31:47 2017 +0100
+
+    version bump for API 14
+

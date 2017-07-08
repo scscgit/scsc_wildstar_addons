@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Addon Author="Daorven" APIVersion="13" Name="Gear_Builder" Description="Associate a LAS &apos;Builder&apos; profile with a &apos;Gear&apos; profile." Version="1.0">
+<Addon Author="Daorven" APIVersion="15" Name="Gear_Builder" Description="Associate a LAS &apos;Builder&apos; profile with a &apos;Gear&apos; profile." Version="1.0.2">
     <!-- Libraries -->
     <Script Name="..\Gear\libs\GeminiLocale-1.0\GeminiLocale.lua"/>
     <Script Name="..\Gear\libs\LibGear-1.0\LibGear-1.0.lua"/>

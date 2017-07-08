@@ -2,7 +2,6 @@
 -- Client Lua Script for Gear_OneVersion
 -- Copyright (c) NCsoft. All rights reserved
 -----------------------------------------------------------------------------------------------
-
  
 -----------------------------------------------------------------------------------------------
 -- Module Definition
@@ -45,9 +44,10 @@ local tPlugin =     {
 									name = L["GP_O_SETTINGS"], -- setting name to view in gear setting window
 									-- parent setting 
 									[1] =  {
-												[1] = { bActived = true, sDetail = L["GP_O_SETTING_1"],},  -- child setting
-												[2] = { bActived = true, sDetail = L["GP_O_SETTING_2"],}, 
-												[3] = { bActived = true, sDetail = L["GP_O_SETTING_3"],}, 
+												[1] = { sType = "toggle", bActived = true, sDetail = L["GP_O_SETTING_1"],},  -- child setting
+												[2] = { sType = "toggle", bActived = true, sDetail = L["GP_O_SETTING_2"],}, 
+												[3] = { sType = "toggle", bActived = true, sDetail = L["GP_O_SETTING_3"],}, 
+											
 											},
 									},
 					}
@@ -56,10 +56,12 @@ local tPlugin =     {
 local tAddon = {
 					inventory = {
 										    ["Inventory"] = { 
-															[1] = { hook = "OnSystemBeginDragDrop",     replaceby = "_NoDropSalvage_Inventory",   },
-															[2] = { hook = "InvokeDeleteConfirmWindow", replaceby = "_NoDropDelete_Inventory",    },
+															[1] = { hook = "OnSystemBeginDragDrop",      replaceby = "_NoDropSalvage_Inventory",   },
+															[2] = { hook = "InvokeDeleteConfirmWindow",  replaceby = "_NoDropDelete_Inventory",    },
 														   },
-																	
+																
+
+																
 									["ForgeUI_Inventory"] = { 
 															[1] = { hook = "OnSystemBeginDragDrop",     replaceby = "_NoDropSalvage_Inventory",    },
 															[2] = { hook = "InvokeDeleteConfirmWindow", replaceby = "_NoDropDelete_Inventory",     },
@@ -98,7 +100,9 @@ local tAddon = {
 														   },			   
 					   			},
 				}				
-		
+
+
+				
 -- plugin enable/disable in setting panel 				
 local bOn = true				
 -- comm timer to init plugin	
@@ -124,7 +128,7 @@ end
 -- OnLoad
 -----------------------------------------------------------------------------------------------
 function Gear_ItemsSecure:OnLoad()
-	Apollo.RegisterEventHandler("CloseVendorWindow",   "OnVendorClose", self)	   -- vendor close
+	Apollo.RegisterEventHandler("CloseVendorWindow", "OnVendorClose", self)	       -- vendor close
 	Apollo.RegisterEventHandler("Generic_GEAR_PLUGIN", "ON_GEAR_PLUGIN", self)     -- add event to communicate with gear
 	Hook:Embed(self)															   -- init hook	
 	tComm  = ApolloTimer.Create(1, true, "_Comm", self) 						   -- init comm for plugin
@@ -136,6 +140,7 @@ end
 function Gear_ItemsSecure:_Comm() 
 		
 	if lGear._isaddonup("Gear")	then												-- if 'gear' is running , go next
+		tComm:Stop()
 		tComm = nil 																-- stop init comm timer
 		if bCall == nil then lGear.initcomm(tPlugin) end 							-- send information about me, setting etc..
 	end
@@ -290,7 +295,7 @@ function Gear_ItemsSecure:_NoSell_Vendor(luaCaller)
 			local bSell = true
 			
 			if tPlugin.setting[1][3].bActived and bOn then
-				local tGearName = lGear._IsKnowGear(tItemData.itemInBag:GetChatLinkString(), tLastGear)
+				local tGearName = lGear._GetGearParent(tItemData.itemInBag:GetChatLinkString(), tLastGear)
 				if #tGearName ~= 0 then 
 					bSell = false
 				end
@@ -351,7 +356,7 @@ function Gear_ItemsSecure:_NoSalvage_Inventory(luaCaller)
 				
 			if tPlugin.setting[1][1].bActived and bOn then
 					
-				local tGearName = lGear._IsKnowGear(tItem.itemInBag:GetChatLinkString(), tLastGear)
+				local tGearName = lGear._GetGearParent(tItem.itemInBag:GetChatLinkString(), tLastGear)
 				if #tGearName ~= 0 then 
 					bSalvage = false
 				end
@@ -393,7 +398,7 @@ function Gear_ItemsSecure:_NoSalvage_KuronaSalvage(luaCaller)
 									
 				if tPlugin.setting[1][1].bActived and bOn then
 						
-					local tGearName = lGear._IsKnowGear(tItem.itemInBag:GetChatLinkString(), tLastGear)
+					local tGearName = lGear._GetGearParent(tItem.itemInBag:GetChatLinkString(), tLastGear)
 					if #tGearName ~= 0 then 
 						bSalvage = false
 					end
@@ -461,7 +466,7 @@ function Gear_ItemsSecure:_NoDropSalvage_Inventory(luaCaller, wndSource, strType
 		local bDelete = true
 				
 		-- items secure		
-		local tGearName = lGear._IsKnowGear(item:GetChatLinkString(), tLastGear)
+		local tGearName = lGear._GetGearParent(item:GetChatLinkString(), tLastGear)
 			
 		if #tGearName ~= 0 then
 			-- items secure drop salvage	
@@ -503,7 +508,7 @@ function Gear_ItemsSecure:_NoDropSalvage_SpaceStashInventory(luaCaller, wndSourc
 		
 		local bSalvage = true
 		-- items secure		
-		local tGearName = lGear._IsKnowGear(item:GetChatLinkString(), tLastGear)
+		local tGearName = lGear._GetGearParent(item:GetChatLinkString(), tLastGear)
 			
 		if #tGearName ~= 0 then
 			-- items secure drop salvage	
@@ -527,7 +532,7 @@ function Gear_ItemsSecure:_NoDropDelete_SpaceStashInventory(luaCaller, iData)
 			
 	local itemData = Item.GetItemFromInventoryLoc(iData)
 	-- items secure	
-	local tGearName = lGear._IsKnowGear(itemData:GetChatLinkString(), tLastGear)
+	local tGearName = lGear._GetGearParent(itemData:GetChatLinkString(), tLastGear)
 	if #tGearName ~= 0 and tPlugin.setting[1][2].bActived and bOn then 
 		
 		luaCaller.wndDeleteConfirm:SetData(nil)
@@ -558,7 +563,7 @@ function Gear_ItemsSecure:_NoDropSalvage_KuronaBags(luaCaller, wndSource, strTyp
 		local bSalvage = true
 							
 		-- items secure		
-		local tGearName = lGear._IsKnowGear(item:GetChatLinkString(), tLastGear)
+		local tGearName = lGear._GetGearParent(item:GetChatLinkString(), tLastGear)
 			
 		if #tGearName ~= 0 then
 				
@@ -583,7 +588,7 @@ function Gear_ItemsSecure:_NoDropDelete_Inventory(luaCaller, iData)
 			
 	local itemData = Item.GetItemFromInventoryLoc(iData)
 	-- items secure	
-	local tGearName = lGear._IsKnowGear(itemData:GetChatLinkString(), tLastGear)
+	local tGearName = lGear._GetGearParent(itemData:GetChatLinkString(), tLastGear)
 	if #tGearName ~= 0 and tPlugin.setting[1][2].bActived and bOn then 
 		
 		luaCaller.wndDeleteConfirm:SetData(nil)
@@ -611,7 +616,7 @@ function Gear_ItemsSecure:_NoDropDelete_KuronaBags(luaCaller, iData)
 	local item = Item.GetItemFromInventoryLoc(iData)
 	local quality = item:GetItemQuality()
 	-- items secure	
-	local tGearName = lGear._IsKnowGear(item:GetChatLinkString(), tLastGear)
+	local tGearName = lGear._GetGearParent(item:GetChatLinkString(), tLastGear)
 	if #tGearName ~= 0 and tPlugin.setting[1][2].bActived and bOn then 
 		
 		luaCaller.wndDeleteConfirm:SetData(nil)

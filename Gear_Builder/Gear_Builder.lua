@@ -25,7 +25,7 @@ local lGear = Apollo.GetPackage("Lib:LibGear-1.0").tPackage
 -- Constants
 -----------------------------------------------------------------------------------------------
 -- version
-local Major, Minor, Patch = 1, 0, 1 
+local Major, Minor, Patch = 1, 0, 2 
 local GP_VER = string.format("%d.%d.%d", Major, Minor, Patch)
 local GP_NAME = "Gear_Builder"
 
@@ -98,6 +98,7 @@ end
 function Gear_Builder:_Comm() 
 		
 	if lGear._isaddonup("Gear")	then							                	-- if 'gear' is running , go next
+		tComm:Stop()
 		tComm = nil 																-- stop init comm timer
 		if bCall == nil then lGear.initcomm(tPlugin) end 							-- send information about me, setting etc..
 	end
@@ -181,15 +182,15 @@ end
 ---------------------------------------------------------------------------------------------------
 function Gear_Builder:B_Check()
 	
-	if lGear._isaddonup("Builder") then							     				 -- if 'builder' is running , go next
-		tB = nil 																     -- stop init comm timer
+	if lGear._isaddonup("Builder") then	                                           	 -- if 'builder' is running , go next
+		tB = nil 																     -- destroy init comm timer
 		self:B_GetData() 					   								         -- get builder profiles..
 		self:B_MissingProfile()                                                      -- check missing profiles link  
 		self:B_LockLASMod(true)														 -- switch to 'las auto' and lock	
 	else																			 -- addon not up..
 		nTry = nTry + 1																 -- inc number of try to detect him
 		if nTry == nMaxTry then 													 -- after try so many times we turn off 
-			tB = nil 
+			tB = nil 																 -- destroy init comm timer
 			tPlugin.on = false														 -- turn off plugin 
 			local tData = {owner = GP_NAME, on = false,}	
 			Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_SET_OFF", tData)		 -- send this to 'gear'

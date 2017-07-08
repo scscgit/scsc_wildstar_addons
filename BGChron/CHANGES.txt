@@ -1,0 +1,37 @@
+------------------------------------------------------------------------
+r3 | celess22@gmail.com | 2017-05-27 23:03:47 -0500 (Sat, 27 May 2017) | 2 lines
+Changed paths:
+   M /trunk/BGChron.lua
+   M /trunk/toc.xml
+
+- update for API 15
+
+------------------------------------------------------------------------
+r2 | celess22@gmail.com | 2017-05-27 23:02:57 -0500 (Sat, 27 May 2017) | 2 lines
+Changed paths:
+   A /trunk/.pkgmeta
+   A /trunk/BGChron.lua
+   A /trunk/BGChron.wsproj
+   A /trunk/BGChron.xml
+   A /trunk/BGChronMatch.lua
+   A /trunk/libs
+   A /trunk/libs/PixiePlot
+   A /trunk/libs/PixiePlot/PixiePlot.lua
+   A /trunk/libs/PixiePlot/README.md
+   A /trunk/libs/PixiePlot/XmlDocument.lua
+   A /trunk/locales
+   A /trunk/locales/deDE.lua
+   A /trunk/locales/enUS.lua
+   A /trunk/locales/frFR.lua
+   A /trunk/toc.xml
+
+- initial commit
+
+------------------------------------------------------------------------
+r1 | celess22@gmail.com | 2017-05-27 22:40:42 -0500 (Sat, 27 May 2017) | 1 line
+Changed paths:
+   A /trunk
+
+
+------------------------------------------------------------------------
+

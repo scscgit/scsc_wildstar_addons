@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Addon Author="Daorven" APIVersion="13" Name="Gear_HoloSwap" Description="Profiles selector." Version="1.0.7">
+<Addon Author="Daorven" APIVersion="15" Name="Gear_HoloSwap" Description="Profiles selector." Version="1.0.7">
     <!-- Libraries -->
     <Script Name="..\Gear\libs\GeminiLocale-1.0\GeminiLocale.lua"/>
     <Script Name="..\Gear\libs\GeminiColor\GeminiColor.lua"/>
+	<Script Name="..\Gear\libs\LibGear-1.0\LibGear-1.0.lua"/>
     <!-- Localization -->
     <Script Name="locale\enUS.lua"/>
     <Script Name="locale\deDE.lua"/>

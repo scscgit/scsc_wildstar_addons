@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------
--- 'Gear' v2.4.1 [22/08/2016]
+-- 'Gear' v2.5.0 [21/03/2017] 
 -----------------------------------------------------------------------------------------------
  
 require "Window"
@@ -10,88 +10,89 @@ require "MacrosLib"
 
 -----------------------------------------------------------------------------------------------
 -- Gear Module Definition
------------------------------------------------------------------------------------------------
 local Gear = {} 
- 
------------------------------------------------------------------------------------------------
--- Localisation
------------------------------------------------------------------------------------------------
-local L = Apollo.GetPackage("Gemini:Locale-1.0").tPackage:GetLocale("Gear", true)
 
 -----------------------------------------------------------------------------------------------
--- gear module
------------------------------------------------------------------------------------------------
-local lGear = Apollo.GetPackage("Lib:LibGear-1.0").tPackage
+-- module
+local m_L = Apollo.GetPackage("Gemini:Locale-1.0").tPackage:GetLocale("Gear", true) 
+local m_lg = Apollo.GetPackage("Lib:LibGear-1.0").tPackage						  	
 
 -----------------------------------------------------------------------------------------------
--- Constants
+-- local function
+local _FindItem			= m_lg._FindItem
+local _SearchIn			= m_lg._SearchIn
+local _TableLengthBoth	= m_lg.TableLengthBoth
+local _TableLength		= m_lg.TableLength
+local _EquipFromBag		= m_lg._EquipFromBag
+local _CheckEquipped	= m_lg._CheckEquipped
+local _GetAllEquipped	= m_lg._GetAllEquipped
+local _EquipBagItem		= GameLib.EquipBagItem
+local _LoadForm			= Apollo.LoadForm
+
 -----------------------------------------------------------------------------------------------
--- version 
-local tVer = { major = 2, minor = 4, patch = 1, } 
+-- constant
+local tVer = { major = 2, minor = 5, patch = 0, } 
 local G_VER = string.format("%d.%d.%d", tVer.major, tVer.minor, tVer.patch)
 local G_NAME = "Gear"
 
-local tGear = {	
-         		gear = { },
-			  }       	
+-----------------------------------------------------------------------------------------------
+-- local
+local t_gear = {gear={}} 
+local t_plugin = {} 	 
+local t_uisetting = {} 	 
+local t_settings = {} 	 
+local n_zorder = 0 		 
+local o_delayed          
+local xmlDoc
  
- 
-local tItemSlot = {
+local t_itemslot = 
+{
+	[GameLib.CodeEnumEquippedItems.WeaponPrimary]		= { bInSlot = false, sToolTip = Apollo.GetString("Character_WeaponEmpty"),  	sIcon = "NewSprite:Weapon_Hands",				},					 
+	[GameLib.CodeEnumEquippedItems.Shields]				= { bInSlot = false, sToolTip = Apollo.GetString("Character_ShieldEmpty"),  	sIcon = "NewSprite:Shield_Weapon_attachment", 	},					 
+	[GameLib.CodeEnumEquippedItems.Head]				= { bInSlot = false, sToolTip = Apollo.GetString("Character_HeadEmpty"),  		sIcon = "NewSprite:Head",              		    },	
+	[GameLib.CodeEnumEquippedItems.Shoulder]			= { bInSlot = false, sToolTip = Apollo.GetString("Character_ShoulderEmpty"),  	sIcon = "NewSprite:Shoulders",          		},	
+	[GameLib.CodeEnumEquippedItems.Chest]				= { bInSlot = false, sToolTip = Apollo.GetString("Character_ChestEmpty"),  		sIcon = "NewSprite:Chest",             		    },	
+	[GameLib.CodeEnumEquippedItems.Hands]				= { bInSlot = false, sToolTip = Apollo.GetString("Character_HandsEmpty"),  		sIcon = "NewSprite:Weapon_Hands",       		},	
+	[GameLib.CodeEnumEquippedItems.Legs]				= { bInSlot = false, sToolTip = Apollo.GetString("Character_LegsEmpty"),  		sIcon = "NewSprite:Legs", 		   		        },	
+	[GameLib.CodeEnumEquippedItems.Feet]				= { bInSlot = false, sToolTip = Apollo.GetString("Character_FeetEmpty"),  		sIcon = "NewSprite:Feet",              		    },	
+	[GameLib.CodeEnumEquippedItems.WeaponAttachment]	= { bInSlot = false, sToolTip = Apollo.GetString("Character_AttachmentEmpty"),	sIcon = "NewSprite:Shield_Weapon_attachment",   },		
+	[GameLib.CodeEnumEquippedItems.System]				= { bInSlot = false, sToolTip = Apollo.GetString("Character_SupportEmpty"),  	sIcon = "NewSprite:Support",           		    },	
+	[GameLib.CodeEnumEquippedItems.Gadget]				= { bInSlot = false, sToolTip = Apollo.GetString("Character_GadgetEmpty"),  	sIcon = "NewSprite:Gadget",            		    },	
+	[GameLib.CodeEnumEquippedItems.Implant]				= { bInSlot = false, sToolTip = Apollo.GetString("Character_ImplantEmpty"),  	sIcon = "NewSprite:Implant", 		   		    },			
+}
 		
-[GameLib.CodeEnumEquippedItems.WeaponPrimary]		= { bInSlot = false, sToolTip = Apollo.GetString("Character_WeaponEmpty"),  	sIcon = "NewSprite:Weapon_Hands", 	   		},	-- 16				 
-[GameLib.CodeEnumEquippedItems.Shields]				= { bInSlot = false, sToolTip = Apollo.GetString("Character_ShieldEmpty"),  	sIcon = "NewSprite:Shield_Weapon_attachment", 	},	-- 15				 
-[GameLib.CodeEnumEquippedItems.Head]				= { bInSlot = false, sToolTip = Apollo.GetString("Character_HeadEmpty"),  		sIcon = "NewSprite:Head",              		},	-- 2
-[GameLib.CodeEnumEquippedItems.Shoulder]			= { bInSlot = false, sToolTip = Apollo.GetString("Character_ShoulderEmpty"),  	sIcon = "NewSprite:Shoulders",          		},	-- 3
-[GameLib.CodeEnumEquippedItems.Chest]				= { bInSlot = false, sToolTip = Apollo.GetString("Character_ChestEmpty"),  		sIcon = "NewSprite:Chest",             		},	-- 0
-[GameLib.CodeEnumEquippedItems.Hands]				= { bInSlot = false, sToolTip = Apollo.GetString("Character_HandsEmpty"),  		sIcon = "NewSprite:Weapon_Hands",       		},	-- 5
-[GameLib.CodeEnumEquippedItems.Legs]				= { bInSlot = false, sToolTip = Apollo.GetString("Character_LegsEmpty"),  		sIcon = "NewSprite:Legs", 		   		},	-- 1
-[GameLib.CodeEnumEquippedItems.Feet]				= { bInSlot = false, sToolTip = Apollo.GetString("Character_FeetEmpty"),  		sIcon = "NewSprite:Feet",              		},	-- 4
-[GameLib.CodeEnumEquippedItems.WeaponAttachment]	= { bInSlot = false, sToolTip = Apollo.GetString("Character_AttachmentEmpty"),	sIcon = "NewSprite:Shield_Weapon_attachment",   },	-- 7 	
-[GameLib.CodeEnumEquippedItems.System]				= { bInSlot = false, sToolTip = Apollo.GetString("Character_SupportEmpty"),  	sIcon = "NewSprite:Support",           		},	-- 8	
-[GameLib.CodeEnumEquippedItems.Gadget]				= { bInSlot = false, sToolTip = Apollo.GetString("Character_GadgetEmpty"),  	sIcon = "NewSprite:Gadget",            		},	-- 11
-[GameLib.CodeEnumEquippedItems.Implant]				= { bInSlot = false, sToolTip = Apollo.GetString("Character_ImplantEmpty"),  	sIcon = "NewSprite:Implant", 		   		},	-- 10				  }		
-											
-				   }
-
-
--- size	limit modal/settings window			
-local tSize = {
-				-- modal 
-				modal = {  
+local t_size = { 	     
+				modal = {   
 						anchor = { l = 0, t = 0, r = 0, b = 0,},	
 						   min = { width = 0, height = 0,}, 
 						   max = { width = 430, height = 0,},
 						},
-				
-				-- settings 
 			 settings = { 
 						anchor = { l = 0, t = 0, r = 0, b = 0,},
 						   min = { width = 0, height = 0,}, 
 						   max = { width = 430, height = 0,},
 						},
 				}						
-				
-								
-				
--- color with section				
-local tColor = {
-				plugin = { ["true"] = "xkcdBabyBlue",  ["false"] = "xkcdBattleshipGrey",},  -- on/off color for text setting 
-	       ui_selected = { ["true"] = 0.8, ["false"] = 0.5 , }, 							-- opacity ui setting button
-		      ui_color = { ["true"] = "xkcdBoringGreen", ["false"] = "xkcdAquaBlue", }, 	-- color status for ui setting button
-
+			
+local t_color = { 		  
+					plugin      = { ["true"] = "xkcdBabyBlue",  ["false"] = "xkcdBattleshipGrey",},  
+					plugin_icon = { ["true"] = "xkcdAquaBlue",  ["false"] = "xkcdBattleshipGrey",},  
+					ui_selected = { ["true"] = 0.8, ["false"] = 0.5 , }, 							 
+					ui_color    = { ["true"] = "xkcdBoringGreen", ["false"] = "xkcdAquaBlue", }, 	
 				}				
-				
 								
--- to keep plugin information 								
-local tPlugIn = {}
--- to keep plugin ui setting  								
-local tUI_Setting = {}
--- core option (all child is a index inc by 1, only for core setting)
-local tOption = {}
+local t_quality = { 	  
+                  	[Item.CodeEnumItemQuality.Inferior]		= "ItemQuality_Inferior",
+					[Item.CodeEnumItemQuality.Average]		= "ItemQuality_Average",
+					[Item.CodeEnumItemQuality.Good] 		= "ItemQuality_Good",
+					[Item.CodeEnumItemQuality.Excellent]	= "ItemQuality_Excellent",
+					[Item.CodeEnumItemQuality.Superb] 		= "ItemQuality_Superb",
+					[Item.CodeEnumItemQuality.Legendary]	= "ItemQuality_Legendary",
+					[Item.CodeEnumItemQuality.Artifact]	 	= "ItemQuality_Artifact",
+	             }
 							
 -----------------------------------------------------------------------------------------------
--- Initialization
------------------------------------------------------------------------------------------------
+-- new instance
 function Gear:new(o)
     o = o or {}
     setmetatable(o, self)
@@ -100,210 +101,186 @@ function Gear:new(o)
     return o
 end
 
+-----------------------------------------------------------------------------------------------
+-- init instance
 function Gear:Init()
 	Apollo.RegisterAddon(self, true, "Gear", nil)
 end
 
 -----------------------------------------------------------------------------------------------
--- Gear OnLoad
------------------------------------------------------------------------------------------------
+-- onload
 function Gear:OnLoad()
- 	
-    self.xmlDoc = XmlDoc.CreateFromFile("Gear.xml")
-    Apollo.LoadSprites("NewSprite.xml")
-		
-	Apollo.RegisterSlashCommand("gear", 							 "OnSlash", self)
+ 	Apollo.LoadSprites("resource/NewSprite.xml")
+    xmlDoc = XmlDoc.CreateFromFile("Gear.xml")
+   	Apollo.RegisterSlashCommand("gear", 							 "OnSlash", self)
 	Apollo.RegisterEventHandler("PlayerEquippedItemChanged", 		 "OnPlayerEquippedItemChanged", self)
 	Apollo.RegisterEventHandler("UpdateInventory", 					 "OnUpdateInventory", self)
-    Apollo.RegisterEventHandler("InterfaceMenuListHasLoaded", 		 "OnInterfaceMenuListHasLoaded", self)
+	Apollo.RegisterEventHandler("InterfaceMenuListHasLoaded", 		 "OnInterfaceMenuListHasLoaded", self)
 	Apollo.RegisterEventHandler("Generic_OnShowGear", 				 "OnShowGear", self)	
    	Apollo.RegisterEventHandler("SpecChanged", 						 "OnSpecChanged", self)
+	Apollo.RegisterEventHandler("ChangeWorld", 						 "OnCanEquip", self) 
+	Apollo.RegisterEventHandler("PlayerResurrected",                 "OnCanEquip", self)
+    Apollo.RegisterEventHandler("UnitEnteredCombat", 				 "OnEnteredCombat", self)
  	Apollo.RegisterEventHandler("Generic_GEAR_UPDATE", 				 "ON_GEAR_UPDATE", self)
 	Apollo.RegisterEventHandler("Generic_GEAR_PLUGIN", 				 "ON_GEAR_PLUGIN", self)
-						
 	self.bStopEquip 	= true
 	self.bLockForUpdate = false
 	self.bMenAtWork 	= false
 	self.nLASMod 		= 1
 	self.bReEquipOld 	= false
 	self.bModal 		= true
+	self.bCanEquip      = true
 end
 
 -----------------------------------------------------------------------------------------------
---- all plugin communicate with gear in this function
------------------------------------------------------------------------------------------------
-function Gear:ON_GEAR_PLUGIN(sAction, tData)
+-- event fired if players enter/leave combat  
+function Gear:OnEnteredCombat(unit, bInCombat)
+	if unit:IsThePlayer() then
+		self.bCanEquip = not bInCombat and not unit:IsDead()
+	end
+end
 
-	-- answer from a plugin, plugin ready
+-----------------------------------------------------------------------------------------------
+-- event fired after changeworld/playerresurrected 
+function Gear:OnCanEquip()
+	self.bCanEquip = true 
+end
+
+-----------------------------------------------------------------------------------------------
+-- all plugin communicate with gear in this function
+function Gear:ON_GEAR_PLUGIN(sAction, tData)
 	if sAction == "G_READY" then
-			
-		-- we send gear version	to owner plugin
 		local tVerToOwner = tVer
 		tVerToOwner.owner = tData.name
 		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_VER", tVerToOwner)
-		
-		-- plugin setting detected, add new plugin and setting to toption
 		if tData.setting then
-			tOption[tData.setting.name] = tData.setting[1]
-			tOption[tData.setting.name].plugin = tData.name
-			-- keep information from this new plugin
+		    t_settings[tData.name] = tData.setting[1]   
+			t_settings[tData.name].plugin = tData.name 
+			t_settings[tData.name].translatename = tData.setting.name 
 			local sIcon = nil
-			if tData.icon then sIcon = lGear._loadicon(tData.name) end
-			tPlugIn[tData.name] = { settingname = tData.setting.name, ver = tData.version, flavor = tData.flavor, on = tData.on, icon = sIcon}
+			if tData.icon then sIcon = m_lg._loadicon(tData.name) end
+			t_plugin[tData.name] = { ver = tData.version, flavor = tData.flavor, on = tData.on, icon = sIcon}
+			if tData.ui_setting then
+			    n_zorder = n_zorder + 1
+				t_plugin[tData.name].zorder = n_zorder
+			end
 		end
-				
-		-- plugin ui setting detected, keep for profil
 		if tData.ui_setting then
-			tUI_Setting[tData.setting.name] = tData.ui_setting
-			tUI_Setting[tData.setting.name].plugin = tData.name
+			t_uisetting[tData.name] = tData.ui_setting
+			t_uisetting[tData.name].plugin = tData.name
 		end
-	end	
+	end
 	
-	-- answer from a plugin, set plugin to off
 	if sAction == "G_SET_OFF" then
-		tPlugIn[tData.owner].on = tData.on
-				
-		-- if settings open , refresh setting 
+		t_plugin[tData.owner].on = tData.on
 		if self.wndOption  then 
-			self:SaveSize(self.wndOption, tSize.settings)
-			-- remember scroll position	
+			self:SaveSize(self.wndOption, t_size.settings)
 			local nVScrollPos = self.wndOption:FindChild("OptionWnd_Frames"):GetVScrollPos() 
 			self:ShowSettings() 
-			-- restore scroll position
 			self.wndOption:FindChild("OptionWnd_Frames"):SetVScrollPos(nVScrollPos)
-			-- update plugin ui setting panel
-			self:Update_UI_Setting()
+			if t_uisetting[tData.owner] then 
+				self:Update_UI_Plugin(tData.owner, 2)
+			end
 		end
 	end	
 		
-	-- answer from a plugin, a new gear array
 	if sAction == "G_SET_ARRAY" then
-		-- we update gear array
-		tGear.gear = tData.gear	
+		t_gear.gear = tData.gear	
 	end	
 		
-	-- answer from a plugin, want gear array
 	if sAction == "G_GET_GEAR" then
-		-- we send gear array	
-		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_GEAR", tGear.gear)
-		
+		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_GEAR", t_gear.gear)
 	end	
 		
-	-- answer from a plugin, want last gear
 	if sAction == "G_GET_LASTGEAR" then
-		-- we send last gear equipped
 		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_LASTGEAR", { ngearid = self.nGearId })
 	end	
-	
-	-- answer from a plugin or gear, want know is actual equipped gear as no error
+		
 	if sAction == "G_GET_CHECK_GEAR" then
-			
-		-- we check status
-		self:_CheckEquipped(self.nGearId)
+		_CheckEquipped(self.nGearId, t_gear.gear)
 	end	
 		
-	-- answer from a plugin, want gear launch a function array
 	if sAction == "G_SET_FUNC" then
-		
-		-- to prevent erased gear set 
-		if tGear.gear[tData.ngearid] == nil then 
+	   	if t_gear.gear[tData.ngearid] == nil then 
 			self:IsGearIdExist()
 			tData.ngearid = self.nGearId
 		end 
-		
-		-- we execute function gear array				
 		for _=1,#tData.func do
-				
-				if tData.func[_] == "SELECT" then self:ShowSelectGear(tData.ngearid) end
-				if tData.func[_] == "EQUIP" then 
-				
-					self:IniEquipGear(tData.ngearid, true)
-					self.bIsGearSwitch = true
-				end
-				if tData.func[_] == "LAS" then self:Align_LAS(tData.ngearid) end
-				if tData.func[_] == "LASMOD_AUTO" then self:Align_LAS_Mod(tData.lasmod, tData.lock) end
-				if tData.func[_] == "SET_UI_TARGET" then 
-				     
-                    -- send to other plug-in 'Gear' have now a new main window.
-					Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_UI_REMOVED", nil)
-					
-					if tData.uiremoved then 
-										
-						self.wndGear, self.Gear_Panel = nil, nil
-						self.bModal = true
-						return
-					else
-						if self.wndGear then self.wndGear:Destroy() end	
-						self.wndGear, self.Gear_Panel = nil, nil
-					end					 
-					
-					self.bModal = false
-					self:IniWindow(tData.uitarget)
-				end
-				
+			if tData.func[_] == "SELECT" and self.bCanEquip then self:ShowSelectGear(tData.ngearid) end
+			if tData.func[_] == "EQUIP" and self.bCanEquip then 
+				self:IniEquipGear(tData.ngearid, true)
+				self.bIsGearSwitch = true
+			end
+			if tData.func[_] == "LAS" and self.bCanEquip then self:Align_LAS(tData.ngearid) end
+			if tData.func[_] == "LASMOD_AUTO" then self:Align_LAS_Mod(tData.lasmod, tData.lock) end
+			if tData.func[_] == "SET_UI_TARGET" then 
+				Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_UI_REMOVED", nil)
+				if tData.uiremoved then 
+					self.wndGear, self.Gear_Panel = nil, nil
+					self.bModal = true
+					return
+				else
+					if self.wndGear then self.wndGear:Destroy() end	
+					self.wndGear, self.Gear_Panel = nil, nil
+				end					 
+				self.bModal = false
+				self:IniWindow(tData.uitarget)
+			end
 		end
 	end	
 		
-	-- answer from a plugin, want update ui setting for a specific plugin
 	if sAction == "G_SET_UI_SETTING" then
-			
-		-- var { owner = sOwner, uiid = nUIId, saved = {some array}, }
-		-- keep saved var to use with tooltips after selected a new target in list button
-		tUI_Setting[tPlugIn[tData.owner].settingname][tData.uiid].Saved = tData.saved
-					
-		-- update plugin ui setting button color status only
+		if tData.saved == nil then
+			t_uisetting[tData.owner][tData.uiid].Saved[tData.ngearid] = nil
+		else
+			t_uisetting[tData.owner][tData.uiid].Saved = tData.saved	
+		end
 		if self.Gear_Panel == nil then return end
 		local sPluginBtnName = tData.owner .. "_" .. tData.uiid
 		local nGearId = tData.ngearid
 		local cButton = self.Gear_Panel:FindChild("gear_" .. nGearId):FindChild(sPluginBtnName)
 		if cButton == nil then return end	
-				
-		-- detect status (for push button with a list)
-		local bSelected = false
+		local bSelected = nil
 		if tData.saved and tData.saved[nGearId] then
         	bSelected = true
 		end
-		
-		-- update ui button status/color
-		self:Set_UI_ColorStatus(cButton, bSelected)
-		
+		if tData.custom then
+			cButton:GetData().custom = tData.custom
+		end
+		self:Set_UI_ColorStatus(cButton, bSelected, tData.custom)
 	end
 end
 
 -----------------------------------------------------------------------------------------------
--- Set_UI_ColorStatus
------------------------------------------------------------------------------------------------
-function Gear:Set_UI_ColorStatus(cButton, bSelected)
-	
-	cButton:SetBGColor(tColor.ui_color[tostring(bSelected)])	  
-	cButton:SetOpacity(tColor.ui_selected[tostring(bSelected)],60)
-			
-	-- show text or not for actual button 
-	if cButton:GetData().status then
-	
-		local  sOwner = cButton:GetData().owner	    -- get plugin owner
-		local   nUIId = cButton:GetData().uiid		-- get index of ui setting array, to identify control
-	 	local nGearId = cButton:GetData().ngearid
-	
-		local sStatusText = ""
+-- set color/status for profile plugin 
+function Gear:Set_UI_ColorStatus(cButton, bSelected, tCustom)
+	local sPlugin = cButton:GetData().owner	         
+	local   nUIId = cButton:GetData().uiid		     
+	local nGearId = cButton:GetData().ngearid         
+	local bStatus = cButton:GetData().status         
+	local sStatusText
+   	local sColor = t_color.ui_color[tostring(bSelected or false)] 
+	local nOpacity = t_color.ui_selected[tostring(bSelected or false)] 
+   	if tCustom then 
+		sColor = tCustom.color
+		nOpacity = tCustom.opacity
+	end
+	cButton:SetBGColor(sColor)
+	cButton:SetOpacity(nOpacity,60) 
+	if bStatus then
 		if bSelected then 
-			sStatusText = tUI_Setting[tPlugIn[sOwner].settingname][nUIId].Saved[nGearId].root
+			sStatusText = t_uisetting[sPlugin][nUIId].Saved[nGearId].root
 		end	
-		
-		cButton:SetText(sStatusText)
+		cButton:SetText(sStatusText or "")
 	end
 end
 
 -----------------------------------------------------------------------------------------------
--- Align_LAS_Mod
------------------------------------------------------------------------------------------------
+-- align lasmod
 function Gear:Align_LAS_Mod(nLasMod, bLock)
-	
 	self.nLASMod = nLasMod
 	self.bLock = bLock
-	
 	if self.Gear_Panel then 
-			
 		local cControl = self.Gear_Panel:FindChild("LasMod_Btn")
 		cControl:SetData(nLasMod - 1)
 		self:OnLasModClick( nil, cControl, nil )
@@ -312,135 +289,130 @@ function Gear:Align_LAS_Mod(nLasMod, bLock)
 end
 
 -----------------------------------------------------------------------------------------------
--- OnConfigure
------------------------------------------------------------------------------------------------
+-- show settings
 function Gear:OnConfigure()
 	self:ShowSettings()
 end
 
 -----------------------------------------------------------------------------------------------
--- ShowSettings
------------------------------------------------------------------------------------------------
+-- create settings window
 function Gear:ShowSettings()
-
-	-- init option window
 	if self.wndOption then self.wndOption:Destroy() end
-	self.wndOption = Apollo.LoadForm(self.xmlDoc, "OptionWnd", nil, self)
-	self.wndOption:FindChild("TitleWnd"):SetText("'Gear' " .. L["G_O_SETTINGS"])
-				
-	-- create each parent with child option
-	for _, peCurrent in pairs(tOption) do
-	
-		local wndFrame_O = Apollo.LoadForm(self.xmlDoc, "Frame_wnd", self.wndOption:FindChild("OptionWnd_Frames"), self)
-		wndFrame_O:FindChild("FrameTitle_wnd"):SetText(_)
-				
-		-- keep if this setting is a plugin, to communicate setting status to owner plugin
+	self.wndOption = _LoadForm(xmlDoc, "OptionWnd", nil, self)
+	self.wndOption:FindChild("TitleWnd"):SetText("'Gear' " .. m_L["G_O_SETTINGS"])
+	for _, peCurrent in pairs(t_settings) do
+		local wndFrame_O = _LoadForm(xmlDoc, "Frame_wnd", self.wndOption:FindChild("OptionWnd_Frames"), self)
+		wndFrame_O:FindChild("FrameTitle_wnd"):SetText(peCurrent.translatename)
 		local sOwner = nil
-		-- if this a plugin setting, add an icon and keep plugin reference
 		if peCurrent.plugin then
-			-- information icon
-			local wndPlugin = Apollo.LoadForm(self.xmlDoc, "Plugin_wnd", wndFrame_O:FindChild("FrameTitle_wnd"), self)
+			local wndPlugin = _LoadForm(xmlDoc, "Plugin_wnd", wndFrame_O:FindChild("FrameTitle_wnd"), self)
 			wndPlugin:SetSprite("PlayerPathContent_TEMP:spr_PathIconExpDefault")
 			sOwner = peCurrent.plugin
 			wndPlugin:SetData({ name = sOwner,})
-			
-			-- add plugin icon (usable for setting and ui setting)
-			if tPlugIn[sOwner].icon then
-				local wndPlugin = Apollo.LoadForm(self.xmlDoc, "Plugin_Icon_wnd", wndFrame_O:FindChild("FrameTitle_wnd"), self)
-				wndPlugin:SetSprite(tPlugIn[sOwner].icon)
+			if t_plugin[sOwner].icon then
+				local wndPlugin = _LoadForm(xmlDoc, "Plugin_Icon_wnd", wndFrame_O:FindChild("FrameTitle_wnd"), self)
+				wndPlugin:SetSprite(t_plugin[sOwner].icon)
+				wndPlugin:SetBGColor(t_color.plugin_icon[tostring(t_plugin[sOwner].on)])
 				wndPlugin:SetOpacity(0.5,25)
 			end			
-						
-			-- set title color enable/disable status if is a plugin
-			wndFrame_O:FindChild("FrameTitle_wnd"):SetTextColor(tColor.plugin[tostring(tPlugIn[sOwner].on)])
-
+			wndFrame_O:FindChild("FrameTitle_wnd"):SetTextColor(t_color.plugin[tostring(t_plugin[sOwner].on)])
 		end
-				
 		local sIndex = _
-		
-		local nHeightBtn = nil
+		local nHeightBtn = 0
+		local tControlType = {
+								["toggle"] = "Option_toggle_Btn",
+					  		      ["push"] = "Option_push_Btn",  
+					            ["slider"] = "Option_slider_Btn", 
+				             }
 		for _, peOption in pairs(peCurrent) do
-			-- look if an a option, numeric index 
 			if tonumber(_) then
-			
-				local btnOption = nil
-				-- advanced option button, only push button..
-				if peOption.sType then 
-					btnOption =  Apollo.LoadForm(self.xmlDoc, "Option_Adv_Btn", wndFrame_O, self)
-				else
-				-- toggle button 
-					btnOption =  Apollo.LoadForm(self.xmlDoc, "Option_Btn", wndFrame_O, self)
+				local btnOption =  _LoadForm(xmlDoc, tControlType[peOption.sType] , wndFrame_O, self)
+				local sAppend = ""
+				if peOption.sType == "toggle" then
 					btnOption:SetCheck(peOption.bActived)
+				elseif peOption.sType == "push" then
+									
+				elseif peOption.sType == "slider" then
+				 	btnOption:FindChild("Slider_Sb"):SetMinMax(peOption.tValue.min, peOption.tValue.max, peOption.tValue.tick )
+					btnOption:FindChild("Slider_Sb"):SetValue(peOption.tValue.last)	
+					sAppend = " " .. string.format("%.f", math.floor(peOption.tValue.last)).." %"
 				end
-							
-				btnOption:SetText(peOption.sDetail)
+				nHeightBtn = nHeightBtn + btnOption:GetHeight()		
+				btnOption:SetText(peOption.sDetail .. sAppend)
 				btnOption:SetData({ sIdx = sIndex, nOption = _, plugin = sOwner,})
-				nHeightBtn = btnOption:GetHeight()
-				-- set enable/disable status if is a option plugin
-				if peCurrent.plugin then btnOption:Enable(tPlugIn[sOwner].on) end
-				
+				if peCurrent.plugin then 
+					btnOption:Enable(t_plugin[sOwner].on) 
+					btnOption:SetTextColor(t_color.plugin[tostring(t_plugin[sOwner].on)])
+				end
 			end
 		end
 		wndFrame_O:ArrangeChildrenVert()
-		
-		-- resize only if we have child option
-		if nHeightBtn then 
-			local nBtn = lGear.TableLength(peCurrent)
+		if nHeightBtn ~= 0 then
 			local l,t,r,b = wndFrame_O:GetAnchorOffsets()
-			wndFrame_O:SetAnchorOffsets(l , t, r, b + (nBtn * nHeightBtn))
+			wndFrame_O:SetAnchorOffsets(l,t,r,b + (nHeightBtn))
 		end
 	end
-				
 	self.wndOption:FindChild("OptionWnd_Frames"):ArrangeChildrenVert()
-	self:SetSize(self.wndOption, tSize.settings)
+	self:SetSize(self.wndOption, t_size.settings)
+	self.wndOption:SetInterrupt(true)
 	self.wndOption:Show(true, true)
 end
 
----------------------------------------------------------------------------------------------------
--- OnOptionClick
----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+-- settings control 'toggle' check/uncheck
 function Gear:OnOptionClick( wndHandler, wndControl, eMouseButton )
-	
 	local nOption = wndControl:GetData().nOption
 	local sIndex = wndControl:GetData().sIdx
 	local sOwner = wndControl:GetData().plugin
-		
-	tOption[sIndex][nOption].bActived = wndControl:IsChecked()
-			
-	-- setting from plugin modified, alert the plugin owner
+	t_settings[sIndex][nOption].bActived = wndControl:IsChecked()
 	if sOwner then
-		-- we get option status 	
-		local tSetting = { owner = sOwner, option = nOption, actived = tOption[sIndex][nOption].bActived }
+		local tSetting = { owner = sOwner, option = nOption, actived = t_settings[sIndex][nOption].bActived }
 		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_SETTING", tSetting)
 	end
 end
 
----------------------------------------------------------------------------------------------------
--- OnOptionClose
----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+-- settings control 'slider' changed
+function Gear:OnOptionSlide( wndHandler, wndControl, fNewValue, fOldValue )
+	local tData = wndControl:GetParent():GetData()
+	t_settings[tData.sIdx][tData.nOption].tValue.last = fNewValue
+	local sDetail = t_settings[tData.sIdx][tData.nOption].sDetail
+	wndControl:GetParent():SetText(sDetail .. " " .. string.format("%.f", math.floor(fNewValue)).." %")
+	if tData.plugin then
+		local tSetting = { owner = tData.plugin, option = tData.nOption, last = fNewValue}
+		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_SETTING", tSetting)
+	end
+end
+
+-----------------------------------------------------------------------------------------------
+-- close settings/modal window
 function Gear:OnOptionClose( wndHandler, wndControl, eMouseButton )
-	-- if we close modal gear, init 	
+	if self.wndGear  == nil or self.wndOption == nil then 
+		wndControl:GetParent():SetInterrupt(false)
+	end	
 	if wndControl:GetData() == "modal" then
-		self:SaveSize(self.wndGear, tSize.modal)
+		self:SaveSize(self.wndGear, t_size.modal)
 		self.wndGear, self.Gear_Panel = nil, nil
 	else
-		self:SaveSize(self.wndOption, tSize.settings)
+		self:SaveSize(self.wndOption, t_size.settings)
 		self.wndOption = nil	
 	end
 	wndControl:GetParent():Destroy()
 end
 
 -----------------------------------------------------------------------------------------------
--- Set_UI_Settings (construct plugin ui setting)
------------------------------------------------------------------------------------------------
+-- create all plugins for a profile
 function Gear:Set_UI_Settings(nGearId, wndControl)
+	for sPlugin, pOption in pairs(t_uisetting) do
+	   if t_plugin[sPlugin].on then self:Update_UI_Add(nGearId, wndControl, sPlugin) end 
+	end
+	wndControl:FindChild("Plugin_Frame"):ArrangeChildrenHorz(0, function(a,b) return (a:GetData().zorder < b:GetData().zorder) end) 
+end
 
-	-- sType = 'toggle_unique' (on/off state, only once can be enabled in all profil, but all can be disabled)
-	-- sType = 'toggle' (on/off state)
-	-- sType = 'push' (on click state)
-	-- sType = 'none' (no state, only icon to identify the plugin)	
-    -- to assign the good control with type
-	local tControlType = {
+-----------------------------------------------------------------------------------------------
+-- create plugin for a profile
+function Gear:Update_UI_Add(nGearId, wndControl, sPlugin)
+    local tControlType = {
 							["toggle_unique"] = "UI_toggle_unique_Btn",
 							["toggle"] 		  = "UI_toggle_Btn",
 							["push"]          = "UI_push_Btn",
@@ -448,161 +420,105 @@ function Gear:Set_UI_Settings(nGearId, wndControl)
 							["action"]        = "UI_action_Btn",
 							["list"]          = "UI_list_Btn",
 	    				 }
-		
-
-	-- set ui setting frame
 	local wndIcon_Frame = wndControl:FindChild("Plugin_Frame")
-		
-    -- get each ui first setting control and create in frame
-    for _, pOption in pairs(tUI_Setting) do
-  	    						
-				-- create only if plugin is actived	
-				if tPlugIn[tUI_Setting[_].plugin].on then	
-					-- get the good control from type
-					local sControlToUse = tControlType[pOption[1].sType]
-					local UI_Btn = Apollo.LoadForm(self.xmlDoc, sControlToUse, wndIcon_Frame, self)
-			
-					-- add plugin icon for the first ui setting button only
-					UI_Btn:ChangeArt(tPlugIn[pOption.plugin].icon)
-					UI_Btn:SetOpacity(tColor.ui_selected["false"], 25)
-					UI_Btn:SetBGColor(tColor.ui_color["false"])
-
-				
-					-- set data to button  
-					local sUIId   = 1 					   -- index of ui setting array, identify each control
-					local sOwner  = pOption.plugin		   -- plugin name
-					local sType   = pOption[1].sType       -- button type  
-					local sStatus = pOption[1].sStatus     -- show status text in button
-					local tSaved  = pOption[1].Saved       -- must be array or single variable
-					local tData   = { uiid = sUIId ,type = sType, status = sStatus, ngearid = nGearId, owner = sOwner,}
-					UI_Btn:SetData(tData)
-								
-					-- set control name (ex: "Gear_Mount_1" for the first control from ui setting array)
-            		UI_Btn:SetName(sOwner .. "_" .. sUIId )
-
-                	-- set enable/disable with button type
-					local bSelected = false
-					if sType == "toggle_unique" then 
-						if tSaved == nGearId then  
-							bSelected = true
-						end	  
-						UI_Btn:SetCheck(bSelected)
-					end     
-				
-					-- push button 
-					if sType == "push" then 
-						if tSaved and tSaved[nGearId] then
-        					bSelected = true
-						end
-					end  
-										
-					-- update ui button status color
-					self:Set_UI_ColorStatus(UI_Btn, bSelected)
-					
-				end	     
-			end		
-		
-	wndIcon_Frame:ArrangeChildrenHorz()
+	local sControlToUse = tControlType[t_uisetting[sPlugin][1].sType]
+	local UI_Btn = _LoadForm(xmlDoc, sControlToUse, wndIcon_Frame, self)
+	UI_Btn:ChangeArt(t_plugin[sPlugin].icon)
+	UI_Btn:SetOpacity(t_color.ui_selected["false"], 25)
+	UI_Btn:SetBGColor(t_color.ui_color["false"])
+	local sUIId   = 1 					                 
+	local sOwner  = sPlugin                    	      
+	local sType   = t_uisetting[sPlugin][1].sType         
+	local sStatus = t_uisetting[sPlugin][1].sStatus      
+	local nZorder = t_plugin[sPlugin].zorder              
+	local tSaved  = t_uisetting[sPlugin].Saved           
+	local tData   = { uiid = sUIId ,type = sType, status = sStatus, zorder = nZorder, ngearid = nGearId, owner = sOwner,}
+	UI_Btn:SetData(tData)
+	UI_Btn:SetName(sOwner .. "_" .. sUIId )
 end
 
 -----------------------------------------------------------------------------------------------
--- OnProfileClick (click on profile item or name profile)
------------------------------------------------------------------------------------------------
+-- click on profile item or profile name
 function Gear:OnProfileClick( wndHandler, wndControl, eMouseButton, nLastRelativeMouseX, nLastRelativeMouseY, bDoubleClick, bStopPropagation )
-  	
-	-- click in item profile or name profile
-	local tData = { mouse = eMouseButton, ocontrol = wndControl, tgear = tGear.gear, titemslot = tItemSlot } 
+  	local tData = { mouse = eMouseButton, ocontrol = wndControl, tgear = t_gear.gear, titemslot = t_itemslot } 
 	Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_ITEM_CLICK", tData)
 end
 
 -----------------------------------------------------------------------------------------------
--- GetGear 
------------------------------------------------------------------------------------------------
+-- return array of all profile for partner addon
 function Gear:GetGear()
-	
-	if lGear.TableLength(tGear.gear) == 0 then return nil end
-	
+	if _TableLength(t_gear.gear) == 0 then return nil end
 	local tGearUpdate = {}
-	for _, pGear in pairs(tGear.gear) do
-	    	tGearUpdate[_] = { name = pGear.name }
+	for _, pGear in pairs(t_gear.gear) do
+		tGearUpdate[_] = { name = pGear.name }
 	end
 	return tGearUpdate
 end
 
 -----------------------------------------------------------------------------------------------
--- ON_GEAR_UPDATE 
------------------------------------------------------------------------------------------------
+-- all event from partner addon come here
 function Gear:ON_GEAR_UPDATE(sAction, nGearId, tGearUpdate, nLasMod, tError)
-		
 	if sAction == "G_EQUIP" then 
-			    
-		if lGear.TableLength(tGear.gear) ~= 0 and tGear.gear[nGearId] then 
-			
-			-- this request to equip a set not come from gear ui, but come from another addon.
-		   	self:ShowSelectGear(nGearId)	
-	    	self:IniEquipGear(nGearId, false)
+		if _TableLength(t_gear.gear) ~= 0 and t_gear.gear[nGearId] and self.bCanEquip then 
+		   	self:IniEquipGear(nGearId, false)
 			self.bIsGearSwitch = true
-			-- set lasmod		
 			self:Align_LAS_Mod(nLasMod, false)
-						
 			if nLasMod and nLasMod ~= 3 then self:Align_LAS(nGearId) end
 		end
 	end
 
 	if sAction == "G_GETGEAR" then 
-		
 		local tGearUpdate = self:GetGear()
 		Event_FireGenericEvent("Generic_GEAR_UPDATE", "G_GEAR", self.nGearId, tGearUpdate, nil, nil)
 	end
-	
-	-- event after equip a gear set
-	-- if error we get array terror with status from all slot from a specific gear set and ngearid 
-	-- or terror = nil if no error
+		
 	if sAction == "G_AFTER_EQUIP" then 
-	--
+	    if tError == nil then 
+		
+		else 
+			for nSlot, bEquipped in pairs(tError) do
+				if not bEquipped then 
+				
+				else
+					
+				end 
+			end
+			local wnd = Apollo.FindWindowByName("gear_" .. nGearId)
+			if wnd then 
+				wnd:FindChild("GearName_Btn"):SetTextColor("red")
+			end
+		end
 	end
 end
 
 -----------------------------------------------------------------------------------------------
--- OnSpecChanged
------------------------------------------------------------------------------------------------
+-- event fired after las changed
 function Gear:OnSpecChanged(newSpecIndex, specError)
-   	
    if self.bIsGearSwitch or self.nLASMod >= 2 then self.bIsGearSwitch = false return end
-
-   for _, oGear in pairs(tGear.gear) do
-		
+   for _, oGear in pairs(t_gear.gear) do
 		if oGear.las[1] and oGear.las[1] == newSpecIndex then 
-			
-			self:ShowSelectGear(_)	
-		   	self:IniEquipGear(_, true)
+			self:IniEquipGear(_, true)
 			return 
 		end
 	end
 end
 
 -----------------------------------------------------------------------------------------------
--- ShowMenu 
------------------------------------------------------------------------------------------------
+-- create las popup menu
 function Gear:ShowMenu(nGearId, nCount, nTarget)
-
 	local nXYmouse = Apollo.GetMouse()
     local nLeft = nXYmouse.x
  	local nTop = nXYmouse.y
-
     if self.wndMenu then self.wndMenu:Destroy() end
-	self.wndMenu = Apollo.LoadForm(self.xmlDoc, "LAS_wnd", nil, self)
+	self.wndMenu = _LoadForm(xmlDoc, "LAS_wnd", nil, self)
 	local nCount = nCount
-	
 	for nId =1, nCount + 1 do
-			
-		self.wndBtnMenu = Apollo.LoadForm(self.xmlDoc, "LAS_Btn", self.wndMenu:FindChild("LAS_Frame"), self)
+		self.wndBtnMenu = _LoadForm(xmlDoc, "LAS_Btn", self.wndMenu:FindChild("LAS_Frame"), self)
 		if nId == nCount + 1 then nId = 0 end
 		local tData = { gearid = nGearId, id = nId, target = nTarget}				
 		self.wndBtnMenu:SetData(tData)
 		if nId ~= 0 then self.wndBtnMenu:SetText(nId) end
 	end
-	
 	self.wndMenu:FindChild("LAS_Frame"):ArrangeChildrenHorz(0)
 	local nHeightSize = self.wndMenu:GetHeight()
 	local nBtnMenuSize = self.wndBtnMenu:GetWidth() 
@@ -611,63 +527,49 @@ function Gear:ShowMenu(nGearId, nCount, nTarget)
 	self.wndMenu:Show(true, true)
 end
 
----------------------------------------------------------------------------------------------------
--- DestroyMenu
----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+-- destroy las popup menu
 function Gear:DestroyMenu()
-	
     if Apollo.FindWindowByName("LAS_wnd") then 
     	self.wndMenu:DestroyChildren()		
 		self.wndMenu:Destroy()
 	end
 end
 
----------------------------------------------------------------------------------------------------
--- OnSelect_LASCOS
----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+-- on click las button
 function Gear:OnSelect_LASCOS( wndHandler, wndControl, eMouseButton )
-    
     local nGearId = wndControl:GetData().gearid
     local nId = wndControl:GetData().id
     local nTarget = wndControl:GetData().target
-
     if nTarget == 1 then self:Modif_LAS(nGearId, nId) end
 end
 
----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
 -- Modif_LAS
----------------------------------------------------------------------------------------------------
 function Gear:Modif_LAS(nGearId, nId)
-   
     local nIdMod = self.nLASMod
     local nGearId = nGearId
     local nLasId = nId
    	local nGearModif = self:LinkGear_LAS(nGearId, nLasId, nIdMod)
-	
 	if nLasId == 0 then nLasId = "" end
 	self.cLast:SetText(nLasId) 
 	self:Align_LAS(nGearId)
 	self:DestroyMenu()
-	
 	if nGearModif == nil then return end
-	
 	local tChildren = self.Gear_Panel:FindChild("Set_Frame"):GetChildren()
     for _=1, #tChildren do
 		if tChildren[_]:GetData() == nGearModif then tChildren[_]:FindChild("Macro_Btn"):SetText("") return end
 	end
 end
 
----------------------------------------------------------------------------------------------------
--- Align_LAS
----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+-- use las
 function Gear:Align_LAS(nGearId)
-   
     local nIdMod = self.nLASMod
 	if nIdMod == 3 then return end
-	
 	local nSpeActual = AbilityBook.GetCurrentSpec() 
-	local nLasGear = tGear.gear[nGearId].las[nIdMod]
-	
+	local nLasGear = t_gear.gear[nGearId].las[nIdMod]
 	if nLasGear == nil then return end
 	if nSpeActual ~= nLasGear then
 	    self.bIsGearSwitch = true 
@@ -675,64 +577,48 @@ function Gear:Align_LAS(nGearId)
 	end
 end
 
----------------------------------------------------------------------------------------------------
--- LinkGear_LAS
----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+-- link las/profile
 function Gear:LinkGear_LAS(nGearId, nLasId, nIdMod)
-      
    if nIdMod == 3 then return end
-   if nLasId == 0 then tGear.gear[nGearId].las[nIdMod] = nil return end
-   tGear.gear[nGearId].las[nIdMod] = nLasId
-  
+   if nLasId == 0 then t_gear.gear[nGearId].las[nIdMod] = nil return end
+   t_gear.gear[nGearId].las[nIdMod] = nLasId
    if nIdMod == 1 then
-   		
-		for _, oGear in pairs(tGear.gear) do
-		
+   		for _, oGear in pairs(t_gear.gear) do
 			if _ ~= nGearId and oGear.las[nIdMod] and oGear.las[nIdMod] == nLasId then 
-				tGear.gear[_].las[nIdMod] = nil
+				t_gear.gear[_].las[nIdMod] = nil
 				return _
 			end
 		end
 	end	
 end
 
----------------------------------------------------------------------------------------------------
--- UpdateText_LAS 
----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+-- set las text 
 function Gear:UpdateText_LAS(nIdMod)
-   
    local tChildren = self.Gear_Panel:FindChild("Set_Frame"):GetChildren()
-
    for _=1, #tChildren do
-		
 		local nGearId = tChildren[_]:GetData()
- 		local nLasId = tGear.gear[nGearId].las[nIdMod]
+ 		local nLasId = t_gear.gear[nGearId].las[nIdMod]
         if nLasId == nil then nLasId = "" end
-		
 		local wndMacro_Btn = tChildren[_]:FindChild("Macro_Btn")
         wndMacro_Btn:SetText(nLasId)  
    end 
 end
 
 -----------------------------------------------------------------------------------------------
--- OnInterfaceMenuListHasLoaded
------------------------------------------------------------------------------------------------
+-- fired after interface menu list loaded
 function Gear:OnInterfaceMenuListHasLoaded()
-		
-	Event_FireGenericEvent("InterfaceMenuList_NewAddOn", "Gear", {"Generic_OnShowGear", "", "BK3:sprHolo_Icon_Costume"})
+	Event_FireGenericEvent("InterfaceMenuList_NewAddOn", G_NAME, {"Generic_OnShowGear", "", "BK3:sprHolo_Icon_Costume"})
 	self:UpdateInterfaceMenuAlerts()
 end
 
 -----------------------------------------------------------------------------------------------
 -- OnShowGear
------------------------------------------------------------------------------------------------
 function Gear:OnShowGear()
-	   
-    --self:IsGearIdExist()
 	self:ShowSelectGear(self.nGearId)
-		
 	if self.bModal then 
-		local oWndTarget = Apollo.LoadForm(self.xmlDoc, "OptionWnd", nil, self)
+		local oWndTarget = _LoadForm(xmlDoc, "OptionWnd", nil, self)
 		self:IniWindow(oWndTarget)
 	else
 		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_UI_SHOW", nil)
@@ -741,89 +627,81 @@ end
 
 -----------------------------------------------------------------------------------------------
 -- UpdateInterfaceMenuAlerts
------------------------------------------------------------------------------------------------
 function Gear:UpdateInterfaceMenuAlerts()
-  	Event_FireGenericEvent("InterfaceMenuList_AlertAddOn", "Gear", {nil, "v"..G_VER, nil})
+  	Event_FireGenericEvent("InterfaceMenuList_AlertAddOn", G_NAME, {nil, "v"..G_VER, nil})
 end
 
 -----------------------------------------------------------------------------------------------
 -- OnPlayerEquippedItemChanged 
------------------------------------------------------------------------------------------------
 function Gear:OnPlayerEquippedItemChanged(eSlot, itemNew, itemOld)
-
     if self.bReEquipOld == true then self.bReEquipOld = false return end
-	
-	-- to check missing item after equip a gear set   	
-    if self.bStopEquip == false and self.nEquippedCount == self.nGearCount then 
+	if self.bStopEquip == false and self.nEquippedCount == self.nGearCount then 
 		self.bStopEquip = true 
-		self:_CheckEquipped(self.nGearId)
+		_CheckEquipped(self.nGearId, t_gear.gear)
 	end
-    
-	if self.bStopEquip == false then
+    if self.bStopEquip == false then
 		self:_EquipGear(self.nGearId)
 	end
-					
 	if self.bStopEquip == true and not self.bLockForUpdate then
-	    
 	  	if (itemOld and itemNew == nil) or
-		    tItemSlot[eSlot] == nil or
-		   (tGear.gear[self.nGearId] == nil) or	
+		    t_itemslot[eSlot] == nil or
+		   (t_gear.gear[self.nGearId] == nil) or	
 		    self.nGearId == nil then	
 			return
 		end	
-				
 		self.nSlot = eSlot
 		if itemNew then	self.oNewItemLink = itemNew:GetChatLinkString()	end
 		if itemOld then	self.oOldItemLink = itemOld:GetChatLinkString()	end
-						
-		if itemNew and itemNew:GetChatLinkString() ~= tGear.gear[self.nGearId][eSlot] or tGear.gear[self.nGearId][eSlot] == nil then
+		if itemNew and itemNew:GetChatLinkString() ~= t_gear.gear[self.nGearId][eSlot] or t_gear.gear[self.nGearId][eSlot] == nil then
 		    self:_DialogUpdate(self.nGearId, itemOld, itemNew) 
 		end
-				
- 		self:Update_AllPreview()
+		self:Update_UI_AllPreview()
  	end
 end
 
 -----------------------------------------------------------------------------------------------
--- OnUpdateInventory 
------------------------------------------------------------------------------------------------
+-- event fired after deleted, moved, added, removed item in inventory
 function Gear:OnUpdateInventory()
-	if self.bStopEquip == true and self.bMenAtWork == false then 
-		self:Update_AllPreview()  
-	end
+	if self.bStopEquip == false and self.bMenAtWork == true then 
+	    return
+	end 
+	if o_delayed then 
+		o_delayed:Stop()
+		o_delayed = nil
+	end 
+	o_delayed  = ApolloTimer.Create(1, false, "f_delayedpreview", self) 	
+end
+
+-----------------------------------------------------------------------------------------------
+-- update all preview frame after inventory update
+function Gear:f_delayedpreview()
+   	o_delayed:Stop()
+	o_delayed = nil
+	self:Update_UI_AllPreview()
 end
 
 -----------------------------------------------------------------------------------------------
 -- _DialogUpdate 
------------------------------------------------------------------------------------------------
 function Gear:_DialogUpdate(nGearId, itemOld, itemNew)
-	
-    self.UpdateWnd = Apollo.LoadForm(self.xmlDoc, "Dialog_wnd", nil, self)
-
-	local wndInside = Apollo.LoadForm(self.xmlDoc, "Update_wnd", self.UpdateWnd, self)
+	self.UpdateWnd = _LoadForm(xmlDoc, "Dialog_wnd", nil, self)
+	local wndInside = _LoadForm(xmlDoc, "Update_wnd", self.UpdateWnd, self)
 	self.UpdateWnd:FindChild("CloseButton"):SetData("Update")
-	self.UpdateWnd:FindChild("YesButton"):SetText(L["G_YES"])
-	self.UpdateWnd:FindChild("NoButton"):SetText(L["G_NO"])
-		
-	local sBy = L["G_UPDATE_BY"]
-	local sReplace = L["G_UPDATE_REPLACE"]
-	
+	self.UpdateWnd:FindChild("YesButton"):SetText(m_L["G_YES"])
+	self.UpdateWnd:FindChild("NoButton"):SetText(m_L["G_NO"])
+	local sBy = m_L["G_UPDATE_BY"]
+	local sReplace = m_L["G_UPDATE_REPLACE"]
 	local ItemOldWnd = self.UpdateWnd:FindChild("Item_Actual"):FindChild("ItemWnd")
 	local tData = { }
 	local sSprite = nil 
 	local bOnlyAdd = nil
-		
 	if itemOld == nil then 
-	   	if tGear.gear[nGearId][self.nSlot] then
-			
-			local sItemLink = tGear.gear[nGearId][self.nSlot]
-			local oItem = lGear._SearchInBag(sItemLink)
-           		
-    		if oItem then 
+	   	if t_gear.gear[nGearId][self.nSlot] then
+			local sItemLink = t_gear.gear[nGearId][self.nSlot]
+			local oItem = _SearchIn(sItemLink, 1) 
+          	if oItem then 
 				tData = { item = oItem }
 	        	sSprite = oItem:GetIcon()
-			
-	    	elseif oItem == nil then
+			elseif oItem == nil then
 				tData = { slot = self.nSlot }
 				sSprite = "ClientSprites:LootCloseBox_Holo"
         	end 
@@ -831,42 +709,32 @@ function Gear:_DialogUpdate(nGearId, itemOld, itemNew)
 			bOnlyAdd = true
 		end
 	end
-		
 	if itemOld then 	
-		if itemOld:GetChatLinkString() == tGear.gear[nGearId][self.nSlot] then
+		if itemOld:GetChatLinkString() == t_gear.gear[nGearId][self.nSlot] then
 			tData = { item = itemOld }
 			sSprite = itemOld:GetIcon()
-			
-		elseif itemOld:GetChatLinkString() ~= tGear.gear[nGearId][self.nSlot] then	
+		elseif itemOld:GetChatLinkString() ~= t_gear.gear[nGearId][self.nSlot] then	
 			bOnlyAdd = true
 		end
     end
-	
-    if bOnlyAdd then
+	if bOnlyAdd then
 		tData = { slot = self.nSlot }
 		sSprite = ""
 		sReplace = ""
-		sBy = L["G_UPDATE_ADD"]
+		sBy = m_L["G_UPDATE_ADD"]
 	end
-
 	local UpdateReplace = self.UpdateWnd:FindChild("Item_Actual"):FindChild("ItemTxt")
 	UpdateReplace:SetText(sReplace)
-		
 	ItemOldWnd:SetData(tData)
 	ItemOldWnd:FindChild("ItemIcon"):SetSprite(sSprite) 
-	
-	
 	local UpdateBy = self.UpdateWnd:FindChild("Item_New"):FindChild("ItemTxt")
     UpdateBy:SetText(sBy)
-    
-	local ItemNewWnd = self.UpdateWnd:FindChild("Item_New"):FindChild("ItemWnd")
+    local ItemNewWnd = self.UpdateWnd:FindChild("Item_New"):FindChild("ItemWnd")
 	local tData = { item = itemNew, compare = false }
 	ItemNewWnd:SetData(tData)
 	ItemNewWnd:FindChild("ItemIcon"):SetSprite(itemNew:GetIcon()) 
-					
-	local sGearName = tGear.gear[nGearId].name
-	self.UpdateWnd:FindChild("SetTargetTxt"):SetTextRaw(L["G_UPDATE"] .. "[" .. sGearName .. "]?" )
-			
+	local sGearName = t_gear.gear[nGearId].name
+	self.UpdateWnd:FindChild("SetTargetTxt"):SetTextRaw(m_L["G_UPDATE"] .. "[" .. sGearName .. "]?" )
 	if self.Gear_Panel then self.Gear_Panel:Enable(false) end	
 	self.bLockForUpdate = true
 	self.UpdateWnd:Show(true)
@@ -874,277 +742,159 @@ end
 
 -----------------------------------------------------------------------------------------------
 -- OnClickUpdate
------------------------------------------------------------------------------------------------
 function Gear:OnClick_Dialog( wndHandler, wndControl, eMouseButton )
-		
 	local cSelect = wndControl:GetName()
-			
-	-- update			
 	if cSelect == "NoButton" or (cSelect == "CloseButton" and  wndControl:GetData() == "Update") then
-	   	    
-	    if tGear.gear[self.nGearId][self.nSlot] and self.oOldItemLink == tGear.gear[self.nGearId][self.nSlot] then
-			local nBagSlot = lGear._EquipFromBag(self.oOldItemLink)
+	    if t_gear.gear[self.nGearId][self.nSlot] and self.oOldItemLink == t_gear.gear[self.nGearId][self.nSlot] then
+			local nBagSlot = _EquipFromBag(self.oOldItemLink)
 	    	if nBagSlot then
 				self.bReEquipOld = true
-	            GameLib.EquipBagItem(nBagSlot + 1)
+	            _EquipBagItem(nBagSlot + 1)
 			end
 	    end
 	end
-	-- update
 	if cSelect == "YesButton" then
-		tGear.gear[self.nGearId][self.nSlot] = self.oNewItemLink
-		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_GEAR", tGear.gear)
+		t_gear.gear[self.nGearId][self.nSlot] = self.oNewItemLink
+		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_GEAR", t_gear.gear)
+		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_UPDATE_PROFILE", { ngearid = self.nGearId, slot = self.nSlot})
 	end
-	
+	local n_slot = self.nSlot
 	self.nSlot = nil
 	self.oNewItemLink = nil
 	self.oOldItemLink = nil
-		
 	if self.Gear_Panel then self.Gear_Panel:Enable(true) end
 	self.bLockForUpdate = false
-	
 	if self.UpdateWnd then 
 		self.UpdateWnd:Destroy()
-		self:Update_AllPreview()
-		self:Update_LockItemFrame()
-	end	
+		self:Update_UI_PreviewItemSingle(self.nGearId, nil, n_slot)
+		self:Update_UI_LockItemFrame()
+	end
 end
 
 -----------------------------------------------------------------------------------------------
 -- UnSelectGear 
------------------------------------------------------------------------------------------------
 function Gear:UnSelectGear()
-   
     if self.bStopEquip == false then self.bStopEquip = true end
     if self.nGearId then self.bPreviousGear = self.nGearId end
     self.nGearId = nil
  	self:ShowSelectGear(nil)	
-    
-	Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_CHECK_GEAR", { ngearid = nil, terror = nil })
+   	Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_CHECK_GEAR", { ngearid = nil, terror = nil })
 end
 
 -----------------------------------------------------------------------------------------------
 -- IsGearIdExist 
------------------------------------------------------------------------------------------------
 function Gear:IsGearIdExist()
-	
-    if self.nGearId == nil then 
+	if self.nGearId == nil then 
 		self.nGearId = self.bPreviousGear
 	end
 end
 
 -----------------------------------------------------------------------------------------------
--- GetAllEquipped 
------------------------------------------------------------------------------------------------
-function Gear:_GetAllEquipped()
- 
-	local uPlayer = GameLib.GetPlayerUnit()
-	if uPlayer == nil then return nil end
-	
-	local tEquippedItems = uPlayer:GetEquippedItems()
-    local tEquipped = {} 
-	
-    for _=1, #tEquippedItems do
-
-        local nItemType = tEquippedItems[_]:GetItemType()
-        
-    	if nItemType ~= Item.CodeEnumItemType.TempBag then
-		        	 
-			local nSlot = tEquippedItems[_]:GetSlot()			  
-			if nSlot ~= 6 and nSlot ~= 9 then			  
-				local sItemLink = tEquippedItems[_]:GetChatLinkString()
-				tEquipped[nSlot] = sItemLink
-       		end
-		end
-  	end
-
-    return tEquipped
-end
-
------------------------------------------------------------------------------------------------
 -- _SaveAllEquipped 
------------------------------------------------------------------------------------------------
 function Gear:_SaveAllEquipped(tEquipped, nGearId)
- 
-	local tEquipped = tEquipped
-	local nGearId = nGearId
-	local bIsNewGear = false
-		
+ 	local bIsNewGear = false
 	if nGearId == nil then 		     	
-		
-		 local nGear = lGear.TableLength(tGear.gear)  
-			
-		 for _=1, nGear do  
-		    if tGear.gear[1] == nil then nGearId = 1 
+		local nGear = _TableLength(t_gear.gear)  
+		for _=1, nGear do  
+		    if t_gear.gear[1] == nil then nGearId = 1 
 		    else 
-				if tGear.gear[_ + 1] == nil then nGearId = _ + 1 end
+				if t_gear.gear[_ + 1] == nil then nGearId = _ + 1 end
 			end	
-		 end
-		
-		 if nGear == 0 then nGearId = 1 end  
-		 bIsNewGear = true	
+		end
+		if nGear == 0 then nGearId = 1 end  
+		bIsNewGear = true	
 	end	
-
-	tGear.gear[nGearId] = {} 			 
-    tGear.gear[nGearId] = tEquipped      
-    tGear.gear[nGearId].las = {} 		
-   	    
-    if tGear.gear[nGearId].macro == nil then
-    		tGear.gear[nGearId].macro = self:_AddMacroToGear(nGearId, nil)
+	t_gear.gear[nGearId] = {} 			 
+    t_gear.gear[nGearId] = tEquipped      
+    t_gear.gear[nGearId].las = {} 		
+    if t_gear.gear[nGearId].macro == nil then
+    	t_gear.gear[nGearId].macro = self:_AddMacroToGear(nGearId, nil)
     end
-		
 	return nGearId, bIsNewGear 
 end
 
 -----------------------------------------------------------------------------------------------
 -- _SetGearName 
------------------------------------------------------------------------------------------------
 function Gear:_SetGearName(sNickName, nGearId)
-
-    local sNickName = sNickName
-	local nGear = lGear.TableLength(tGear.gear)  
-	
-	if sNickName == nil then sNickName = L["G_TABNAME"] .. " " .. nGearId end
+    local sOldName = t_gear.gear[nGearId].name  
+	if sNickName == nil then sNickName = m_L["G_TABNAME"] .. " " .. nGearId end
  	sNickName = sNickName:match("^%s*(.-)%s*$") 
-	
-	for _,oGear in pairs(tGear.gear) do
-		
+	for _,oGear in pairs(t_gear.gear) do
 		if oGear.name then		
-		
 			local sGearName = oGear.name
 	   		local nGearName = string.len(sGearName)
 	 		local nLen = string.len(sNickName) 
 	    	local nMatchName = string.find(sGearName, sNickName)
-	
 	    	if nGearName == nLen and nMatchName then
-				sNickName = " "
+				sNickName = sOldName
 	    	end 
 		end
 	end
- 		
-	tGear.gear[nGearId].name = sNickName 
+ 	t_gear.gear[nGearId].name = sNickName 
 	return sNickName	
 end
 
 -----------------------------------------------------------------------------------------------
 -- _RemoveItem
------------------------------------------------------------------------------------------------
 function Gear:_RemoveItem(nGearId, nSlot)
-	 
-	if tGear.gear[nGearId][nSlot] then 
-		tGear.gear[nGearId][nSlot] = nil 
-		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_GEAR", tGear.gear)
+	if t_gear.gear[nGearId][nSlot] then 
+		t_gear.gear[nGearId][nSlot] = nil 
+		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_GEAR", t_gear.gear)
+		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_DELETE_SLOT", { ngearid = nGearId, slot = nSlot})
 	end
 end
 
 -----------------------------------------------------------------------------------------------
--- _DeleteGear 
------------------------------------------------------------------------------------------------
+-- delete a profile 
 function Gear:_DeleteGear(nGearId)
- 
-	if tGear.gear[nGearId] then 
-		tGear.gear[nGearId] = nil 
+ 	if t_gear.gear[nGearId] then 
+		t_gear.gear[nGearId] = nil 
 	end
-	
 	local tGearUpdate = self:GetGear()
 	Event_FireGenericEvent("Generic_GEAR_UPDATE", "G_DELETE", nGearId, tGearUpdate, nil, nil)
 	Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_DELETE", nGearId)
-	Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_GEAR", tGear.gear)
-	
-	
-	-- cleanup saved
-    for _, pOption in pairs(tUI_Setting) do
-
-		if tUI_Setting[_][1].Saved then
-			-- toggle_unique
-			if tonumber(tUI_Setting[_][1].Saved) then
-				if tUI_Setting[_][1].Saved == nGearId then tUI_Setting[_][1].Saved = nil end
+	Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_GEAR", t_gear.gear)
+	for _, pOption in pairs(t_uisetting) do
+		if t_uisetting[_][1].Saved then
+			if tonumber(t_uisetting[_][1].Saved) then
+				if t_uisetting[_][1].Saved == nGearId then t_uisetting[_][1].Saved = nil end
 			else	
-				-- push	
-				if tUI_Setting[_][1].Saved[nGearId] then tUI_Setting[_][1].Saved[nGearId] = nil end
+				if t_uisetting[_][1].Saved[nGearId] then t_uisetting[_][1].Saved[nGearId] = nil end
 			end
 		end 		
 	end
 end
 
 -----------------------------------------------------------------------------------------------
--- _EquipGear 
------------------------------------------------------------------------------------------------
+-- equip a profile 
 function Gear:_EquipGear(nGearId)
-	
-    self.bStopEquip = true
-    
-    for _, oLink in pairs(tGear.gear[nGearId]) do
-			    
+	self.bStopEquip = true
+	local _EFB 	 = _EquipFromBag 
+	local _EBI	 = _EquipBagItem
+	local _CE	 = _CheckEquipped
+	local _tGear = t_gear.gear[nGearId]
+    for _, oLink in pairs(_tGear) do
 		local nSlot = tonumber(_)
-									
-		-- Search only item have not already checked
-	    if nSlot and tItemSlot[nSlot].bInSlot == false then
-			
+		if nSlot and t_itemslot[nSlot].bInSlot == false then
 			local sItemLink = oLink
-			local nBagSlot = lGear._EquipFromBag(sItemLink)
-						
-			-- Keep trace to item equipped or not found already check
-			tItemSlot[nSlot].bInSlot = true
+			local nBagSlot = _EFB(sItemLink)
+			t_itemslot[nSlot].bInSlot = true
 			self.nEquippedCount = self.nEquippedCount + 1
-																											       			
 			if nBagSlot then 
-					       			
-		    	self.bStopEquip = false
-				GameLib.EquipBagItem(nBagSlot + 1)
-							
+				self.bStopEquip = false
+				_EBI(nBagSlot + 1)
 				return
 			else
-				-- to check missing item after equip a gear set for item not found in bag    
-				if self.nEquippedCount == self.nGearCount then self:_CheckEquipped(nGearId) end
+				if self.nEquippedCount == self.nGearCount then _CE(nGearId, t_gear.gear) end
 			end	 
 		end
 	end	
 end
 
 -----------------------------------------------------------------------------------------------
--- _CheckEquipped
------------------------------------------------------------------------------------------------
-function Gear:_CheckEquipped(nGearId)
-
-    if nGearId == nil then 
-    	Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_CHECK_GEAR", { ngearid = nil, terror = nil })
-		return 
-	end
-
-   -- get equipped items	
-   local tActualSet = self:_GetAllEquipped()
-   local bError = false
-   local tError = {}	
-   	
-   for _, oLink in pairs(tGear.gear[nGearId]) do
-		-- filter to prevent not array returned in self:_GetAllEquipped() if unit == nil	
-		if tActualSet == nil then break end
-		if tonumber(_) then	
-			if tActualSet[_] ~= oLink then
-				tError[_] = false 
-				bError = true
-							
-			elseif tActualSet[_] == oLink then	
-				tError[_] = true
-			end
-		end	
-	end
-	
-	-- no error, we send nothing
-	if not bError then tError = nil	end
-	-- event fired after equip a specific set ngearid
-	Event_FireGenericEvent("Generic_GEAR_UPDATE", "G_AFTER_EQUIP", nGearId, nil, nil, tError)
-    Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_CHECK_GEAR", { ngearid = nGearId, terror = tError })	
-end
-
------------------------------------------------------------------------------------------------
 -- _AddMacroToGear 
------------------------------------------------------------------------------------------------
 function Gear:_AddMacroToGear(nGearId, sNickName)
-
-   if sNickName == nil then sNickName = L["G_TABNAME"] .. nGearId end
-	
+   if sNickName == nil then sNickName = m_L["G_TABNAME"] .. nGearId end
    local tParam = {
       			     sName = sNickName,
      		       sSprite = "IconSprites:Icon_ItemArmor_Light_Armor_Chest_01",
@@ -1152,14 +902,12 @@ function Gear:_AddMacroToGear(nGearId, sNickName)
  	 			   bGlobal = false,
       			       nId = MacrosLib.CreateMacro(),
                   } 
-		
-    self:_SaveMacro(tParam) 
+	self:_SaveMacro(tParam) 
     return tParam.nId
 end
 
 -----------------------------------------------------------------------------------------------
 -- _SaveMacro 
------------------------------------------------------------------------------------------------
 function Gear:_SaveMacro(tParam)
     MacrosLib.SetMacroData( tParam.nId, tParam.bGlobal, tParam.sName, tParam.sSprite, tParam.sCmds )
     MacrosLib:SaveMacros()
@@ -1167,23 +915,17 @@ end
 
 -----------------------------------------------------------------------------------------------
 -- _DeleteMacro 
------------------------------------------------------------------------------------------------
 function Gear:_DeleteMacro(nMacroId)
-   
     if nMacroId == nil then return end  
-   
     MacrosLib.DeleteMacro(nMacroId)
  	MacrosLib:SaveMacros()
 end
 
 -----------------------------------------------------------------------------------------------
 -- _RenameMacro 
------------------------------------------------------------------------------------------------
 function Gear:_RenameMacro(nGearId, nMacroId, sNickName)
-    	
     local tMacro = MacrosLib.GetMacro(nMacroId)
-   
-	if tMacro then
+   	if tMacro then
     	local tParam = {
 						  sName = sNickName,
 						sSprite = tMacro.strSprite, 
@@ -1191,25 +933,18 @@ function Gear:_RenameMacro(nGearId, nMacroId, sNickName)
     					bGlobal = tMacro.bIsGlobal,
     						nId = tMacro.nId,
    						}
-    	
-        self:_SaveMacro(tParam)
+    	self:_SaveMacro(tParam)
     else
-		tGear.gear[nGearId].macro = self:_AddMacroToGear(nGearId, sNickName)
+		t_gear.gear[nGearId].macro = self:_AddMacroToGear(nGearId, sNickName)
 	end
 end
 
 -----------------------------------------------------------------------------------------------
 -- Collapse_AllPreview 
------------------------------------------------------------------------------------------------
 function Gear:Collapse_AllPreview(bCheck)
-   
-	local tChildren = self.Gear_Panel:FindChild("Set_Frame"):GetChildren()
-    	
+   	local tChildren = self.Gear_Panel:FindChild("Set_Frame"):GetChildren()
     for _=1, #tChildren do
-        		
-		local wnd = tChildren[_]:FindChild("Preview_Btn")
-		
-		-- open or close preview only if not already in bcheck state
+        local wnd = tChildren[_]:FindChild("Preview_Btn")
 		if bCheck ~= wnd:IsChecked() then 
 			wnd:SetCheck(bCheck)
 			self:OnCheckPreview( nil, wnd, 2)
@@ -1219,15 +954,10 @@ end
 
 -----------------------------------------------------------------------------------------------
 -- SetPreviewItem 
------------------------------------------------------------------------------------------------
 function Gear:SetPreviewItem(nGearId, wndControl)
-    
-	local wndItem_Frame = wndControl:FindChild("Item_Frame")
-
-    for _, oSlot in pairs(tItemSlot) do
-  	   
-		local wndItem = Apollo.LoadForm(self.xmlDoc, "ItemWnd", wndItem_Frame, self)
-		-- add pixie for item icon
+    local wndItem_Frame = wndControl:FindChild("Item_Frame")
+    for _, oSlot in pairs(t_itemslot) do
+		local wndItem = _LoadForm(xmlDoc, "ItemWnd", wndItem_Frame, self)
 		local tOptions = {
   							loc = {
     								fPoints = {0,0,1,1},
@@ -1235,451 +965,363 @@ function Gear:SetPreviewItem(nGearId, wndControl)
   						  		  },
   						 }
 		wndItem:AddPixie(tOptions) 
-				
 		self.tData = { slot = _,}
-		wndItem:SetData(self.tData) 
+		wndItem:SetData(self.tData)
+		wndItem:SetName(tostring(nGearId) .."_".. tostring(_))
+		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_PREVIEW_ITEM", { ngearid = nGearId, slot = _ }) 
 	end	
-		
 	wndItem_Frame:ArrangeChildrenTiles()
 end
 
 -----------------------------------------------------------------------------------------------
--- Update_AllPreview 
------------------------------------------------------------------------------------------------
-function Gear:Update_AllPreview()
-
-    -- check actual equipped profile
-    self:_CheckEquipped(self.nGearId)
-  
-    
+-- Update_UI_AllPreview 
+function Gear:Update_UI_AllPreview()
+    _CheckEquipped(self.nGearId, t_gear.gear)
     if self.Gear_Panel == nil then return end
 	local tChildren = self.Gear_Panel:FindChild("Set_Frame"):GetChildren()
-   		
-    for _=1, #tChildren do
-		
+   	for _=1, #tChildren do
 		local bChecked = tChildren[_]:FindChild("Preview_Btn"):IsChecked()
-       
-		-- if preview is open set all item prewiew and alert
-		if bChecked then 
-			
+       	if bChecked then 
 			local nGearId = tChildren[_]:GetData()
  		    local wndControl =  tChildren[_]
-			self:Update_PreviewItem(nGearId, wndControl)
+			self:Update_UI_PreviewItem(nGearId, wndControl)
 		else
-			-- preview closed update only alert
 			self:CheckMissing(tChildren[_])
 		end
     end
 end
 
+-- item location with alert level and location color/opacity
+local tStatus =  {
+					[0] = { level = 3, opacity = 1.0},	
+					[1] = { level = 1, opacity = 0.2},	
+					[2] = { level = 2, opacity = 0.2},	
+					[3] = { level = 1, opacity = 1.0},	
+				}
+
 -----------------------------------------------------------------------------------------------
--- Update_PreviewItem (set all icon for each item in preview frame)
------------------------------------------------------------------------------------------------
-function Gear:Update_PreviewItem(nGearId, wndControl)
-	
+-- Update_UI_PreviewItem (set all icon for each item in preview frame)
+function Gear:Update_UI_PreviewItem(nGearId, wndControl)
 	self.bMenAtWork = true
 	local tChildren = wndControl:FindChild("Item_Frame"):GetChildren()
-
-	-- alert level to set button macro color status for missing or not item	
-	local nLevel = 1
-   	local nAlert = 1
-			
-    for _=1, #tChildren do
-		
+	local nLevel, nAlert = 1, 1
+   	for _=1, #tChildren do
 		local nSlot = tChildren[_]:GetData().slot	
 		local wndItem = tChildren[_]
 		local sSprite = nil
 		local nOpacity = nil
-						
-		if tGear.gear[nGearId][nSlot] then   
-			
-		    -- 0 = not find
-			-- 1 = equipped
-			-- 2 = bag
-			-- 3 = bank
-		   
-			-- search item
-			local sItemLink = tGear.gear[nGearId][nSlot]
-			local tItemFind = self:FindItem(sItemLink)
-			
-			-- we have find item
-			if tItemFind then 
-	        	 
-	            if tItemFind.find == 2 then -- in bag
-					nOpacity = 0.3
-					nLevel = 1
-				end	
-				
-				if tItemFind.find == 1 then -- equipped
-					nOpacity = 1.0
-					nLevel = 1
-				end	
-				
-				if tItemFind.find == 3 then -- in bank
-					nOpacity = 0.3
-					nLevel = 2
-				end	
-				
-				-- set data 
-				sSprite = tItemFind.item:GetIcon()
+		local sQualityColor = "White"
+		local sQualityBorder = "BK3:UI_BK3_Holo_InsetSimple"
+		if t_gear.gear[nGearId][nSlot] then  
+			local sItemLink = t_gear.gear[nGearId][nSlot]
+			local tItemFind = _FindItem(sItemLink)
+			if tItemFind.find >=1 then 
+	        	sSprite = tItemFind.item:GetIcon() 
+				sQualityBorder = "BK3:UI_RarityBorder_White"
 	           	self.tData = { slot = nSlot, item = tItemFind.item, }
-			
-			else -- missing
+	            sQualityColor = t_quality[tItemFind.item:GetItemQuality()]
+			else 
 				sSprite = "ClientSprites:LootCloseBox_Holo"
 				self.tData = { slot = nSlot,}
-				nOpacity = 1.0
-				nLevel = 3
 			end
-					
-		-- slot with no item		
+			nOpacity = tStatus[tItemFind.find].opacity
+            nLevel = tStatus[tItemFind.find].level
 		else
-			sSprite = tItemSlot[nSlot].sIcon
+			sSprite = t_itemslot[nSlot].sIcon
 			self.tData = { slot = nSlot,}
 			nOpacity = 0.3
 			nLevel = 1
 		end
-		
-		-- update item 
 		local tOptions = {
   							strSprite = sSprite,
   							cr = {a=nOpacity,r=1,g=1,b=1},
-  							loc = {
+							loc = {
     								fPoints = {0,0,1,1},
     								nOffsets = {5,5,-5,-5},
   						  		  },
   						 }
 		wndItem:UpdatePixie(1, tOptions)
 		wndItem:SetData(self.tData)	
-				
-		-- keep always high alert level 
+		wndItem:SetSprite(sQualityBorder)
+		wndItem:SetBGColor(sQualityColor)
 		if nLevel >= nAlert then nAlert = nLevel end
-			
 	end	
-	-- set alert color 
-	self:Update_Alert(wndControl, nAlert) 
-		
+	self:Update_UI_Alert(wndControl, nAlert) 
 	wndControl:FindChild("Item_Frame"):ArrangeChildrenTiles()
 	self.bMenAtWork = false
 end
 
 -----------------------------------------------------------------------------------------------
--- Update_LockItemFrame
+-- set icon for a removed/updated item in profile
+function Gear:Update_UI_PreviewItemSingle(nGearId, wndControl, nSlot)
+    if self.Gear_Panel == nil then return end
+	local sName = tostring(nGearId) .."_"..tostring(nSlot)
+	local wndItem 
+	if wndControl == nil then wndItem = self.Gear_Panel:FindChild("gear_" .. nGearId):FindChild(sName)
+	else
+		wndItem = wndControl:GetParent()
+	end
+	if wndItem == nil then return end
+	local tData = { slot = nSlot,}
+	local sSprite = t_itemslot[nSlot].sIcon
+	local nOpacity = 0.3
+	local sQualityColor = "White"
+	local sQualityBorder = "BK3:UI_BK3_Holo_InsetSimple"
+	local sItemLink = t_gear.gear[nGearId][nSlot]
+	local tItemFind = _FindItem(sItemLink)
+	if tItemFind.find >=1 then 
+	  	sSprite = tItemFind.item:GetIcon()
+		nOpacity = tStatus[tItemFind.find].opacity
+ 		sQualityBorder = "BK3:UI_RarityBorder_White"
+	    tData = { slot = nSlot, item = tItemFind.item, }
+	    sQualityColor = t_quality[tItemFind.item:GetItemQuality()]
+	end
+  	local tOptions = {
+						strSprite = sSprite,
+						cr = {a=nOpacity,r=1,g=1,b=1},
+						loc = {
+   								fPoints = {0,0,1,1},
+   								nOffsets = {5,5,-5,-5},
+					  		  },
+					 }
+	wndItem:UpdatePixie(1, tOptions)
+	wndItem:SetData(tData)	
+	wndItem:SetSprite(sQualityBorder)
+	wndItem:SetBGColor(sQualityColor)
+end
+
 -----------------------------------------------------------------------------------------------
-function Gear:Update_LockItemFrame()
-    
+-- Update_UI_LockItemFrame
+function Gear:Update_UI_LockItemFrame()
     if self.Gear_Panel == nil then return end
 	local tChildren = self.Gear_Panel:FindChild("Set_Frame"):GetChildren()
-   		
-    for _=1, #tChildren do
-		
+   	for _=1, #tChildren do
 		local bChecked = tChildren[_]:FindChild("Preview_Btn"):IsChecked()
-       
-		if bChecked then 
-			
+       	if bChecked then 
 			local nGearId = tChildren[_]:GetData()
  		    local wndControl =  tChildren[_]
-			self:Update_LockItem(nGearId, wndControl)
+			self:Update_UI_LockItem(nGearId, wndControl)
 		end
     end
 end
 
 -----------------------------------------------------------------------------------------------
--- Update_LockItem 
------------------------------------------------------------------------------------------------
-function Gear:Update_LockItem(nGearId, wndControl)
-	
+-- Update_UI_LockItem 
+function Gear:Update_UI_LockItem(nGearId, wndControl)
 	local tChildren = wndControl:FindChild("Item_Frame"):GetChildren()
-			
-    for _=1, #tChildren do
-		
+	for _=1, #tChildren do
 		local nSlot = tChildren[_]:GetData().slot		
-		local wndItem = tChildren[_]
 		local bDelete = self.bLockDel
-		
-		-- slot with no item				
-		if tGear.gear[nGearId][nSlot] == nil then   
+		if t_gear.gear[nGearId][nSlot] == nil then   
 			bDelete = false
 		end
-		
-		-- update lock
-		wndItem:FindChild("Delete_btn"):Show(bDelete)
+		self:Update_UI_Lock(tChildren[_], "ItemDelete_Btn", bDelete)
 	end	
 end
 
 -----------------------------------------------------------------------------------------------
--- Update_UI_Setting 
+-- Update_UI_Lock (create or remove delete btn for profil and item) 
+function Gear:Update_UI_Lock(wndControl, sBtnName, bLock)
+	local oDelBtn = wndControl:FindChild(sBtnName)
+ 	if bLock == true and oDelBtn == nil then
+		oDelBtn = _LoadForm(xmlDoc, sBtnName, wndControl, self)
+	elseif bLock == false and oDelBtn then
+		oDelBtn:Destroy()	
+	end
+end
+
 -----------------------------------------------------------------------------------------------
-function Gear:Update_UI_Setting()
-	
-	if self.Gear_Panel == nil then return end	
+-- create/remove/update a single plugin for all profile or update all plugin for all profile  
+function Gear:Update_UI_Plugin(sPlugin, nAction)
+	if self.Gear_Panel == nil then return end
 	local tChildren = self.Gear_Panel:FindChild("Set_Frame"):GetChildren()
-			
 	for _=1, #tChildren do
-		
-		local nGearId = tChildren[_]:GetData()
-		self:Remove_UI_Settings(tChildren[_])
-		self:Set_UI_Settings(nGearId, tChildren[_])
-	end	
-end
-
------------------------------------------------------------------------------------------------
--- Remove_PreviewItem 
------------------------------------------------------------------------------------------------
-function Gear:Remove_PreviewItem(wndControl)
-  	
-	local wndFrame = wndControl:FindChild("Item_Frame")
-	wndFrame:DestroyChildren()
-end
-
------------------------------------------------------------------------------------------------
--- Remove_UI_Settings 
------------------------------------------------------------------------------------------------
-function Gear:Remove_UI_Settings(wndControl)
-  	
-	local wndFrame = wndControl:FindChild("Plugin_Frame")
-	wndFrame:DestroyChildren()
-end
-
------------------------------------------------------------------------------------------------
--- CheckMissing 
------------------------------------------------------------------------------------------------
-function Gear:CheckMissing(wndControl)
-  
-	local nLevel = 1
-   	local nAlert = 1
-	local nGearId = wndControl:GetData() 
-										
-		for _, sItemLink in pairs(tGear.gear[nGearId]) do
-		   			    
-			if tonumber(_) then	 -- nSlot
-				-- search item
-				local tItemFind = self:FindItem(sItemLink)
-			
-				-- we have find item
-				if tItemFind then 
-	        		if tItemFind.find == 2 then -- in bag
-						nLevel = 1
-					end	
-				
-					if tItemFind.find == 1 then -- equipped
-						nLevel = 1
-					end	
-				
-					if tItemFind.find == 3 then -- in bank
-						nLevel = 2
-					end	
-				else -- missing
-					nLevel = 3
-				end
-		
-				
-				-- keep always high alert level for all items
-				if nLevel >= nAlert then nAlert = nLevel end
-			end
+	    local wndFrame = tChildren[_]:FindChild("Plugin_Frame")
+	    local nGearId = tChildren[_]:GetData()
+	    if nAction == 1 then 
+	        self:Update_UI_Add(nGearId, wndFrame, sPlugin)
 		end
-			
-	-- set alert color
-	self:Update_Alert(wndControl, nAlert)
+		local tChildrenPlugin = wndFrame:GetChildren()
+	    for _=1, #tChildrenPlugin do
+            local  sOwner = tChildrenPlugin[_]:GetData().owner   
+            local   nUIId = tChildrenPlugin[_]:GetData().uiid	 
+            local  tSaved = t_uisetting[sOwner][nUIId].Saved     
+            local bCustom = tChildrenPlugin[_]:GetData().custom  		
+            local   sType = tChildrenPlugin[_]:GetData().type    
+            local bSelected = nil	
+            if (sOwner == sPlugin and nAction ~= 2) or sPlugin == nil then  
+           		if sType == "toggle_unique" then 
+					if tSaved == nGearId then  
+						bSelected = true
+					end	  
+					tChildrenPlugin[_]:SetCheck(bSelected or false)
+				end     
+				if sType == "push" then 
+					if tSaved and tSaved[nGearId] then
+     					bSelected = true
+					end
+				end  
+				self:Set_UI_ColorStatus(tChildrenPlugin[_], bSelected, bCustom)
+				if sOwner == sPlugin then 
+				    break
+				end
+			end
+			if nAction == 2 and sOwner == sPlugin then
+	        	tChildrenPlugin[_]:Destroy()
+	            break
+			end
+		end 
+	    wndFrame:ArrangeChildrenHorz(0, function(a,b) return (a:GetData().zorder < b:GetData().zorder) end) 
+   	end
 end
 
 -----------------------------------------------------------------------------------------------
--- Update_Alert (set
+-- remove preview frame 
+function Gear:Remove_PreviewItem(wndControl)
+  	local wndFrame = wndControl:FindChild("Item_Frame")
+	wndFrame:DestroyChildren()
+end
+
 -----------------------------------------------------------------------------------------------
-function Gear:Update_Alert(wndControl, nAlert)
-	
-	local tAlert = { 
-				     [1] = { color = "xkcdApple", icon = "Crafting_CircuitSprites:btnCircuit_SquareGlass_Green", }, -- green, all item are in inventory bag
-				     [2] = { color = "White",     icon = "Crafting_CircuitSprites:btnCircuit_SquareGlass_Blue", },  -- blue, some item are in bank
-				     [3] = { color = "red",       icon = "Crafting_CircuitSprites:btnCircuit_SquareGlass_Red", },   -- red, some item are missing
-			       } 	
-		
-	-- set alert color
+-- search missing item from a profile 
+function Gear:CheckMissing(wndControl)
+  	local nLevel, nAlert = 1, 1
+   	local nGearId = wndControl:GetData() 
+	for _, sItemLink in pairs(t_gear.gear[nGearId]) do
+		if tonumber(_) then	
+        	local tItemFind = _FindItem(sItemLink)
+			nLevel = tStatus[tItemFind.find].level		
+			if nLevel >= nAlert then nAlert = nLevel end
+		end
+	end
+	self:Update_UI_Alert(wndControl, nAlert)
+end
+
+local tAlert = { 
+			     [1] = { color = "xkcdApple", icon = "Crafting_CircuitSprites:btnCircuit_SquareGlass_Green", }, 
+			     [2] = { color = "White",     icon = "Crafting_CircuitSprites:btnCircuit_SquareGlass_Blue", },  
+			     [3] = { color = "red",       icon = "Crafting_CircuitSprites:btnCircuit_SquareGlass_Red", },   
+		       } 
+			   
+-----------------------------------------------------------------------------------------------
+-- set color alert for macro button 
+function Gear:Update_UI_Alert(wndControl, nAlert)
 	local wnd = wndControl:FindChild("Macro_Btn")
 	wnd:ChangeArt(tAlert[nAlert].icon)
 	wnd:SetBGColor(tAlert[nAlert].color)
 end
 
 -----------------------------------------------------------------------------------------------
--- FindItem 
------------------------------------------------------------------------------------------------
-function Gear:FindItem(sItemLink)
-    		
-    -- 0 = not find
-	-- 1 = equipped
-	-- 2 = bag
-	-- 3 = bank
-	
-	local nFind = 0
-	local oItem = lGear._SearchInBag(sItemLink)
-   	if oItem then 
- 	   	nFind = 2
-	else	
-		oItem = lGear._SearchInBank(sItemLink)
-		if oItem then 
-			nFind = 3
-		else
-			oItem = lGear._SearchInEquipped(sItemLink)
-		    if oItem then 
-				nFind = 1
-			else
-				return nil	
-			end
-		end
-	end	
-			
-	-- item find
-	local tFindItem = { item = oItem, find = nFind }
-	return tFindItem	
-end
-
------------------------------------------------------------------------------------------------
--- OnSlash
------------------------------------------------------------------------------------------------
+-- fired after enter a chat /command
 function Gear:OnSlash(strCommand, strOption)
-	   
-    local nGearId = tonumber(strOption)	
+	local nGearId = tonumber(strOption)	
     if self.bLockForUpdate == true then return end
-
-	-- /gear 1 (equip profile)
-	if nGearId and nGearId >= 1 and tGear.gear[nGearId] then 
-	   
-	    -- request to equip a set come from gear ui
-	   	
-		self:ShowSelectGear(nGearId)	
+	if nGearId and nGearId >= 1 and t_gear.gear[nGearId] and self.bCanEquip then 
 	    self:IniEquipGear(nGearId, true)
 		self.bIsGearSwitch = true
 		self:Align_LAS(nGearId)
-	
-	-- /gear unselect (unselect actual profile)	
 	elseif strOption == "unselect" then	
 		self:UnSelectGear()
-		
-	-- /gear sett (show settings)	
 	elseif strOption == "sett" then	
 		self:ShowSettings()
-	
-	-- /gear (show/hide)		
 	elseif nGearId == nil then 
 		self:OnShowGear()	
 	end
 end
 
 ---------------------------------------------------------------------------------------------------
--- CreatePanel
----------------------------------------------------------------------------------------------------
+-- create gear panel in character window or modal window
 function Gear:CreatePanel(wndTarget)
-	
-    if self.Gear_Panel == nil then 
-		
-		self.Gear_Panel = Apollo.LoadForm(self.xmlDoc, "Gear_Frame", self.wndTarget, self)
-		self.Gear_Panel:FindChild("Add_Btn"):SetText(L["G_ADD"])
-		self.Gear_Panel:FindChild("ReloadUI_Btn"):SetText(L["G_RELOADUI"])
-						
-		-- add 'gear' logo
+	if self.Gear_Panel == nil then 
+		self.Gear_Panel = _LoadForm(xmlDoc, "Gear_Frame", wndTarget, self)
+		self.Gear_Panel:FindChild("Add_Btn"):SetText(m_L["G_ADD"])
+		self.Gear_Panel:FindChild("ReloadUI_Btn"):SetText(m_L["G_RELOADUI"])
 		local tOptions = {
-  							strSprite = "NewSprite:Gear_Logo",
-  							cr = {a=0.1,r=0,g=0,b=0},
-  							loc = {
-    								fPoints = {0.5,0,0.5,0},
-    								nOffsets = {-109,220,86,492},
-  						  		  },
+  							strSprite = "NewSprite:Logo",
+							cr = {a=0.150, r=0, g=0, b=0},
+							loc = {
+    								 fPoints = {.2,.2,1,1},
+    								nOffsets = {0,0,0,0},
+							      },
   						 }
-						
-		self.Gear_Panel:AddPixie(tOptions) 
-				
-		-- set lasmod		
+		self.Gear_Panel:FindChild("Set_Frame"):AddPixie(tOptions)
 		self:Align_LAS_Mod(self.nLASMod, self.bLock)
 		self:RestoreGear()
 	end
 end
 
 ---------------------------------------------------------------------------------------------------
--- CreateGearWnd
----------------------------------------------------------------------------------------------------
+-- create profile frame
 function Gear:CreateGearWnd(nGearId, bIsNewGear)
-	 
 	self.wndSet = self.wndTarget:FindChild("Set_Frame")
-	local wndNewSet = Apollo.LoadForm(self.xmlDoc, "SetTemplate_Frame", self.wndSet, self)	
+	local wndNewSet = _LoadForm(xmlDoc, "SetTemplate_Frame", self.wndSet, self)	
 	wndNewSet:SetData(nGearId)
 	wndNewSet:SetName("gear_" .. nGearId)
-	
 	local wndMacro = wndNewSet:FindChild("Macro_Btn")
 	local nIdMod = self.nLASMod
-	local nLasId = tGear.gear[nGearId].las[nIdMod]
+	local nLasId = t_gear.gear[nGearId].las[nIdMod]
 	if nLasId then wndMacro:SetText(nLasId) end
-		
-	-- add plugins 
 	self:Set_UI_Settings(nGearId, wndNewSet)
-	
-	local sGearName = tGear.gear[nGearId].name
+	local sGearName = t_gear.gear[nGearId].name
 	if sGearName == nil then
 		sGearName = self:_SetGearName(nil, nGearId)
 	end	
 	local wndGearName = wndNewSet:FindChild("GearName_Btn")
-	wndGearName:SetPrompt(L["G_SETNAME"])
+	wndGearName:SetPrompt(m_L["G_SETNAME"])
 	wndGearName:SetPromptColor("xkcdBluegreen")
 	wndGearName:SetMaxTextLength(20)
 	wndGearName:SetTextRaw(sGearName)
-				
-	self:LockDelete()
+	self:Update_UI_Lock(wndNewSet, "Delete_Btn", self.bLockDel)
 	self.wndSet:ArrangeChildrenVert()
-		
 	if bIsNewGear then
-	
 		self:ShowSelectGear(nGearId)
 		self.nGearId = nGearId
-		
 		local tGearUpdate = self:GetGear()
 		Event_FireGenericEvent("Generic_GEAR_UPDATE", "G_CREATE", nGearId, tGearUpdate, nil, nil)
-		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_GEAR", tGear.gear)
+		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_GEAR", t_gear.gear)
+		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_CREATE", nGearId) 
 		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_CHECK_GEAR", { ngearid = nGearId, terror = nil })
 	end
 end
 
 ---------------------------------------------------------------------------------------------------
--- OnClickAddNewSet
----------------------------------------------------------------------------------------------------
+-- fired after click in add profile button
 function Gear:OnClickAddNewSet( wndHandler, wndControl, eMouseButton )
-  
-	local tToSave = self:_GetAllEquipped()  
+  	local tToSave = _GetAllEquipped()  
 	local nGearId, bIsNewGear = self:_SaveAllEquipped(tToSave, nil) 
 	self:CreateGearWnd(nGearId, bIsNewGear)
 end
 
 ---------------------------------------------------------------------------------------------------
--- OnGearNameValidate 
----------------------------------------------------------------------------------------------------
-function Gear:OnGearNameValidate( wndHandler, wndControl, strText )
-  
+-- fired after loose focus in profile name control 
+function Gear:OnGearNameLostFocus( wndHandler, wndControl )
     local nGearId = wndControl:GetParent():GetData()
-   	local sNewName = strText:match("^%s*(.-)%s*$")
-	local sOldName = tGear.gear[nGearId].name
-	
-	if sNewName == sOldName then return end
-
-	local sGearName = self:_SetGearName(strText, nGearId)
+	if t_gear.gear[nGearId] == nil then return end
+    local sNewName = wndControl:GetText():match("^%s*(.-)%s*$")
+	local sOldName = t_gear.gear[nGearId].name 
+	local sGearName
+	if sNewName == "" or sNewName == sOldName then 
+		sGearName = sOldName
+    else
+		sGearName = self:_SetGearName(sNewName, nGearId) 
+		self:_RenameMacro(nGearId, t_gear.gear[nGearId].macro, sGearName)
+		local tGearUpdate = self:GetGear()
+		Event_FireGenericEvent("Generic_GEAR_UPDATE", "G_RENAME", nGearId, tGearUpdate, nil, nil)
+		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_RENAME", {ngearid = nGearId, selected = self.nGearId, gear = t_gear.gear})
+	end
 	wndControl:SetTextRaw(sGearName)
-	self:_RenameMacro(nGearId, tGear.gear[nGearId].macro, sGearName)
-	
-	local tGearUpdate = self:GetGear()
-	Event_FireGenericEvent("Generic_GEAR_UPDATE", "G_RENAME", nGearId, tGearUpdate, nil, nil)
-	Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_RENAME", tGear.gear)
 end
 
 ---------------------------------------------------------------------------------------------------
--- ShowSelectGear 
----------------------------------------------------------------------------------------------------
+-- set profile name color 
 function Gear:ShowSelectGear(nGearId)
-
     if self.wndPrev then 
 		local wndPrev = Apollo.FindWindowByName(self.wndPrev:GetName())
         if wndPrev then
         	wndPrev:FindChild("GearName_Btn"):SetTextColor("white")
 		end
 	end
- 		
-	if nGearId == nil then return end
-		
+ 	if nGearId == nil then return end
 	local wnd = Apollo.FindWindowByName("gear_" .. nGearId)
 	if wnd then 
 		wnd:FindChild("GearName_Btn"):SetTextColor("xkcdApple")
@@ -1691,43 +1333,31 @@ end
 -- IniEquipGear 
 ---------------------------------------------------------------------------------------------------
 function Gear:IniEquipGear(nGearId, bComeFromUI)
-	
-    if self.bStopEquip == false then self.bStopEquip = true end
-
-    for _, oSlot in pairs(tItemSlot) do
-			tItemSlot[_].bInSlot = false
+    self:ShowSelectGear(nGearId)
+	if self.bStopEquip == false then self.bStopEquip = true end
+    for _, oSlot in pairs(t_itemslot) do
+		t_itemslot[_].bInSlot = false
 	end
-
 	self.nGearId = nGearId
     self.bStopEquip = false
-	-- var for check missing item after equip a gear set
 	self.nEquippedCount = 0
-	self.nGearCount = lGear.TableLength(tGear.gear[nGearId]) 
+	self.nGearCount = _TableLength(t_gear.gear[nGearId]) 
 	self:_EquipGear(nGearId)
-	
 	local tGearUpdate = self:GetGear()
 	Event_FireGenericEvent("Generic_GEAR_UPDATE", "G_CHANGE", nGearId, tGearUpdate, nil, nil)
-	
-	-- send to other plug-in, gear have equipped a set, and this request come from gear or external addon
 	local tData = { ngearid = nGearId, fromui = bComeFromUI, }
 	Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_CHANGE", tData )
 end
 
 ---------------------------------------------------------------------------------------------------
 -- OnGearEquip 
----------------------------------------------------------------------------------------------------
 function Gear:OnGearEquip( wndHandler, wndControl, eMouseButton )
-
+    if not self.bCanEquip then return end
 	local nGearId = wndControl:GetParent():GetData()
-	-- request to equip a set come from gear ui
-			
-	self:ShowSelectGear(nGearId)	
 	self:IniEquipGear(nGearId, true)
 	self.bIsGearSwitch = true
 	self:Align_LAS(nGearId)
-		
 	if eMouseButton == 1 then 
-	   
 	    self.cLast = wndControl
 		if self.nLASMod == 3 then return end
 	    local nCount = AbilityBook.GetNumUnlockedSpecs()
@@ -1737,83 +1367,61 @@ function Gear:OnGearEquip( wndHandler, wndControl, eMouseButton )
 
 ---------------------------------------------------------------------------------------------------
 -- OnGearDelete 
----------------------------------------------------------------------------------------------------
 function Gear:OnGearDelete( wndHandler, wndControl, eMouseButton )
-
 	if (eMouseButton == 0) then	
-
     	local nGearId = wndControl:GetParent():GetData()
-       	local nMacroId = tGear.gear[nGearId].macro
+       	local nMacroId = t_gear.gear[nGearId].macro
     	self:_DeleteMacro(nMacroId) 
     	self:_DeleteGear(nGearId) 
-
 		wndControl:GetParent():Destroy()
-		
-        if nGearId == self.nGearId then
+		if nGearId == self.nGearId then
         	self:UnSelectGear()
         end
-    	
-    	self.wndSet:ArrangeChildrenVert()
+       	self.wndSet:ArrangeChildrenVert()
 	end	
 end
 
 ---------------------------------------------------------------------------------------------------
 -- OnItemRemove
----------------------------------------------------------------------------------------------------
 function Gear:OnItemRemove( wndHandler, wndControl, eMouseButton )
-	
 	if (eMouseButton == 0) then	
-
     	local nGearId = wndControl:GetParent():GetParent():GetParent():GetData()
        	local nSlot = wndControl:GetParent():GetData().slot
-    	
-		self:_RemoveItem(nGearId, nSlot) 
-		self:Update_PreviewItem(nGearId, wndControl:GetParent():GetParent():GetParent())
-		self:Update_LockItem(nGearId, wndControl:GetParent():GetParent():GetParent())
+    	self:_RemoveItem(nGearId, nSlot) 
+		self:Update_UI_PreviewItemSingle(nGearId, wndControl, nSlot)
+		wndControl:Destroy()
 	end	
 end
 
 ---------------------------------------------------------------------------------------------------
 -- OnClickReloadUI 
----------------------------------------------------------------------------------------------------
 function Gear:OnClickReloadUI( wndHandler, wndControl, eMouseButton )
 	RequestReloadUI()
 end
 
 ---------------------------------------------------------------------------------------------------
 -- OnMacroBeginDragDrop
----------------------------------------------------------------------------------------------------
 function Gear:OnMacroBeginDragDrop( wndHandler, wndControl, x, y, bDragDropStarted )
-
 	if wndHandler ~= wndControl then return false end
 	local nGearId = wndControl:GetParent():GetData()
-	local nMacroId = tGear.gear[nGearId].macro
-
+	local nMacroId = t_gear.gear[nGearId].macro
 	Apollo.BeginDragDrop(wndControl, "DDMacro", wndControl:GetSprite(), nMacroId)
 	return true
 end
 
 ---------------------------------------------------------------------------------------------------
 -- OnSave
----------------------------------------------------------------------------------------------------
 function Gear:OnSave(eLevel)
-	
 	if eLevel ~= GameLib.CodeEnumAddonSaveLevel.Character then return end 
-			
-	-- 'gear settings', get each parent and save only child index number
 	local tData_settings = {} 
-	for sParent, peParent in pairs(tOption) do
+	for sParent, peParent in pairs(t_settings) do
 	   	for _, peChild in pairs(peParent) do
-			-- save only core option
 			if peParent.plugin then break end
 			tData_settings[_] = peChild.bActived
 		end
 	end
-	
-	-- 'size', get size for modal window
-	self:SaveSize(self.wndGear, tSize.modal)
-	local tData_size = tSize.modal.anchor 
-		
+	self:SaveSize(self.wndGear, t_size.modal)
+	local tData_size = t_size.modal.anchor 
 	local tData = {}
 	      tData.config = {
 	                       lastgear = self.nGearId,
@@ -1821,91 +1429,67 @@ function Gear:OnSave(eLevel)
 						   settings = tData_settings,
 						       size = tData_size,
 							    ver = G_VER,
-								
 	                     }
-		
-	if lGear.TableLength(tGear.gear) ~= 0 then 
-		tData.gear = tGear.gear 
+	if _TableLength(t_gear.gear) ~= 0 then 
+		tData.gear = t_gear.gear 
 	end
-
 	return tData
 end 
 
 ---------------------------------------------------------------------------------------------------
 -- OnRestore
----------------------------------------------------------------------------------------------------
 function Gear:OnRestore(eLevel,tData) 
-	
 	if eLevel ~= GameLib.CodeEnumAddonSaveLevel.Character then return end
-	
-	-- gear set		
-	if tData.gear then tGear.gear = tData.gear end
-	
-	-- lastgear		
+	if tData.gear then t_gear.gear = tData.gear end
 	if tData.config.lastgear and tData.config.lastgear >= 1 then 
-		if tGear.gear[tData.config.lastgear] then
+		if t_gear.gear[tData.config.lastgear] then
 			if tData.config.lastgear then self.nGearId = tData.config.lastgear end
 		else
 			self.nGearId = nil
 		end	
 	end	
-	
-	-- lasmod	
 	if tData.config.lasmod then	
 		self.nLASMod = tData.config.lasmod
 	end
-	
-	-- settings
 	if tData.config.settings then
-    	for sParent, peParent in pairs(tOption) do
+    	for sParent, peParent in pairs(t_settings) do
 			for _, peChild in pairs(peParent) do
-				-- if index number exist then restore child from actual parent
-			    if tData.config.settings[_] then tOption[sParent][_].bActived = tData.config.settings[_] end
+				if tData.config.settings[_] then t_settings[sParent][_].bActived = tData.config.settings[_] end
 			end
         end 	
 	end 
-	
-	-- size
 	if tData.config.size then
-		tSize.modal.anchor = tData.config.size 
+		t_size.modal.anchor = tData.config.size 
     end
 end 
 
 ---------------------------------------------------------------------------------------------------
 -- RestoreGear
----------------------------------------------------------------------------------------------------
 function Gear:RestoreGear() 
-
-    if lGear.TableLength(tGear.gear) == 0 then return end 
-	
-	for _, peCurrent in pairs(tGear.gear) do
+    if _TableLength(t_gear.gear) == 0 then return end 
+	for _, peCurrent in pairs(t_gear.gear) do
 		self:CreateGearWnd(_, false)
 	end
-	
 	self:ShowSelectGear(self.nGearId)
-	self:Update_AllPreview()
-	self:Update_UI_Setting()
+	self:Update_UI_AllPreview()
+	self:Update_UI_Plugin(nil, nil)
+	Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_UI_VISIBLE")
 end
 
 ---------------------------------------------------------------------------------------------------
 -- OnCheckPreview
----------------------------------------------------------------------------------------------------
 function Gear:OnCheckPreview( wndHandler, wndControl, eMouseButton )
-   
-	local nGearId = wndControl:GetParent():GetData()
+   	local nGearId = wndControl:GetParent():GetData()
 	local wndTemplate = wndControl:GetParent()
 	local nHeight = 80
-							
 	if wndControl:IsChecked() then  
-	
 		nHeight = 186 
 		self:SetPreviewItem(nGearId, wndTemplate)
-		self:Update_PreviewItem(nGearId, wndTemplate)
-		self:Update_LockItem(nGearId, wndTemplate)
+		self:Update_UI_PreviewItem(nGearId, wndTemplate)
+		self:Update_UI_LockItem(nGearId, wndTemplate)
 	else
 		self:Remove_PreviewItem(wndTemplate)
 	end
-		
 	local l,t,r,b = wndTemplate:GetAnchorPoints()
 	wndTemplate:SetAnchorOffsets(l, t, r, nHeight)
 	self.wndSet:ArrangeChildrenVert()
@@ -1913,44 +1497,35 @@ end
 
 ---------------------------------------------------------------------------------------------------
 -- OnLockDeleteCheck
----------------------------------------------------------------------------------------------------
 function Gear:OnLockDeleteCheck( wndHandler, wndControl, eMouseButton )
-	
 	self.bLockDel = wndControl:IsChecked()
 	wndControl:SetCheck(self.bLockDel)
-	self:LockDelete()
-	self:Update_LockItemFrame()
+	self:Update_LockProfile()
+	self:Update_UI_LockItemFrame()
 end
 
 ---------------------------------------------------------------------------------------------------
--- LockDelete
----------------------------------------------------------------------------------------------------
-function Gear:LockDelete()
-		
+-- Update_LockProfile
+function Gear:Update_LockProfile()
 	local tChildren = self.Gear_Panel:FindChild("Set_Frame"):GetChildren()
     for _=1, #tChildren do
-        tChildren[_]:FindChild("Delete_Btn"):Enable(self.bLockDel)
+		self:Update_UI_Lock(tChildren[_], "Delete_Btn", self.bLockDel)
 	end
 end
 
 ---------------------------------------------------------------------------------------------------
--- OnClickForUnselectGear
----------------------------------------------------------------------------------------------------
+-- click on 'unselect' ui option
 function Gear:OnClickForUnselectGear( wndHandler, wndControl, eMouseButton, nLastRelativeMouseX, nLastRelativeMouseY, bDoubleClick, bStopPropagation )
 	self:UnSelectGear()
 end
 
 ---------------------------------------------------------------------------------------------------
--- OnCollapseCheck
----------------------------------------------------------------------------------------------------
+-- click on 'collapse' ui option
 function Gear:OnCollapseCheck( wndHandler, wndControl, eMouseButton )
-	
 	local bCheck = wndControl:IsChecked()
 	local tChildren = self.Gear_Panel:FindChild("Set_Frame"):GetChildren()
 	local nIsOpen, nIsClosed = 0, 0
-	    	
-    for _=1, #tChildren do
-		
+	for _=1, #tChildren do
 		local wnd = tChildren[_]:FindChild("Preview_Btn")
 		if wnd:IsChecked() then 
 			nIsOpen = nIsOpen + 1 
@@ -1958,176 +1533,126 @@ function Gear:OnCollapseCheck( wndHandler, wndControl, eMouseButton )
 			nIsClosed = nIsClosed + 1
 		end
 	end
-   
-	if nIsOpen > nIsClosed then bCheck = false else bCheck = true end
+   	if nIsOpen > nIsClosed then bCheck = false else bCheck = true end
 	self:Collapse_AllPreview(bCheck)
 end
 
 ---------------------------------------------------------------------------------------------------
--- OnLasModClick 
----------------------------------------------------------------------------------------------------
+-- click on 'lasmod' ui option 
 function Gear:OnLasModClick( wndHandler, wndControl, eMouseButton )
-	
-    local nIdMod = wndControl:GetData()
+	local nIdMod = wndControl:GetData()
     nIdMod = nIdMod + 1
-	
-    if nIdMod == 3 then 
+	if nIdMod == 3 then 
 		wndControl:SetData(0)
 	else
 		wndControl:SetData(nIdMod)
 	end
-	
 	self.nLASMod =  nIdMod
 	local tLASMod = {     
-						[1] = L["G_LASMOD_1"],
-						[2] = L["G_LASMOD_2"], 
-						[3] = L["G_LASMOD_3"],
+						[1] = m_L["G_LASMOD_1"],
+						[2] = m_L["G_LASMOD_2"], 
+						[3] = m_L["G_LASMOD_3"],
 					}
-				
 	wndControl:SetText(tLASMod[nIdMod])
 	self:UpdateText_LAS(nIdMod)
-		
-	if lGear.TableLength(tGear.gear) == 0 or self.nGearId == nil then return end 
-	
+	if _TableLength(t_gear.gear) == 0 or self.nGearId == nil then return end 
 	if not self.bNoSwitch then 
 		self.bIsGearSwitch = true
 		self.bNoSwitch = false
 	end	
-    	
-	self:Align_LAS(self.nGearId)
+    self:Align_LAS(self.nGearId)
 end
 
 ---------------------------------------------------------------------------------------------------
--- OnClick_UI_Settings (all ui settings button clik come here)
----------------------------------------------------------------------------------------------------
+-- all click event from profile ui settings come here
 function Gear:OnClick_UI_Settings( wndHandler, wndControl, eMouseButton )
-
-	local sType = wndControl:GetData().type		-- get button type (toggle_unique, toggle, push, none) 
-	local sOwner = wndControl:GetData().owner	-- get plugin owner
-	local nUIId = wndControl:GetData().uiid		-- get index of ui setting array, to identify control
-	
+	local sType = wndControl:GetData().type		
+	local sOwner = wndControl:GetData().owner	
+	local nUIId = wndControl:GetData().uiid		
 	local nGearId = wndControl:GetData().ngearid
 	local nNewSelect, nOldSelect 	
-
-	----------------------------------------------------------------------------------------------	
-	-- like mount button..
 	if sType == "toggle_unique" then
-		
-		-- get selected or not
 		local bChecked = wndControl:IsChecked()
-			
-		-- selected
 		if bChecked then
-					
-			-- get/save gearid selected to use with mount
 			nNewSelect = nGearId
-			nOldSelect = tUI_Setting[tPlugIn[sOwner].settingname][nUIId].Saved
-						
-			-- unselect old selected 
-			if nOldSelect and tGear.gear[nOldSelect] then 
-						    
+			nOldSelect = t_uisetting[sOwner][nUIId].Saved
+			if nOldSelect and t_gear.gear[nOldSelect] then 
 				if self.Gear_Panel:FindChild("Set_Frame"):FindChild("gear_" .. nOldSelect):FindChild(sOwner .. "_" .. nUIId) then	
 					self.wndPrev_toggle_unique = self.Gear_Panel:FindChild("Set_Frame"):FindChild("gear_" .. nOldSelect):FindChild(sOwner .. "_" .. nUIId)
-					-- update ui button status color
 					self:Set_UI_ColorStatus(self.wndPrev_toggle_unique, false)
 					self.wndPrev_toggle_unique:SetCheck(false)
 				end
 			end
-	    								
-		-- unselected
-		elseif not bChecked then
-			-- init mount selected to nil
+	   	elseif not bChecked then
 			nNewSelect = nil
 			nOldSelect = nil
 		end	
-				
-		-- update ui button status color
 		self:Set_UI_ColorStatus(wndControl, bChecked)
-								
-		-- save selected ngearid to tui_setting
-	    tUI_Setting[tPlugIn[sOwner].settingname][nUIId].Saved = nNewSelect
-		-- we send to plugin owner the new status for actual plugin control
+		t_uisetting[sOwner][nUIId].Saved = nNewSelect
 		local tUISetting = { owner = sOwner, uiid = nUIId, saved = nNewSelect, }
 		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_UI_SETTING", tUISetting)
 	end
-	----------------------------------------------------------------------------------------------
-		
 	if sType == "toggle" then
-		--
+		
 	end
- 
-	-- like armory button..
-	if sType == "push" then
-		-- we send to plugin owner the action to set for actual plugin control
-		local tUISetting = { owner = sOwner, uiid = nUIId, ngearid = nGearId, name = tGear.gear[nGearId].name}
+ 	if sType == "push" then
+		local tUISetting = { owner = sOwner, uiid = nUIId, ngearid = nGearId, name = t_gear.gear[nGearId].name}
 		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_UI_ACTION", tUISetting)
 	end
-
 	if sType == "none" then
-		--
+		
 	end
 end
 
 ---------------------------------------------------------------------------------------------------
--- Plugin_OnClick (All click event from plugin come in)
----------------------------------------------------------------------------------------------------
+-- all click event from settings plugin come here
 function Gear:Plugin_OnClick( wndHandler, wndControl, eMouseButton, nLastRelativeMouseX, nLastRelativeMouseY, bDoubleClick, bStopPropagation )
-		
-	-- get target control for filter
-	sControl = wndControl:GetName()
-	
-	-- click in plugin icon to turn on/off plugin in setting panel
+	local sControl = wndControl:GetName()
 	if sControl == "Plugin_wnd" then
-		-- get title parent wnd
 		local cParent = wndControl:GetParent():GetParent()
-		-- get plugin name
 		local sOwner = wndControl:GetData().name
-		-- set new plugin status to on or off
-		tPlugIn[sOwner].on = not tPlugIn[sOwner].on
-						
-		-- get all children option and set to enable/disable
+		t_plugin[sOwner].on = not t_plugin[sOwner].on
 		local tChildren = cParent:GetChildren()
 		for _=1,#tChildren do
 			if tChildren[_]:GetName() ~= "FrameTitle_wnd" then 
-				-- enable or disable
-				tChildren[_]:Enable(tPlugIn[sOwner].on)
-			else
-				-- change title color
-				tChildren[_]:SetTextColor(tColor.plugin[tostring(tPlugIn[sOwner].on)])
-			end
+				tChildren[_]:Enable(t_plugin[sOwner].on)
+			end	
+			tChildren[_]:SetTextColor(t_color.plugin[tostring(t_plugin[sOwner].on)])
+			local cPluginIcon = tChildren[_]:FindChild("Plugin_Icon_wnd")			
+			if cPluginIcon then
+				cPluginIcon:SetBGColor(t_color.plugin_icon[tostring(t_plugin[sOwner].on)])
+			end		
 		end
-		
-		-- we send to plugin owner the new status on or off	
-		local tSetting = { owner = sOwner, on = tPlugIn[sOwner].on }
+		if t_uisetting[sOwner] then
+			local nAction = 2	
+			if t_plugin[sOwner].on then nAction = 1 end 
+			self:Update_UI_Plugin(sOwner, nAction)
+		end
+		local tSetting = { owner = sOwner, on = t_plugin[sOwner].on }
 		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_ON", tSetting)
-				
-		self:Update_UI_Setting()
 	end
 end
 
 ---------------------------------------------------------------------------------------------------
--- IniWindow (create/destroy gear window)
----------------------------------------------------------------------------------------------------
+-- create/destroy gear window
 function Gear:IniWindow(oWndTarget)
-		
-	-- toggle gear modal window (close)
 	if self.wndGear and self.bModal then
-		self:SaveSize(self.wndGear, tSize.modal)
+		self:SaveSize(self.wndGear, t_size.modal)
+		self.wndGear:SetInterrupt(false)
 		self.wndGear:Destroy()
 		self.wndGear, self.Gear_Panel = nil, nil
 		return
-	-- create modal window (open)
 	elseif self.wndGear == nil and self.bModal then
 		self.wndGear = oWndTarget
-		self.wndGear:FindChild("TitleWnd"):SetText(L["G_TABNAME"])
+		self.wndGear:FindChild("TitleWnd"):SetText(m_L["G_TABNAME"])
 		self.wndTarget = self.wndGear:FindChild("OptionWnd_Frames")
 		self.wndTarget:SetStyle("VScroll", false) 
 		self.wndGear:FindChild("CloseBtn"):SetData("modal")
-		self:SetSize(self.wndGear, tSize.modal)
+		self:SetSize(self.wndGear, t_size.modal)
 		self.bLockDel = false
 		self:CreatePanel(self.wndTarget)
+		self.wndGear:SetInterrupt(true)
 		self.wndGear:Show(true)
-	-- create non modal window (only once)
 	elseif not self.bModal then
 		self.wndTarget = oWndTarget
 		self.wndTarget:SetStyle("VScroll", false) 
@@ -2138,34 +1663,25 @@ function Gear:IniWindow(oWndTarget)
 end
 
 ---------------------------------------------------------------------------------------------------
--- SetSize
----------------------------------------------------------------------------------------------------
+-- set size/position for setting/gear window
 function Gear:SetSize(oWnd, tWndSize)
-  
-	-- we get size from houston UI form
-	local nWidth = oWnd:GetWidth() 
+  	local nWidth = oWnd:GetWidth() 
 	local nHeight = oWnd:GetHeight()
 	local nLimitWidth, nLimitHeight = tWndSize.max.width, tWndSize.max.height
 	local nScreenWidth, nScreenHeight = Apollo.GetScreenSize()
-	
-	-- set size limit
-    oWnd:SetSizingMinimum(nWidth, nHeight)
-	-- if no max size limit
+	oWnd:SetSizingMinimum(nWidth, nHeight)
 	if tWndSize.max.width == 0 and tWndSize.max.height == 0 then 
 		nLimitWidth, nLimitHeight = nScreenWidth, nScreenHeight
 	elseif tWndSize.max.width ~= 0 then
 		nLimitHeight = nScreenHeight
 	end
 	oWnd:SetSizingMaximum(nLimitWidth, nLimitHeight) 
-		
-	-- restore anchor/size saved
 	if tWndSize.anchor.b == 0 then return end
 	oWnd:SetAnchorOffsets(tWndSize.anchor.l, tWndSize.anchor.t, tWndSize.anchor.r, tWndSize.anchor.b)
 end
 
 ---------------------------------------------------------------------------------------------------
--- SaveSize
----------------------------------------------------------------------------------------------------
+-- save size/postion for setting/gear
 function Gear:SaveSize(oWnd, tWndSize)
  	if oWnd then 
 		tWndSize.anchor.l, tWndSize.anchor.t, tWndSize.anchor.r, tWndSize.anchor.b = oWnd:GetAnchorOffsets()
@@ -2173,140 +1689,107 @@ function Gear:SaveSize(oWnd, tWndSize)
 end
 
 ---------------------------------------------------------------------------------------------------
--- OnWndMove
----------------------------------------------------------------------------------------------------
+-- event fired when setting/gear window is resizing
 function Gear:OnWndMove( wndHandler, wndControl, nOldLeft, nOldTop, nOldRight, nOldBottom )
-
 	if wndControl:FindChild("CloseBtn"):GetData() == "modal" then
-		self:SaveSize(self.wndGear, tSize.modal)
+		self:SaveSize(self.wndGear, t_size.modal)
 	else
-		self:SaveSize(self.wndOption, tSize.settings)
+		self:SaveSize(self.wndOption, t_size.settings)
 	end	
 end
 
 ---------------------------------------------------------------------------------------------------
 -- OnItemToolTip
----------------------------------------------------------------------------------------------------
 function Gear:OnItemToolTip( wndHandler, wndControl, x, y )
 	if wndControl ~= wndHandler then return end
-	   
 	local oItem = wndControl:GetData().item
 	local oSlot = wndControl:GetData().slot
 	local bCompare = wndControl:GetData().compare
-					
 	if oItem and type(oItem) == "userdata" then
 		local itemEquipped = oItem:GetEquippedItemForItemType()
 		if bCompare == false then itemEquipped = nil end
 		Tooltip.GetItemTooltipForm(self, wndControl, oItem, {bPrimary = true, bSelling = false, itemCompare = itemEquipped})
 	else
-		wndControl:SetTooltip(tItemSlot[oSlot].sToolTip)
+		wndControl:SetTooltip(t_itemslot[oSlot].sToolTip)
 	end
 end
 
 ---------------------------------------------------------------------------------------------------
 -- OnLeaveItemToolTip
----------------------------------------------------------------------------------------------------
 function Gear:OnLeaveItemToolTip( wndHandler, wndControl, x, y )
 	wndControl:SetTooltipDoc(nil)
 end
 
 ---------------------------------------------------------------------------------------------------
 -- OnShowGear_UI_ToolTips
----------------------------------------------------------------------------------------------------
 function Gear:OnShowGear_UI_ToolTips( wndHandler, wndControl, x, y )
-		
 	local tData = wndControl:GetData()
 	if tData == nil then return end 
-	
 	local xml = XmlDoc.new()
-	local sPlugin = tPlugIn[tData.owner].settingname
+	local sTranslate = t_settings[tData.owner].translatename
 	local sTooltips = {}
-		
 	if tData then
-		local tSaved = tUI_Setting[tPlugIn[tData.owner].settingname][tData.uiid].Saved
+		local tSaved = t_uisetting[tData.owner][tData.uiid].Saved
 		if tSaved and tonumber(tSaved) == nil and tSaved[tData.ngearid] then 
-				
-			-- if saved is a data array	
 			if tSaved[tData.ngearid].target[1] then
 				sTooltips = tSaved[tData.ngearid].target
-								
-			-- single data
 			else
 				sTooltips[1] = tSaved[tData.ngearid].target
 			end
 		end
 	end
-	-- set tooltip	
-	xml:AddLine(sPlugin, "xkcdAmber", "CRB_InterfaceSmall", "Left")	
+	xml:AddLine(sTranslate, "xkcdAmber", "CRB_InterfaceSmall", "Left")	
 	for _=1, #sTooltips	do
 		xml:AddLine(sTooltips[_], "xkcdAquaBlue", "CRB_InterfaceSmall", "Left")
 	end
-	
 	wndControl:SetTooltipDoc(xml)
 end
 
 ---------------------------------------------------------------------------------------------------
 -- OnShowGear_ToolTips
----------------------------------------------------------------------------------------------------
 function Gear:OnShowGear_ToolTips( wndHandler, wndControl, x, y )
 	local sWndName = wndControl:GetName()
-		
 	local tToolTipId = {     
-							 ["Lock_Btn"] = L["G_LOCK"],
-						 ["Collapse_Btn"] = L["G_COLLAPSE"], 
-						 ["Unselect_Btn"] = L["G_UNSELECT"],
-						   ["Delete_Btn"] = L["G_DELETE"],  
-						   ["LasMod_Btn"] = L["G_LASMOD"],
+							 ["Lock_Btn"] = m_L["G_LOCK"],
+						 ["Collapse_Btn"] = m_L["G_COLLAPSE"], 
+						 ["Unselect_Btn"] = m_L["G_UNSELECT"],
+						   ["Delete_Btn"] = m_L["G_DELETE"],  
+						   ["LasMod_Btn"] = m_L["G_LASMOD"],
 					    }
-	
 	if tToolTipId[sWndName] then
 		wndControl:SetTooltip(tToolTipId[sWndName])
-		return
 	else
-		
 		local xml = XmlDoc.new()					
 		if sWndName == "Macro_Btn" then 
-		
 			local nMacro = wndControl:GetParent():GetData()
 			local sGear = "\/gear " .. nMacro
-		    	
-			xml:AddLine(sGear, "xkcdAmber", "CRB_InterfaceSmall", "Left")
-	    	xml:AddLine(L["G_MACRO"], "White", "CRB_InterfaceSmall", "Left")
-	    			
-	    	if self.nLASMod == 3 then
-				xml:AddLine(L["G_LASPARTNER"], "xkcdAquaBlue", "CRB_InterfaceSmall", "Left")
+		  	xml:AddLine(sGear, "xkcdAmber", "CRB_InterfaceSmall", "Left")
+	    	xml:AddLine(m_L["G_MACRO"], "White", "CRB_InterfaceSmall", "Left")
+	       	if self.nLASMod == 3 then
+				xml:AddLine(m_L["G_LASPARTNER"], "xkcdAquaBlue", "CRB_InterfaceSmall", "Left")
 			else
-				xml:AddLine(L["G_LAS"], "White", "CRB_InterfaceSmall", "Left")
+				xml:AddLine(m_L["G_LAS"], "White", "CRB_InterfaceSmall", "Left")
 	    	end
-			
 		elseif sWndName == "GearName_Btn" then 
-			xml:AddLine(L["G_NAME"], "White", "CRB_InterfaceSmall", "Left")
-	    						
-		elseif sWndName == "Preview_Btn" then 
-	   		xml:AddLine(L["G_PREVIEW"], "White", "CRB_InterfaceSmall", "Left")
-	    			
-		elseif sWndName == "Plugin_wnd" then
+			xml:AddLine(m_L["G_NAME"], "White", "CRB_InterfaceSmall", "Left")
+	 	elseif sWndName == "Preview_Btn" then 
+	   		xml:AddLine(m_L["G_PREVIEW"], "White", "CRB_InterfaceSmall", "Left")
+	  	elseif sWndName == "Plugin_wnd" then
 			local sPlugIn = wndControl:GetData().name
-						
-			xml:AddLine(sPlugIn .. " v" ..tPlugIn[sPlugIn].ver , "White", "CRB_InterfaceSmall", "Left")
-	    	xml:AddLine(tPlugIn[sPlugIn].flavor, "xkcdAquaBlue", "CRB_InterfaceSmall", "Left")
-	
+			xml:AddLine(sPlugIn .. " v" ..t_plugin[sPlugIn].ver , "White", "CRB_InterfaceSmall", "Left")
+	    	xml:AddLine(t_plugin[sPlugIn].flavor, "xkcdAquaBlue", "CRB_InterfaceSmall", "Left")
 		elseif sWndName == "Settings_Btn" then
-					
-			local nPlugIn = lGear.TableLengthBoth(tPlugIn)
-			xml:AddLine(nPlugIn .." " .. L["G_UI_SETTINGS"], "xkcdAmber", "CRB_InterfaceSmall", "Left")
-					
-			for sPlugIn, oPlugIn in pairs(tPlugIn) do
-				xml:AddLine(sPlugIn .. " v" ..tPlugIn[sPlugIn].ver, tColor.plugin[tostring(oPlugIn.on)], "CRB_InterfaceSmall", "Left")
+		   	local nPlugIn = _TableLengthBoth(t_plugin)
+			xml:AddLine(nPlugIn .." " .. m_L["G_UI_SETTINGS"], "xkcdAmber", "CRB_InterfaceSmall", "Left")
+			for sPlugIn, oPlugIn in pairs(t_plugin) do
+				xml:AddLine(sPlugIn .. " v" ..t_plugin[sPlugIn].ver, t_color.plugin[tostring(t_plugin[sPlugIn].on)], "CRB_InterfaceSmall", "Left")
 	    	end
 		end
-			
 		wndControl:SetTooltipDoc(xml)
 	end	
 end
 
 -----------------------------------------------------------------------------------------------
 -- Gear Instance
------------------------------------------------------------------------------------------------
 local GearInst = Gear:new()
 GearInst:Init()

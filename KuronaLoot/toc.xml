@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Addon Author="KuronaSilversky" APIVersion="13" Name="KuronaLoot" Description="Loot Loot Loot">
+<Addon Author="KuronaSilversky" APIVersion="15" Name="KuronaLoot" Description="Loot Loot Loot">
     <Script Name="KuronaLoot.lua"/>
     <Form Name="KuronaLoot.xml"/>
     <ReplaceAddon Name="LootNotificationWindow"/>

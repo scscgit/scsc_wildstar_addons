@@ -1,0 +1,16 @@
+package-as: RaidCore
+enable-nolib-creation: no
+
+externals:
+  Libs/GeminiAddon:
+    url: https://github.com/wildstarnasa/GeminiAddon.git
+  Libs/GeminiGUI:
+    url: https://github.com/wildstarnasa/GeminiGUI.git
+  Libs/GeminiLocale:
+    url: https://github.com/wildstarnasa/GeminiLocale.git
+  Libs/GeminiTimer:
+    url: https://github.com/wildstarnasa/GeminiTimer.git
+  Libs/LibJSON:
+    url: https://github.com/wildstarnasa/LibJSON.git
+  Libs/GeminiDB:
+    url: https://github.com/wildstarnasa/GeminiDB.git

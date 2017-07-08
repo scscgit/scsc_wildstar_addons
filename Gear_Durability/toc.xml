@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Daorven" APIVersion="15" Name="Gear_Durability" Description="Item Set Durability." Version="1.0.3">
+    <!-- Libraries -->
+    <Script Name="..\Gear\libs\GeminiLocale-1.0\GeminiLocale.lua"/>
+    <Script Name="..\Gear\libs\LibGear-1.0\LibGear-1.0.lua"/>
+    <!-- Localization -->
+    <Script Name="locale\enUS.lua"/>
+    <Script Name="locale\deDE.lua"/>
+    <Script Name="locale\frFR.lua"/>
+    <!-- Addon -->
+    <Script Name="Gear_Durability.lua"/>
+</Addon>

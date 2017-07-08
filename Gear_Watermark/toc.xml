@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Addon Author="Daorven" APIVersion="13" Name="Gear_Watermark" Description="Add watermark &apos;Tooltip&apos; to identify each item from &apos;Gear&apos; profile." Version="1.0">
+<Addon Author="Daorven" APIVersion="15" Name="Gear_Watermark" Description="Add watermark &apos;Tooltip&apos; to identify each item from &apos;Gear&apos; profile." Version="1.0.1">
     <!-- Libraries -->
     <Script Name="..\Gear\libs\GeminiLocale-1.0\GeminiLocale.lua"/>
+	<Script Name="..\Gear\libs\LibGear-1.0\LibGear-1.0.lua"/>
     <!-- Localization -->
     <Script Name="locale\enUS.lua"/>
     <Script Name="locale\deDE.lua"/>

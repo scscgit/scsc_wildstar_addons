@@ -5,8 +5,11 @@
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 -- Description:
---   TODO
+-- TODO
 ----------------------------------------------------------------------------------------------------
+local Apollo = require "Apollo"
+local GameLib = require "GameLib"
+
 local core = Apollo.GetPackage("Gemini:Addon-1.1").tPackage:GetAddon("RaidCore")
 local mod = core:NewEncounter("EpAirWater", 52, 98, 118)
 if not mod then return end
@@ -14,7 +17,7 @@ if not mod then return end
 ----------------------------------------------------------------------------------------------------
 -- Registering combat.
 ----------------------------------------------------------------------------------------------------
-mod:RegisterTrigMob("ALL", { "Hydroflux", "Aileron" })
+mod:RegisterTrigMob(core.E.TRIGGER_ALL, { "Hydroflux", "Aileron" })
 mod:RegisterEnglishLocale({
     -- Unit names.
     ["Hydroflux"] = "Hydroflux",
@@ -30,7 +33,7 @@ mod:RegisterEnglishLocale({
     ["ICESTORM"] = "ICESTORM",
     ["TWIRL ON YOU!"] = "TWIRL ON YOU!",
     ["TWIRL"] = "TWIRL",
-})
+  })
 mod:RegisterFrenchLocale({
     -- Unit names.
     ["Hydroflux"] = "Hydroflux",
@@ -46,7 +49,7 @@ mod:RegisterFrenchLocale({
     ["TWIRL ON YOU!"] = "TOURNOIEMENT SUR VOUS!",
     ["TWIRL"] = "TOURNOIEMENT",
     ["ICESTORM"] = "TEMPÊTE GLACIALE",
-})
+  })
 mod:RegisterGermanLocale({
     -- Unit names.
     ["Hydroflux"] = "Hydroflux",
@@ -56,7 +59,7 @@ mod:RegisterGermanLocale({
     ["Glacial Icestorm"] = "Frostiger Eissturm",
     -- Timer bars.
     -- Message bars.
-})
+  })
 -- Default settings.
 mod:RegisterDefaultSetting("SoundMidphase")
 mod:RegisterDefaultSetting("SoundIcestorm")
@@ -69,7 +72,7 @@ mod:RegisterDefaultTimerBarConfigs({
     ["MIDPHASE"] = { sColor = "xkcdLavenderBlue" },
     ["TOMB"] = { sColor = "xkcdDarkishBlue" },
     ["ICESTORM"] = { sColor = "xkcdTurquoiseBlue" },
-})
+  })
 
 ----------------------------------------------------------------------------------------------------
 -- Constants.
@@ -82,7 +85,6 @@ local DEBUFFID_TWIRL = 70440
 -- Locals.
 ----------------------------------------------------------------------------------------------------
 local GetUnitById = GameLib.GetUnitById
-local GetGameTime = GameLib.GetGameTime
 local GetPlayerUnit= GameLib.GetPlayerUnit
 
 local nMOOCount = 0
@@ -92,66 +94,69 @@ local bIsPhase2 = false
 -- Encounter description.
 ----------------------------------------------------------------------------------------------------
 function mod:OnBossEnable()
-    nMOOCount = 0
-    bIsPhase2 = false
-    mod:AddTimerBar("MIDPHASE", "Next middle phase", 60, mod:GetSetting("SoundMidphase"))
-    mod:AddTimerBar("TOMB", "Next frost tombs", 30, mod:GetSetting("SoundFrostTombsCountDown"))
+  nMOOCount = 0
+  bIsPhase2 = false
+  mod:AddTimerBar("MIDPHASE", "Next middle phase", 60, mod:GetSetting("SoundMidphase"))
+  mod:AddTimerBar("TOMB", "Next frost tombs", 30, mod:GetSetting("SoundFrostTombsCountDown"))
 end
 
 function mod:OnUnitCreated(nId, tUnit, sName)
-    if sName == self.L["Hydroflux"] or sName == self.L["Aileron"] then
-        core:AddUnit(tUnit)
-        core:WatchUnit(tUnit)
-    end
+  if sName == self.L["Hydroflux"] then
+    core:AddUnit(tUnit)
+    core:WatchUnit(tUnit, core.E.TRACK_CASTS + core.E.TRACK_BUFFS)
+  elseif sName == self.L["Aileron"] then
+    core:AddUnit(tUnit)
+    core:WatchUnit(tUnit, core.E.TRACK_BUFFS)
+  end
 end
 
 function mod:OnCastStart(nId, sCastName, nCastEndTime, sName)
-    if self.L["Hydroflux"] == sName then
-        if self.L["Tsunami"] == sCastName then
-            bIsPhase2 = true
-            nMOOCount = nMOOCount + 1
-            mod:AddMsg("PHASE2", self.L["Tsunami"]:upper(), 5, mod:GetSetting("SoundMidphase") and "Alert")
-        elseif self.L["Glacial Icestorm"] == sCastName then
-            mod:AddMsg("ICESTORM", "ICESTORM", 5, mod:GetSetting("SoundIcestorm") and "RunAway")
-        end
+  if self.L["Hydroflux"] == sName then
+    if self.L["Tsunami"] == sCastName then
+      bIsPhase2 = true
+      nMOOCount = nMOOCount + 1
+      mod:AddMsg("PHASE2", self.L["Tsunami"]:upper(), 5, mod:GetSetting("SoundMidphase") and "Alert")
+    elseif self.L["Glacial Icestorm"] == sCastName then
+      mod:AddMsg("ICESTORM", "ICESTORM", 5, mod:GetSetting("SoundIcestorm") and "RunAway")
     end
+  end
 end
 
 function mod:OnCastEnd(nId, sCastName, bInterrupted, nCastEndTime, sName)
-    if sName == self.L["Hydroflux"] then
-        if sCastName == self.L["Tsunami"] then
-            mod:AddTimerBar("MIDPHASE", "Next middle phase", 88, mod:GetSetting("SoundMidphase"))
-            mod:AddTimerBar("TOMB", "Next frost tombs", 30, mod:GetSetting("SoundFrostTombsCountDown"))
-        end
+  if sName == self.L["Hydroflux"] then
+    if sCastName == self.L["Tsunami"] then
+      mod:AddTimerBar("MIDPHASE", "Next middle phase", 88, mod:GetSetting("SoundMidphase"))
+      mod:AddTimerBar("TOMB", "Next frost tombs", 30, mod:GetSetting("SoundFrostTombsCountDown"))
     end
+  end
 end
 
 function mod:OnBuffAdd(nId, nSpellId, nStack, fTimeRemaining)
-    if bIsPhase2 and (nSpellId == BUFFID_MOO1 or nSpellId == BUFFID_MOO2) then
-        bIsPhase2 = false
-        if nMOOCount == 2 then
-            nMOOCount = 0
-            mod:AddTimerBar("ICESTORM", "Next icestorm", 15)
-        end
+  if bIsPhase2 and (nSpellId == BUFFID_MOO1 or nSpellId == BUFFID_MOO2) then
+    bIsPhase2 = false
+    if nMOOCount == 2 then
+      nMOOCount = 0
+      mod:AddTimerBar("ICESTORM", "Next icestorm", 15)
     end
+  end
 end
 
 function mod:OnDebuffAdd(nId, nSpellId, nStack, fTimeRemaining)
-    local tUnit = GetUnitById(nId)
-    if nSpellId == DEBUFFID_TWIRL then
-        if mod:GetSetting("OtherTwirlWarning") and GetPlayerUnit():GetId() == nId then
-            mod:AddMsg("TWIRL", "TWIRL ON YOU!", 5, mod:GetSetting("SoundTwirl") and "Inferno")
-        end
-        if mod:GetSetting("OtherTwirlPlayerMarkers") then
-            core:MarkUnit(tUnit, nil, self.L["TWIRL"])
-        end
-        core:AddUnit(tUnit)
+  local tUnit = GetUnitById(nId)
+  if nSpellId == DEBUFFID_TWIRL then
+    if mod:GetSetting("OtherTwirlWarning") and GetPlayerUnit():GetId() == nId then
+      mod:AddMsg("TWIRL", "TWIRL ON YOU!", 5, mod:GetSetting("SoundTwirl") and "Inferno")
     end
+    if mod:GetSetting("OtherTwirlPlayerMarkers") then
+      core:MarkUnit(tUnit, nil, self.L["TWIRL"])
+    end
+    core:AddUnit(tUnit)
+  end
 end
 
 function mod:OnDebuffRemove(nId, nSpellId)
-    if nSpellId == DEBUFFID_TWIRL then
-        core:DropMark(nId)
-        core:RemoveUnit(nId)
-    end
+  if nSpellId == DEBUFFID_TWIRL then
+    core:DropMark(nId)
+    core:RemoveUnit(nId)
+  end
 end

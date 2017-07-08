@@ -14,7 +14,7 @@ require "AccountItemLib"
 -- KuronaBags Module Definition
 -----------------------------------------------------------------------------------------------
 local KuronaBags = {} 
-local Major, Minor, Patch, Suffix =4, 5, 6, 3
+local Major, Minor, Patch, Suffix =4, 5, 6, 6
 local Version = tonumber(Major.."."..Minor..Patch..Suffix)
 local KuronaBags_CURRENT_VERSION = string.format("%d.%d.%d", Major, Minor, Patch)
 local APIVersion = Apollo.GetAPIVersion()

@@ -86,6 +86,7 @@ end
 function Gear_Watermark:_Comm() 
 		
 	if lGear._isaddonup("Gear")	then												-- if 'gear' is running , go next
+		tComm:Stop()
 		tComm = nil 																-- stop init comm timer
 		if bCall == nil then lGear.initcomm(tPlugin) end 							-- send information about me, setting etc..
 	end
@@ -207,7 +208,7 @@ function Gear_Watermark:_Watermark_Tooltips(oAddon)
 		-- function called after each mouse over a item
 		    		
 		   	local tGearName = nil
-			if item ~= nil then tGearName = lGear._IsKnowGear(item:GetChatLinkString(), tLastGear) end
+			if item ~= nil then tGearName = lGear._GetGearParent(item:GetChatLinkString(), tLastGear) end
 			if (item ~= nil) and  (tGearName ~= nil) and tPlugin.on then
 							
 				wndControl:SetTooltipDoc(nil)
@@ -218,7 +219,7 @@ function Gear_Watermark:_Watermark_Tooltips(oAddon)
 				for _=1, #tGearName do
 
 					local wndTooltips = Apollo.LoadForm(self.xmlDoc, "Tooltips_Template", wndGearTooltips, self)
-					wndTooltips:SetText(tGearName[_])
+					wndTooltips:SetText(tGearName[_].name)
 				end
 									
 				wndGearTooltips:ArrangeChildrenTiles()

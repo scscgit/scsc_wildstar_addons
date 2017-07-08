@@ -10,7 +10,7 @@ require "MatchingGameLib"
 -----------------------------------------------------------------------------------------------
 -- BGChron Module Definition
 -----------------------------------------------------------------------------------------------
-local _Version,_VersionMinor = 60828,0
+local _Version,_VersionMinor = 70523,0
 local _AddonName,_VersionWindow = "BGChron", 1
 local BGChron = {}
 
@@ -492,7 +492,7 @@ function BGChron:OnPVPMatchEntered()
 	local t = {}
 	t.nMatchType = eGameType
 	t.nTeamSize  = info.nTeamSize
-	t.bIsQueuedAsGroup =  match:IsQueuedAsGroup() and true or false
+	t.bIsQueuedAsGroup = match:IsQueuedAsGroup() and true or false
 	
 	local game = self:EnsureCurrentGame(t)
 	game.nMatchEnteredTick = game.nMatchEnteredTick or os.time()
