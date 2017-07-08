@@ -1,16 +1,65 @@
-lightweight tag 6ab49dfc89ea5637e6b4a4a4b2d28029194d8fe0 v2.0.2
+lightweight tag 00635a1cdab544f869787acd65e308404ab5361b v2.1
 Author:	Arne De Herdt <arne.de.herdt@gmail.com>
-Date:	Thu Oct 22 16:59:24 2015 +0200
+Date:	Sat Jan 21 11:43:27 2017 +0100
 
-commit 6ab49dfc89ea5637e6b4a4a4b2d28029194d8fe0
+commit 00635a1cdab544f869787acd65e308404ab5361b
 Author: Arne De Herdt <arne.de.herdt@gmail.com>
-Date:   Thu Oct 22 16:59:24 2015 +0200
+Date:   Sat Jan 21 11:43:27 2017 +0100
 
-    Cleaned code, and increased version to handle issues from new UI
+    Version bump for API 14
 
-commit f254483ca0abd8e457638e2aa8690cb76911754c
-Author: Arne De Herdt <arne.de.herdt@gmail.com>
-Date:   Sat Oct 3 12:03:28 2015 +0200
+commit 346fd730834426d08c07db7426e695d0b602f08e
+Author: aramunn <aramunn@users.noreply.github.com>
+Date:   Sun May 15 11:58:03 2016 -0500
 
-    rewriting Generalist - part 1
+    forgot to do tooltip info for key
+
+commit 346fd730834426d08c07db7426e695d0b602f08e
+Author: aramunn <aramunn@users.noreply.github.com>
+Date:   Sun May 15 11:58:03 2016 -0500
+
+    forgot to do tooltip info for key
+
+commit 495f089f1e08fd108e2cb55d23e78dbee0321691
+Author: aramunn <aramunn@users.noreply.github.com>
+Date:   Sun May 15 00:14:11 2016 -0500
+
+    add status key
+
+commit 4462a977a094c7b70fe0721e263f0b2e5fd086d6
+Author: aramunn <aramunn@users.noreply.github.com>
+Date:   Sat May 14 10:51:59 2016 -0500
+
+    dailies reset 10am UTC (I think)
+
+commit bde3b12fc5e6249c69f894132a396acfa919873e
+Author: aramunn <aramunn@users.noreply.github.com>
+Date:   Wed Apr 27 00:03:37 2016 -0500
+
+    fix "today's" display
+
+commit d20db5570788d1626c1afdbd74cebcc8aac44281
+Author: aramunn <aramunn@users.noreply.github.com>
+Date:   Mon Apr 25 01:04:03 2016 -0500
+
+    almost done
+    
+    pvp added. contract day tracking seems to be fine. need to confirm
+    contract reset time
+
+commit 19fc79651121cf12126922487dd2c933d2a94949
+Author: aramunn <aramunn@users.noreply.github.com>
+Date:   Sat Apr 23 02:15:51 2016 -0500
+
+    checkpoint night's work
+    
+    color and tooltips there. need day compare and maybe tier icons
+
+commit b8c0fddbc2e5dc1f7cce95c16687b46a6d049321
+Author: aramunn <aramunn@users.noreply.github.com>
+Date:   Fri Apr 15 00:46:01 2016 -0500
+
+    merge in contract saving and add hooks
+    
+    display not implemented yet
 

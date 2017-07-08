@@ -107,6 +107,7 @@ end
 function Gear_OptiPlates:_Comm() 
 		
 	if lGear._isaddonup("Gear") then												-- if 'gear' is running , go next
+		tComm:Stop()
 		tComm = nil 																-- stop init comm timer
 		if bCall == nil then lGear.initcomm(tPlugin) end 							-- send information about me, setting etc..
 	end
@@ -180,7 +181,7 @@ function Gear_OptiPlates:OP_Ini()
 end 
 
 ---------------------------------------------------------------------------------------------------
--- OP_Ini
+-- OP_Check
 ---------------------------------------------------------------------------------------------------
 function Gear_OptiPlates:OP_Check()
 	

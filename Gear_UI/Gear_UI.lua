@@ -3,7 +3,6 @@
 -- Copyright (c) NCsoft. All rights reserved
 -----------------------------------------------------------------------------------------------
 
-
 -----------------------------------------------------------------------------------------------
 -- Gear_UI Module Definition
 -----------------------------------------------------------------------------------------------
@@ -99,6 +98,7 @@ end
 function Gear_UI:_Comm() 
 		
 	if lGear._isaddonup("Gear")	then							                	-- if 'gear' is running , go next
+		tComm:Stop()
 		tComm = nil 																-- stop init comm timer
 		lGear.initcomm(tPlugin) 													-- send information about me, setting etc..
 	end

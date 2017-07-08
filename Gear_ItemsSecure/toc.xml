@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Addon Author="Daorven" APIVersion="13" Name="Gear_ItemsSecure" Description="Secure profiles against items loss." Version="1.0">
+<Addon Author="Daorven" APIVersion="15" Name="Gear_ItemsSecure" Description="Secure profiles against items loss." Version="1.0.2">
     <!-- Libraries -->
     <Script Name="..\Gear\libs\GeminiLocale-1.0\GeminiLocale.lua"/>
     <Script Name="..\Gear\libs\GeminiHook-1.0\GeminiHook-1.0.lua"/>

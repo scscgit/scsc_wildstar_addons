@@ -41,7 +41,7 @@ local tPlugin =   {
 									name = L["GP_O_SETTINGS"], -- setting name to view in gear setting window
 									-- parent setting 
 									[1] =  {
-											 [1] = { bActived = true, sDetail = L["GP_O_SETTING_1"],}, -- show category	
+											 [1] = { sType = "toggle", bActived = true, sDetail = L["GP_O_SETTING_1"],}, -- show category	
 											}, 
 									},   
 						 
@@ -100,6 +100,7 @@ end
 function Gear_Title:_Comm() 
 		
 	if lGear._isaddonup("Gear")	then							                	-- if 'gear' is running , go next
+		tComm:Stop()
 		tComm = nil 																-- stop init comm timer
 		if bCall == nil then lGear.initcomm(tPlugin) end 							-- send information about me, setting etc..
 	end

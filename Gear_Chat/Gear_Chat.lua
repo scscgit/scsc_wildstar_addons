@@ -24,7 +24,7 @@ local lGear = Apollo.GetPackage("Lib:LibGear-1.0").tPackage
 -- Constants
 -----------------------------------------------------------------------------------------------
 -- version
-local Major, Minor, Patch = 1, 0, 3 
+local Major, Minor, Patch = 1, 0, 5 
 local GP_VER = string.format("%d.%d.%d", Major, Minor, Patch)
 local GP_NAME = "Gear_Chat"
 
@@ -81,6 +81,7 @@ end
 function Gear_Chat:_Comm() 
 		
 	if lGear._isaddonup("Gear")	then							                	-- if 'gear' is running , go next
+		tComm:Stop()
 		tComm = nil 																-- stop init comm timer
 		if bCall == nil then lGear.initcomm(tPlugin) end 							-- send information about me, setting etc..
 	end
@@ -183,12 +184,12 @@ end
 function Gear_Chat:ShowMenu_CHAT()
 
     if self.wndMenuLink then self.wndMenuLink:Destroy() end
-
+	
     -- dont create menu if is a empty item slot
-	if self.cControlLink:GetName() == "ItemWnd" then
-    	local nSlot = self.cControlLink:GetData().slot
-		local sIcon = "NewSprite:" .. self.cControlLink:GetPixieInfo(1).strSprite
-    	if sIcon == tItemSlot[nSlot].sIcon then 
+	if self.cControlLink:GetName() ~= "GearName_Btn" then
+    	local sIcon = "NewSprite:" .. self.cControlLink:GetPixieInfo(1).strSprite
+		local nSlot = self.cControlLink:GetData().slot
+		if sIcon == tItemSlot[nSlot].sIcon then 
 			return
 		end
 	end
@@ -248,7 +249,7 @@ function Gear_Chat:OnClickLinkMenuBtn( wndHandler, wndControl, eMouseButton )
 				end
 			end
 							
-		elseif self.cControlLink:GetName() == "ItemWnd" then
+		elseif self.cControlLink:GetName() ~= "GearName_Btn" then
 			
 		    local oItem = self.cControlLink:GetData().item
 			if oItem == nil or type(oItem) ~= "userdata" then self:DestroyMenuLink() return end

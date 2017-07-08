@@ -35,7 +35,7 @@ function Builder:new(o)
 
     self.majorVersion = 0
 	self.minorVersion = 4
-	self.patchVersion = 4
+	self.patchVersion = 6
 	self.suffixVersion = 0 -- 0 = Rien 1 = a
 	self.versionLetter = ""
 	self.version = "v" .. string.format("%d.%d.%d", self.majorVersion, self.minorVersion, self.patchVersion) .. self.versionLetter 

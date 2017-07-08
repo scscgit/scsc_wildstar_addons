@@ -3,8 +3,6 @@
 -- Copyright (c) NCsoft. All rights reserved
 -----------------------------------------------------------------------------------------------
 
--- Add support for 'CostumeNames' addon
-
 require "CostumesLib"
  
 -----------------------------------------------------------------------------------------------
@@ -20,13 +18,13 @@ local L = Apollo.GetPackage("Gemini:Locale-1.0").tPackage:GetLocale("Gear_Costum
 -----------------------------------------------------------------------------------------------
 -- Lib gear
 -----------------------------------------------------------------------------------------------
-local lGear = Apollo.GetPackage("Lib:LibGear-1.0").tPackage 
+local LG = Apollo.GetPackage("Lib:LibGear-1.0").tPackage 
  
 -----------------------------------------------------------------------------------------------
 -- Constants
 -----------------------------------------------------------------------------------------------
 -- version
-local Major, Minor, Patch = 1, 0, 3 
+local Major, Minor, Patch = 1, 0, 4 
 local GP_VER = string.format("%d.%d.%d", Major, Minor, Patch)
 local GP_NAME = "Gear_Costumes"
 
@@ -43,7 +41,7 @@ local tPlugin =   {
 									name = L["GP_O_SETTINGS"], -- setting name to view in gear setting window
 									-- parent setting 
 									[1] =  {
-												--[1] = { bActived = true, sDetail = L["GP_O_SETTING_1"],}, -- Use popup menu for profile setting
+												--
 											}, 
 									},   
 						 
@@ -65,7 +63,7 @@ local tPlugin =   {
 					}
 
 -- timer/var to init plugin	
-local tComm, bCall
+local tComm, bCall, tWait
 -- keep ngearid/costume link
 local tSavedProfiles = {}
 -- anchor
@@ -101,9 +99,10 @@ end
 ---------------------------------------------------------------------------------------------------
 function Gear_Costumes:_Comm() 
 		
-	if lGear._isaddonup("Gear")	then							                	-- if 'gear' is running , go next
-		tComm = nil 																-- stop init comm timer
-		if bCall == nil then lGear.initcomm(tPlugin) end 							-- send information about me, setting etc..
+	if LG._isaddonup("Gear") then                                           	-- if 'gear' is running , go next
+		tComm:Stop()
+		tComm = nil 															-- stop init comm timer
+		if bCall == nil then LG.initcomm(tPlugin) end 							-- send information about me, setting etc..
 	end
 end
 
@@ -125,14 +124,29 @@ function Gear_Costumes:ON_GEAR_PLUGIN(sAction, tData)
 		tPlugin.on = tData.on 														
 				
 		-- init
-		if tPlugin.on then  
-			self:C_Ini()
+		if tPlugin.on then
+            
+			-- nothing saved stop here	
+			if self:C_Ini() == false then return end
+						
+			-- we request last gear equipped	
+			Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_GET_LASTGEAR", nil)	
+			-- after reactivate the plugin check if ngearid and costume actually equipped is linked or not
+			self:C_Check(self.nGearId)
+					
 		else
+		    -- stop equip costume timer, we have disabled the plugin dont need to equip costume requested 
+			tWait = nil
 			-- close dialog
 			self:OnCloseDialog()
 		end  
 	end
-			
+	
+	-- answer come from gear, the last gear equiped
+	if sAction == "G_LASTGEAR" then
+		self.nGearId = tData.ngearid
+    end
+	
 	-- answer come from gear, the gear set equiped
 	if sAction == "G_CHANGE" then
 		if tPlugin.on then  
@@ -173,7 +187,7 @@ end
 function Gear_Costumes:C_Ini()
 
     -- nothing saved, we stop here
-    if tSavedProfiles == nil then return end
+    if tSavedProfiles == nil then return false end
     	
 	for nGearId, pGearId in pairs(tSavedProfiles) do	
 		-- update ui setting status button
@@ -197,7 +211,7 @@ end
 function Gear_Costumes:C_Update_tSaved()
 	
 	-- make copy of saved array to work
-    local tSavedProfilesExp = lGear.DeepCopy(tSavedProfiles)
+    local tSavedProfilesExp = LG.DeepCopy(tSavedProfiles)
     -- update saved array for export, we add cos name
     local tSavedExp = {}
 	
@@ -356,6 +370,10 @@ function Gear_Costumes:OnClickItemList( wndHandler, wndControl, eMouseButton )
 	else
 		-- costume selected, save link
 		tSavedProfiles[nGearId] = nCosId
+		-- check if actual costume edited is for actual gear equipped, if is true update costume view or make nothing 
+		-- we request last gear equipped	
+		Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_GET_LASTGEAR", nil)
+		if nGearId == self.nGearId then self:C_Check(nGearId) end
 	end		
 	
 	
@@ -367,14 +385,35 @@ function Gear_Costumes:OnClickItemList( wndHandler, wndControl, eMouseButton )
 end
 
 ---------------------------------------------------------------------------------------------------
+-- C_Check (look if gear/costume link exist and align if not the same )
+---------------------------------------------------------------------------------------------------
+function Gear_Costumes:C_Check(nGearId)
+	
+    -- check if ngearid and costume actually equipped is linked or not
+	if tSavedProfiles[nGearId] then -- we have a costume linked with this gear
+		if CostumesLib.GetCostumeIndex() ~= tSavedProfiles[nGearId]	then -- compare costume actually equipped with ngearid/costume link
+			self:C_Equip_COS(tSavedProfiles[nGearId]) -- equip costume if is not the good costume for this ngearid
+		end
+	end
+end
+
+---------------------------------------------------------------------------------------------------
 -- C_Equip_COS
 ---------------------------------------------------------------------------------------------------
 function Gear_Costumes:C_Equip_COS(nCosId)
 
-	local nActualCos = CostumesLib.GetCostumeIndex()
-	if nActualCos ~= nCosId then
+    -- erase timer is new request to equip
+    tWait = nil
+
+	local nActualCos = CostumesLib.GetCostumeIndex() 			 -- costume actually equipped 
+	local nCosCD = CostumesLib.GetCostumeCooldownTimeRemaining() -- time remaining to equip another costume
+	
+	if nActualCos == nCosId then return end
+	
+	-- wait end of cd to equip
+	tWait = ApolloTimer.Create(nCosCD, false, "wait", { wait = function()
 		CostumesLib.SetCostumeIndex(nCosId)
-	end
+	end}) 
 end
 
 -----------------------------------------------------------------------------------------------

@@ -43,9 +43,9 @@ local tPlugin =     {
 						 setting = {
 									name = L["GP_O_SETTINGS"],  -- setting name to view in gear setting window
 									[1] =  {
-											[1] = { bActived = false, sDetail = L["GP_O_SETTING_1"],}, -- hide list after a select
-											[2] = { bActived = false, sDetail = L["GP_O_SETTING_2"],}, -- hide 'holoswap' in combat
-											[3] = { bActived = true,  sDetail = L["GP_O_SETTING_3"],}, -- Use category
+											[1] = { sType = "toggle", bActived = false, sDetail = L["GP_O_SETTING_1"],}, -- hide list after a select
+											[2] = { sType = "toggle", bActived = false, sDetail = L["GP_O_SETTING_2"],}, -- hide 'holoswap' in combat
+											[3] = { sType = "toggle", bActived = true,  sDetail = L["GP_O_SETTING_3"],}, -- Use category
 											[4] = { sType = "push",   sDetail = L["GP_O_SETTING_4"],}, -- Advanced color setting
 										    },
 									},		
@@ -113,9 +113,9 @@ function Gear_HoloSwap:OnLoad()
 	self.xmlDoc = XmlDoc.CreateFromFile("Gear_HoloSwap.xml")
 	Apollo.LoadSprites("NewSprite.xml")
 	Apollo.RegisterEventHandler("Generic_GEAR_PLUGIN", "ON_GEAR_PLUGIN", self)       -- add event to communicate with gear
-	Apollo.RegisterEventHandler("UnitEnteredCombat", "OnUnitEnteredCombat", self)    -- in combat
-	Apollo.RegisterEventHandler("ChangeWorld", "OnChangeWorld", self)				
-	   
+	Apollo.RegisterEventHandler("UnitEnteredCombat",   "OnUnitEnteredCombat", self)  -- in combat
+	Apollo.RegisterEventHandler("ChangeWorld",         "OnDoShow", self) 			 -- after zoning
+	    	   
 	tComm  = ApolloTimer.Create(0.1, true, "_Comm", self) 							 -- init comm for plugin
 end
 
@@ -125,6 +125,7 @@ end
 function Gear_HoloSwap:_Comm() 
 		
 	if lGear._isaddonup("Gear")	then												-- if 'gear' is running , go next
+		tComm:Stop()
 		tComm = nil 																-- stop init comm timer
 		if bCall == nil then lGear.initcomm(tPlugin) end 							-- send information about me, setting etc..
 	end
@@ -159,12 +160,26 @@ function Gear_HoloSwap:ON_GEAR_PLUGIN(sAction, tData)
 	end
 	
 	-- answer come from gear, the gear array updated
-	if sAction == "G_GEAR" or sAction == "G_RENAME" then
+	if sAction == "G_GEAR" then
 		tLastGear = tData
-		
-		if tPlugin.on then self:HS_Show() end
+				
+		if tPlugin.on then 
+			self:HS_Show()
+		end
 	end
 	
+	-- answer come from gear, a gear profil renamed
+	if sAction == "G_RENAME" then
+		tLastGear = tData.gear
+		local nGearId = tData.ngearid
+		
+		if tPlugin.on then 
+		    self:HS_Show()
+			-- update holo button name only is renamed profil is actually selected
+			if tData.selected == nGearId then self:HS_UpdateStatus(nGearId, nil) end
+		end
+	end
+		
 	-- answer come from gear, the gear profile status
 	if sAction == "G_CHECK_GEAR" then
 	
@@ -193,7 +208,7 @@ function Gear_HoloSwap:ON_GEAR_PLUGIN(sAction, tData)
 			
 		local nGearId = tData
 		if tSavedProfiles[nGearId] then tSavedProfiles[nGearId] = nil end
-		if self.CategoryWnd and self.CategoryWnd:FindChild("TitleUp"):GetData() == nGearId then
+		if self.CategoryWnd and self.CategoryWnd:FindChild("TitleUp") and self.CategoryWnd:FindChild("TitleUp"):GetData() == nGearId then
 			-- close category 
 			self:Close("Category_Wnd")
 		end
@@ -239,12 +254,27 @@ function Gear_HoloSwap:ON_GEAR_PLUGIN(sAction, tData)
 	end
 end
 
+-----------------------------------------------------------------------------------------------
+-- OnUnitEnteredCombat
+-----------------------------------------------------------------------------------------------
+function Gear_HoloSwap:OnUnitEnteredCombat(unit, bInCombat)
+
+	-- stop here if plugin is off
+	if not tPlugin.on then return end
+		
+	if unit:IsThePlayer() and self.HoloWnd and tPlugin.setting[1][2].bActived then
+		self.HoloWnd:Show(not bInCombat)   -- hide/show
+	end
+end
+
 ---------------------------------------------------------------------------------------------------
--- OnChangeWorld
+-- OnDoShow (ChangeWorld)
 ---------------------------------------------------------------------------------------------------
-function Gear_HoloSwap:OnChangeWorld()
-	-- always show after zoning, to prevent player always in combat state in PVP match end
-	if self.HoloWnd and tPlugin.on then self.HoloWnd:Show(true) end
+function Gear_HoloSwap:OnDoShow()
+	-- set to show after zoning, to prevent player always in combat state in PVP match end
+	if tPlugin.on and self.HoloWnd then 
+		self.HoloWnd:Show(true)
+	end
 end
 
 ---------------------------------------------------------------------------------------------------
@@ -296,7 +326,8 @@ function Gear_HoloSwap:HS_UpdateUI(nGearId)
    
 	-- request to 'gear' to update ui setting status button
 	local tData = { owner = GP_NAME, uiid = 1, ngearid = nGearId, saved = self:HS_Update_tSaved(),}
-	Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_SET_UI_SETTING", tData)	
+	Event_FireGenericEvent("Generic_GEAR_PLUGIN", "G_SET_UI_SETTING", tData)
+		
 end
 
 ---------------------------------------------------------------------------------------------------
@@ -423,46 +454,39 @@ function Gear_HoloSwap:Close(sWnd)
 end
 
 ---------------------------------------------------------------------------------------------------
--- OnCategoryReturn (validate category name)
+-- OnCategoryLostFocus
 ---------------------------------------------------------------------------------------------------
-function Gear_HoloSwap:OnCategoryReturn( wndHandler, wndControl, strText )
+function Gear_HoloSwap:OnCategoryLostFocus( wndHandler, wndControl )
 	
-    -- if exist get previous category name for edition
-	local sPrevCategory = wndControl:GetParent():GetData()
-	-- remove space character start/end
-	local sName = strText:match("^%s*(.-)%s*$") 
-    
-	-- no existing/blank name allowed
-	if sName == "" or tCategory[sName] and sName ~= sPrevCategory then 
+    local oCheck = wndControl:GetParent():FindChild("Category_Btn")	-- checkbox
+	local sOldName = wndControl:GetParent():GetData() 				-- if exist get previous category name for edition
+	local sNewName = wndControl:GetText():match("^%s*(.-)%s*$") 	-- remove space character start/end
+	local sCategoryName, bCheck
+		
+	-- filter no existing/blank name allowed	
+	if sNewName == "" or tCategory[sNewName] and sNewName ~= sOldName then 
+	   	bCheck = false 			 -- disable check box
+		sCategoryName = sOldName -- if have old category name, use previous name is new name is wrong
+    else
+        sCategoryName = sNewName 									    -- set new name
+		bCheck = true 			 										-- enable check box
+		local nGearId = self.CategoryWnd:FindChild("TitleUp"):GetData() -- get ngearid
+		wndControl:GetParent():SetData(sNewName) 					    -- keep category name for edition
+		
+		-- delete old and save new category (no real data, but may be used after for other category option)	
+		if tCategory[sOldName] then tCategory[sOldName] = nil end
+		tCategory[sNewName] = ""
+		
+		-- if old category name exist, find and update all ngearid with this replacement category name
+		if sOldName then 
+			self:HS_UpdateSavedProfiles(sNewName, sOldName)
+			self:HS_Show()
+		end
+	end
 	
-	    -- disable check box
-		wndControl:GetParent():FindChild("Category_Btn"):Enable(false)
-		
-		-- if have old category name, use previous name is new name is wrong
-		local sNameInit = ""
-		if sPrevCategory then sNameInit = sPrevCategory end
-		wndControl:SetText(sNameInit)
-		wndControl:SetFocus()
-		return
-	end
-		
-	-- set item text
-	wndControl:SetText(sName)
-	-- enable check box
-	wndControl:GetParent():FindChild("Category_Btn"):Enable(true)
-	-- get ngearid
-	local nGearId = self.CategoryWnd:FindChild("TitleUp"):GetData()
-	-- keep category name for edition
-	wndControl:GetParent():SetData(sName)
-	-- delete old and save new category (no real data, but may be used after for other category option)	
-	if tCategory[sPrevCategory] then tCategory[sPrevCategory] = nil end
-	tCategory[sName] = ""
-		
-	-- if old category name exist, find and update all ngearid with this replacement category name
-	if sPrevCategory then 
-		self:HS_UpdateSavedProfiles(sName, sPrevCategory)
-		self:HS_Show()
-	end
+	-- set ui category name
+	wndControl:SetTextRaw(sCategoryName)
+	if oCheck then oCheck:Enable(bCheck) end
 end
 
 ---------------------------------------------------------------------------------------------------

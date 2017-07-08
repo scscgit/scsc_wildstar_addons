@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Sprites>
+    <Sprite Name="Chest" Cycle="1">
+        <Frame Texture="Gear\resource\slot.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="36" y0="0" y1="0" y2="0" y3="0" y4="0" y5="36" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+    <Sprite Name="Feet" Cycle="1">
+        <Frame Texture="Gear\resource\slot.png" x0="36" x1="36" x2="36" x3="36" x4="36" x5="72" y0="0" y1="0" y2="0" y3="0" y4="0" y5="36" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+    <Sprite Name="Gadget" Cycle="1">
+        <Frame Texture="Gear\resource\slot.png" x0="72" x1="72" x2="72" x3="72" x4="72" x5="108" y0="0" y1="0" y2="0" y3="0" y4="0" y5="36" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+    <Sprite Name="Head" Cycle="1">
+        <Frame Texture="Gear\resource\slot.png" x0="109" x1="109" x2="109" x3="109" x4="109" x5="144" y0="0" y1="36" y2="36" y3="36" y4="36" y5="36" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+    <Sprite Name="Implant" Cycle="1">
+        <Frame Texture="Gear\resource\slot.png" x0="144" x1="144" x2="144" x3="144" x4="144" x5="180" y0="0" y1="0" y2="0" y3="0" y4="0" y5="36" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+    <Sprite Name="Legs" Cycle="1">
+        <Frame Texture="Gear\resource\slot.png" x0="180" x1="180" x2="180" x3="180" x4="180" x5="216" y0="0" y1="0" y2="0" y3="0" y4="0" y5="36" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+    <Sprite Name="Shield_Weapon_attachment" Cycle="1">
+        <Frame Texture="Gear\resource\slot.png" x0="216" x1="216" x2="216" x3="216" x4="216" x5="252" y0="0" y1="0" y2="0" y3="0" y4="0" y5="36" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+    <Sprite Name="Shoulders" Cycle="1">
+        <Frame Texture="Gear\resource\slot.png" x0="252" x1="252" x2="252" x3="252" x4="252" x5="288" y0="0" y1="0" y2="0" y3="0" y4="0" y5="36" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+    <Sprite Name="Support" Cycle="1">
+        <Frame Texture="Gear\resource\slot.png" x0="288" x1="288" x2="288" x3="288" x4="288" x5="324" y0="0" y1="0" y2="0" y3="0" y4="0" y5="35" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+    <Sprite Name="Weapon_Hands" Cycle="1">
+        <Frame Texture="Gear\resource\slot.png" x0="324" x1="324" x2="324" x3="324" x4="324" x5="360" y0="0" y1="0" y2="0" y3="0" y4="0" y5="36" Stretchy="1" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+    <Sprite Name="Logo" Cycle="1">
+        <Frame Texture="Gear\resource\gearlogo.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="179" y0="0" y1="0" y2="0" y3="0" y4="0" y5="266" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+    <Sprite Name="Settings" Cycle="1">
+        <Frame Texture="Gear\resource\settings.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="20" y0="0" y1="0" y2="0" y3="0" y4="0" y5="20" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+    <Sprite Name="Collapse" Cycle="1">
+        <Frame Texture="Gear\resource\collapse.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="18" y0="0" y1="0" y2="0" y3="0" y4="0" y5="18" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+    <Sprite Name="Lock" Cycle="1">
+        <Frame Texture="Gear\resource\lock.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="18" y0="0" y1="0" y2="0" y3="0" y4="0" y5="18" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+    <Sprite Name="Unselect" Cycle="1">
+        <Frame Texture="Gear\resource\unselect.png" x0="0" x1="0" x2="0" x3="0" x4="0" x5="18" y0="0" y1="0" y2="0" y3="0" y4="0" y5="18" HotspotX="0" HotspotY="0" Duration="1.000" StartColor="white" EndColor="white"/>
+    </Sprite>
+</Sprites>

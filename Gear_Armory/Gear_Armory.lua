@@ -16,13 +16,13 @@ local L = Apollo.GetPackage("Gemini:Locale-1.0").tPackage:GetLocale("Gear_Armory
 -----------------------------------------------------------------------------------------------
 -- Lib gear
 -----------------------------------------------------------------------------------------------
-local lGear = Apollo.GetPackage("Lib:LibGear-1.0").tPackage 
+local LG = Apollo.GetPackage("Lib:LibGear-1.0").tPackage 
  
 -----------------------------------------------------------------------------------------------
 -- Constants
 -----------------------------------------------------------------------------------------------
 -- version
-local Major, Minor, Patch = 1, 0, 1 
+local Major, Minor, Patch = 1, 0, 3 
 local GP_VER = string.format("%d.%d.%d", Major, Minor, Patch)
 local GP_NAME = "Gear_Armory"
 
@@ -92,9 +92,10 @@ end
 ---------------------------------------------------------------------------------------------------
 function Gear_Armory:_Comm() 
 		
-	if lGear._isaddonup("Gear")	then												-- if 'gear' is running , go next
+	if LG._isaddonup("Gear") then												-- if 'gear' is running , go next
+		tComm:Stop()
 		tComm = nil 																-- stop init comm timer
-		if bCall == nil then lGear.initcomm(tPlugin) end 							-- send information about me, setting etc..
+		if bCall == nil then LG.initcomm(tPlugin) end 							-- send information about me, setting etc..
 	end
 end
 
@@ -118,7 +119,12 @@ function Gear_Armory:ON_GEAR_PLUGIN(sAction, tData)
 	-- action request come from gear, the plugin are enable or disable, if this information is for me go next
 	if sAction == "G_ON" and tData.owner == GP_NAME then
 		-- update enable/disable status
-		tPlugin.on = tData.on 														
+		tPlugin.on = tData.on 	
+
+		if not tPlugin.on then
+			-- close dialog
+			self:OnCloseDialog()	
+		end	
 	end
 	
 	-- answer come from gear, the setting plugin update, if this information is for me go next
@@ -157,6 +163,7 @@ end
 ---------------------------------------------------------------------------------------------------
 function Gear_Armory:OnCloseDialog( wndHandler, wndControl, eMouseButton )
 
+    if self.ArmoryWnd == nil then return end
 	self:LastAnchor(self.ArmoryWnd, true)
 	self.ArmoryWnd:Destroy()
 	self.ArmoryWnd = nil
@@ -188,10 +195,10 @@ function Gear_Armory:GetAmoryItem(nGearId)
 			
 			if nSlot ~= 6 and nSlot ~= 9 and nSlot < 17 then
 			
-			    local oItem = lGear._SearchInBag(oLink) 
+			    local oItem = LG._SearchIn(oLink, 1) -- search in inventory 
 		        if oItem ~= nil then nItemId = oItem:GetItemId() 
 				else 
-					 oItem = lGear._SearchInEquipped(oLink)  
+					 oItem = LG._SearchIn(oLink, 3) -- -- search in equipped   
 					 if oItem ~= nil then nItemId = oItem:GetItemId() end 
 				end
 			 				

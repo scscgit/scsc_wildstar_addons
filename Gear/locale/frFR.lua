@@ -2,7 +2,7 @@ local L = Apollo.GetPackage("Gemini:Locale-1.0").tPackage:NewLocale("Gear", "frF
 if not L then return end
 	  
 	   L["G_TABNAME"] = "Equipements"	
-	       L["G_ADD"] = "Créer un nouveau profil d'équipement.."
+	       L["G_ADD"] = "Créer un nouveau profil."
       L["G_RELOADUI"] = "Sauvegarder les profils d'équipements (ReloadUI).."
            L["G_YES"] = "Oui"
 	    	L["G_NO"] = "Décliner"
