@@ -9,7 +9,7 @@ require "Window"
 -----------------------------------------------------------------------------------------------
 -- PlayerBadger Module Definition
 -----------------------------------------------------------------------------------------------
-local _Version,_VersionMinor = 60817,0
+local _Version,_VersionMinor = 70523,0
 local _AddonName,_VersionWindow = "PlayerBadger", 5
 local PlayerBadger = {}
 
