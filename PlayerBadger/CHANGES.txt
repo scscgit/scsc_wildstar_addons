@@ -1,0 +1,48 @@
+------------------------------------------------------------------------
+r3 | celess22@gmail.com | 2017-05-28 01:29:59 -0500 (Sun, 28 May 2017) | 2 lines
+Changed paths:
+   M /trunk/PlayerBadger.lua
+   M /trunk/toc.xml
+
+- update for API 15
+
+------------------------------------------------------------------------
+r2 | celess22@gmail.com | 2017-05-28 01:28:51 -0500 (Sun, 28 May 2017) | 2 lines
+Changed paths:
+   A /trunk/.pkgmeta
+   A /trunk/Common.lua
+   A /trunk/LICENSE
+   A /trunk/PlayerBadger.lua
+   A /trunk/PlayerBadger.wsproj
+   A /trunk/PlayerBadger.xml
+   A /trunk/PlayerBadgerSprites.xml
+   A /trunk/locales
+   A /trunk/locales/enUS.lua
+   A /trunk/sprites
+   A /trunk/sprites/deaths1.tga
+   A /trunk/sprites/deaths2.tga
+   A /trunk/sprites/deaths3.tga
+   A /trunk/sprites/deaths4.tga
+   A /trunk/sprites/deaths5.tga
+   A /trunk/sprites/heals1.tga
+   A /trunk/sprites/heals2.tga
+   A /trunk/sprites/heals3.tga
+   A /trunk/sprites/heals4.tga
+   A /trunk/sprites/heals5.tga
+   A /trunk/sprites/kills1.tga
+   A /trunk/sprites/kills2.tga
+   A /trunk/sprites/kills3.tga
+   A /trunk/sprites/kills4.tga
+   A /trunk/sprites/kills5.tga
+   A /trunk/toc.xml
+
+- initial commit
+
+------------------------------------------------------------------------
+r1 | celess22@gmail.com | 2017-05-28 01:27:17 -0500 (Sun, 28 May 2017) | 1 line
+Changed paths:
+   A /trunk
+
+
+------------------------------------------------------------------------
+
