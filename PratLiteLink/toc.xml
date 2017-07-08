@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Addon Author="Sexnonstop" APIVersion="12" Name="PratLiteLink" Description="Link items to chat">
-    <Script Name="PratLiteLink.lua"/>
-    <Form Name="PratLiteLink.xml"/>
-</Addon>

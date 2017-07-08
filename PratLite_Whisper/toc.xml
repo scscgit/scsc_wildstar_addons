@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Addon Author="Sexnonstop" APIVersion="12" Name="PratLite_Whisper" Description="">
-    <Script Name="PratLite_Whisper.lua"/>
-    <Form Name="PratLite_Whisper.xml"/>
-	<ReplaceAddon Name="WhisperCatch"/>
-	<ReplaceAddon Name="WhisperCatch_RU"/>
-	<ReplaceAddon Name="Шептун"/>
-</Addon>
