@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<Addon Author="Celess" Version="70523.0" APIVersion="15" Name="CombatMeter" Description="Show current combat statistics and history for DPS, Healing, and Tanking as a graph. UI cleanup and performance rewrite version of VortexMeter by Vince, Vim. (High performance)">
+    <Script Name="CombatMeter.lua"/>
+    <Script Name="Common.lua"/>
+    <Script Name="locales\enUS.lua"/>
+    <Script Name="Data.lua"/>
+    <Script Name="ui.lua"/>
+    <Script Name="Forms.lua"/>
+    <Script Name="Panels.lua"/>
+    <Form Name="CombatMeter.xml"/>
+    <ReplaceAddon Name="VortexMeter"/>
+    <ReplaceAddon Name="StrikeHardMeter"/>
+</Addon>
