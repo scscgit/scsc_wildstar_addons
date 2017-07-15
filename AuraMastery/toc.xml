@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Midas Maroon" APIVersion="15" Name="AuraMastery" Description="Aura Mastery is a Buff / Debuff / Cooldown tracker useful for tracking those important abilities!" Version="22">
+    <Script Name="Libs/GeminiPackages.lua"/>
+    <Script Name="AuraMasteryConfig.lua"/>
+    <Script Name="IconGroup.lua"/>
+    <Script Name="Icon.lua"/>
+    <Script Name="TriggerEffect.lua"/>
+    <Script Name="IconTrigger.lua"/>
+    <Script Name="TrackLineGroup.lua"/>
+    <Script Name="TrackLine.lua"/>
+    <Script Name="InWorldIcon.lua"/>
+    <Script Name="IconText.lua"/>
+    <Script Name="IconOverlay.lua"/>
+    <Script Name="AuraMastery.lua"/>
+    <Form Name="AuraMastery.xml"/>
+</Addon>

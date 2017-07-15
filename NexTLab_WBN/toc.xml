@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Nikolai Kondich" APIVersion="14" Name="NexTLab_WBN" Description="">
+    <Script Name="LibJSON-2.5.lua"/>
+    <Script Name="data_teleporter.lua"/>
+    <Script Name="WorldBossNotifier.lua"/>
+	<Script Name="data_dominion.lua"/>
+	<Script Name="data_exile.lua"/>
+    <Form Name="WorldBossNotifier.xml"/>
+    <ReplaceAddon Name="WorldBossNotifier"/>
+</Addon>

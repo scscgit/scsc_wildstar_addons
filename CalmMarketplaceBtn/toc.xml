@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Jos_eu" APIVersion="12" Name="CalmMarketplaceBtn" Description="Hides the marketplace button animations (plusing, flashing) in the interface bar.">
+    <Script Name="CalmMarketplaceBtn.lua"/>
+    <Form Name="CalmMarketplaceBtn.xml"/>
+</Addon>

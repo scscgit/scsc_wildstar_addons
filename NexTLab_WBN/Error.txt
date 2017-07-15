@@ -1,0 +1,5 @@
+...FT\WildStar\Addons\NexTLab_WBN\WorldBossNotifier.lua:470: attempt to concatenate field '?' (a nil value)
+stack trace:
+	
+...FT\WildStar\Addons\NexTLab_WBN\WorldBossNotifier.lua:470: in function <
+...FT\WildStar\Addons\NexTLab_WBN\WorldBossNotifier.lua:424>
