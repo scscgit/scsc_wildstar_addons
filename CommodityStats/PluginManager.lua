@@ -114,7 +114,7 @@ function PluginManager.Init(cs)
 		return count(self.searchPlugins)
 	end
 
-	function count(dictionary)
+	function self:count(dictionary)
 		local count = 0
 		for key, val in pairs(dictionary) do
 			count = count + 1
