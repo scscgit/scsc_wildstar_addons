@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Wafflestick" APIVersion="9" Name="ChatFontSize" Description="Provide a few other font sizes for the chat window besides small, medium, and large.">
+    <Script Name="ChatFontSize.lua"/>
+    <Form Name="ChatFontSize.xml"/>
+</Addon>

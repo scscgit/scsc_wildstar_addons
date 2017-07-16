@@ -1,3 +1,0 @@
-<Addon Name="ContextMenuPlayerJoin" Version="0.9" Author="Andrej" APIVersion="12" Description="Right click to join on a person.">
-    <Script Name="ContextMenuPlayerJoin.lua"/>
-</Addon>

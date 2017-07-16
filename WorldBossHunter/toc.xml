@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Addon Author="Lysandria Medside, Wonay" APIVersion="10" Name="WorldBossHunter" Description="World Boss Kill Status Monitor">
-    <Script Name="WorldBossHunter.lua"/>
-    <Form Name="WorldBossHunter.xml"/>
-    <Script Name="libs\GeminiDB-1.0.lua"/>
-</Addon>

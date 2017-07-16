@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Addon Author="Vim" APIVersion="11" Name="Contractor" Description="Adds a tab to the Objective tracker that allows you to check contracts that you have yet to do on your alts.">
-    <Script Name="Contractor.lua"/>
-    <Form Name="Contractor.xml"/>
-</Addon>
