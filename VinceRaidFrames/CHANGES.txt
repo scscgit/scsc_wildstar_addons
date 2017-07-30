@@ -1,0 +1,36 @@
+lightweight tag 294703b69354c911e9a6c4b0c287f31b72e30902 v0.17.2
+Author:	vince <chuckystar@gmail.com>
+Date:	Fri Oct 16 02:18:31 2015 +0200
+
+commit 294703b69354c911e9a6c4b0c287f31b72e30902
+Author: vince <chuckystar@gmail.com>
+Date:   Fri Oct 16 02:18:31 2015 +0200
+
+    bump version
+
+commit 683ea3e467b5adc6cf7a7dba5475e303506ec774
+Author: vince <chuckystar@gmail.com>
+Date:   Tue Oct 13 14:24:26 2015 +0200
+
+    probably save position of vrf window
+
+commit e191439aa155bb5a04bed612d77cc0c20490fb9d
+Author: ipbtaliz <federico.picchi@student.unisi.it>
+Date:   Thu Oct 8 01:59:19 2015 +0200
+
+    New Potions IDs
+    
+    Hi, I've added the new IDs for Adventus Potions since the old IDs became invalid after f2p (drop 6). I'm quite sure that you can delete these old adventus IDs because that kind of potions no longer exist. The new IDs should be all correct but I've only tried a bunch of them (I mean I've extracted all the IDs personally but I've only tried if they worked with Vince Raid Frames with a bunch of those).
+    
+    Also if you want I can get the new expert potions ids too.
+
+commit e191439aa155bb5a04bed612d77cc0c20490fb9d
+Author: ipbtaliz <federico.picchi@student.unisi.it>
+Date:   Thu Oct 8 01:59:19 2015 +0200
+
+    New Potions IDs
+    
+    Hi, I've added the new IDs for Adventus Potions since the old IDs became invalid after f2p (drop 6). I'm quite sure that you can delete these old adventus IDs because that kind of potions no longer exist. The new IDs should be all correct but I've only tried a bunch of them (I mean I've extracted all the IDs personally but I've only tried if they worked with Vince Raid Frames with a bunch of those).
+    
+    Also if you want I can get the new expert potions ids too.
+

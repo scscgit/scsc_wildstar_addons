@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<Addon Author="KamiNuvini" APIVersion="12" Name="BetterRaidFramesTearOff" Description="The BetterRaidFrames&apos; replacement for the TearOff - which functions as the Focus Group window" Version="0.37">
-    <Form Name="BetterRaidFramesTearOff.xml"/>
-    <Script Name="BetterRaidFramesTearOff.lua"/>
-    <ReplaceAddon Name="RaidFrameTearOff"/>
-</Addon>
