@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Daorven" APIVersion="15" Name="Prestige" Description="Get prestige from bags in inventory/bank." Version="1.1.6">
+    <!-- Libraries -->
+    <Script Name="libs\GeminiLocale-1.0\GeminiLocale.lua"/>
+    <!-- Localization -->
+    <Script Name="locale\enUS.lua"/>
+    <Script Name="locale\deDE.lua"/>
+    <Script Name="locale\frFR.lua"/>
+    <!-- Addon -->
+    <Script Name="Prestige.lua"/>
+</Addon>

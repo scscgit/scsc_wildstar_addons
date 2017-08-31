@@ -1,0 +1,7 @@
+package-as: HacksByAramunn
+enable-nolib-creation: no
+
+manual-changelog: CHANGES.txt
+
+ignore:
+  - README.md

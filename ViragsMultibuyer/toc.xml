@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Addon Author="Virag" APIVersion="11" Name="ViragsMultibuyer" Description="">
-    <Script Name="ViragsMultibuyer.lua"/>
-    <Form Name="ViragsMultibuyer.xml"/>
-</Addon>

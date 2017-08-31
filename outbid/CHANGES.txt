@@ -1,0 +1,10 @@
+lightweight tag fc0233de4acc6a5676f94188ced163a3bcc06615 release-1.6
+Author:	Joshua Shaffer <joshua.shaffer@outlook.com>
+Date:	Thu Mar 31 00:28:14 2016 -0400
+
+commit fc0233de4acc6a5676f94188ced163a3bcc06615
+Author: Joshua Shaffer <joshua.shaffer@outlook.com>
+Date:   Thu Mar 31 00:26:08 2016 -0400
+
+    Default to commodities tab on open of market listings
+

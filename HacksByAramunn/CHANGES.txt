@@ -1,0 +1,2 @@
+New in 14.2: add go to page for AH
+New in 14.1: add hide trackers in combat hack

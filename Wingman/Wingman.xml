@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<Forms>
+    <Form Class="Window" LAnchorPoint="0" LAnchorOffset="458" TAnchorPoint="0" TAnchorOffset="183" RAnchorPoint="0" RAnchorOffset="639" BAnchorPoint="0" BAnchorOffset="369" RelativeToClient="1" Font="Default" Text="" Template="CRB_NormalFramedThick_StandardHdrFtr" Name="WingmanForm" Border="0" Picture="0" SwallowMouseClicks="1" Moveable="1" Escapable="1" Overlapped="1" BGColor="ffffffff" TextColor="ffffffff" TextId="" TooltipColor="" Tooltip=""/>
+</Forms>
